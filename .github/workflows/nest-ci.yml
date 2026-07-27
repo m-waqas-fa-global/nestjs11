@@ -31,6 +31,7 @@ jobs:
   unit:
     name: Build
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - name: Node Setup Completed
