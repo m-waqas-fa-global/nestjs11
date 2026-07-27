@@ -26,8 +26,9 @@ jobs:
         run: echo 'Unit Test Executed Successfully'
 
       - name: Run EsLint
-        run: echo 'EsLint Running...'
-        run: echo 'All Files Pass Linting'
+        run: |
+          echo 'EsLint Running...'
+          echo 'All Files Pass Linting'
 
   
   unit:
