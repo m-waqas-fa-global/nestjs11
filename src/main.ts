@@ -7,14 +7,12 @@ import session from 'express-session';
 import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
 import * as path from 'path';
 
-
 function SwaggerConfig(app: INestApplication): void {
   const config = new DocumentBuilder()
     .setTitle('NestJS Notify Service API')
     .setDescription(
       'This Notify Service API allows you to send emails and SMS messages using the NestJS framework.',
-    )
-    .setVersion('4.0')
+    ).setVersion('4.0')
     .addTag('API Endpoints')
     .build();
   const document = SwaggerModule.createDocument(app, config);
@@ -40,6 +38,17 @@ function CORSConfig(app: INestApplication) {
   });
 }
 
+function globalBodyValidation(app: INestApplication) {
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+}
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: new ConsoleLogger({
@@ -53,19 +62,12 @@ async function bootstrap() {
   });
 
   // Req Body Validation or DTO's is not work if you don't add this line
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
-
-// Cinfigure  Swagger API Docs UI:
+  globalBodyValidation(app)
+  // Cinfigure  Swagger API Docs UI:
   SwaggerConfig(app);
-// Configure EJS Template Engine:
+  // Configure EJS Template Engine:
   ViewEngineConfig(app);
-// Configure CORS:
+  // Configure CORS:
   CORSConfig(app);
 
   //============= Create session Middleware for Nest.js Server ==============

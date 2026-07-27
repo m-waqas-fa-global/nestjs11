@@ -111,17 +111,13 @@ private homePage: string = `
 </html>`
 
   constructor(readonly configService: ConfigService) {
-    // this.creatingFilesOnServer();
     // console.log("Current working directory:",path.join(process.cwd(),'invoices','logic.js'));  
     // console.log(path.join('nest-api-logs','invoices','logic.js'));
     // console.log("directory:", __dirname);
     // console.log("directory:",__filename);  
-
-    // this.writeFileData('./comp.ts','let age:number = 25;');
-    // console.log("eeee",this.getFilesData());
     // this.monitorMemoryUsage()
   }
-
+  // Node Process Manager Monitoring:
   monitorMemoryUsage() {
     const memory = process.memoryUsage();
 
@@ -133,18 +129,21 @@ private homePage: string = `
 
     });
   }
+  // Getting ENV Var using the COnfig Service:
+  getingEnvVar(){
+   const envVar = {
+      typeorm: this.configService.get("TYPEORM_CONNECTION"),
+      password: this.configService.get("TYPEORM_PASSWORD"),
+      port: this.configService.get("TYPEORM_PORT"),
+      token: this.configService.get("TOKEN_SECRET"),
+      scriptUrl: this.configService.get("SMTP_PASSWORD")
+    }
+    return envVar;
+  }
 
 
   getHello(): any {
     return this.homePage
-    // const envVar = {
-    //   typeorm: this.configService.get("TYPEORM_CONNECTION"),
-    //   password: this.configService.get("TYPEORM_PASSWORD"),
-    //   port: this.configService.get("TYPEORM_PORT"),
-    //   token: this.configService.get("TOKEN_SECRET"),
-    //   scriptUrl: this.configService.get("SMTP_PASSWORD")
-    // }
-    // return envVar;
   }
 
   creatingFilesOnServer(fileName: string, fileContent: string) {
