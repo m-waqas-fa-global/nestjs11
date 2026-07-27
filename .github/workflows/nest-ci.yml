@@ -42,6 +42,3 @@ jobs:
   
       - name: Deployment Successfull
         run: echo 'Server NestJs Build Deployment process completed successfull visit chapterone.com'
-
-      - name: Complete Job
-        run: echo 'All Process Completed'
