@@ -1,4 +1,4 @@
-name: Nest CI Workflow
+name: ChapterOne Nest YAML Workflow
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test
+    name: Run Unit Test
     runs-on: ubuntu-latest
 
     steps:
@@ -17,13 +17,30 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Node Setup Completed
         run: echo 'Node Js Working Successfull'
 
       - name: Run tests
         run: echo 'Unit Test Executed Successfully'
+
+      - name: Complete Job
+        run: echo 'Run Unit Test Process Completed'
+  
+  unit:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Node Setup Completed
+        run: echo 'Node Js Working Successfull'
+
+      - name: Controller Unit Test
+        run: echo 'Unit Test Executed Successfully'
+  
+      - name: Deployment Successfull
+        run: echo 'Server NestJs Build Deployment process completed successfull visit chapterone.com'
 
       - name: Complete Job
         run: echo 'All Process Completed'
