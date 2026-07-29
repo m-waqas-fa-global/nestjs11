@@ -2,13 +2,28 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { CreateBook, UpdateBook } from '../interfaces/books.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BookStore } from '../entities/book_store.entity';
-import { FindManyOptions, PrimaryGeneratedColumn, Repository } from 'typeorm';
+import { DataSource, FindManyOptions, PrimaryGeneratedColumn, Repository } from 'typeorm';
 import { ApiResponse } from '../../common/helpers/api-response.helper';
 
 @Injectable()
 export class BookStoreService {
 
-  constructor(@InjectRepository(BookStore) private readonly bookStoreRepo: Repository<BookStore>) { }
+  constructor(
+    @InjectRepository(BookStore) 
+    private readonly bookStoreRepo: Repository<BookStore>,
+    private dataSource:DataSource
+    ) { }
+
+  async ExecuteRawQuery(){
+    const qr = "SELECT * FROM book_store WHERE bk_id = 3"
+    let res =  await this.dataSource.query(qr)
+     if (res) {
+      return ApiResponse.success("Book Fetched Successfully", res)
+    } else {
+      return ApiResponse.error("No Book Found", 404)
+    }
+    
+  }
 
   // ====================== Create New Book in DB =====================
   async create(createBookBody: CreateBook) {

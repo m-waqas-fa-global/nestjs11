@@ -55,13 +55,17 @@ export class BookStoreController {
     );
   }
 
+  @Get("get_raw")
+  async get(){
+    return await this.bookStoreService.ExecuteRawQuery()
+  }
+
 
 
   // ========================  Dynamic API Methods  =========================
   @Get('get_by_id/:id')
   findOne(@Param('id', ParseIntPipe) id: string, @Req() req: Request) {
     //const audit = AuditHelper.getAuditInfo(req)
-
     return this.bookStoreService.findOne(+id);
   }
 
