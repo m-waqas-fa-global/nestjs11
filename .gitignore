@@ -3,7 +3,7 @@
 /node_modules
 /build
 
-# Database:  In Memory Database Not pushing:
+# Database:
 /database.sqlite
 
 # Logs

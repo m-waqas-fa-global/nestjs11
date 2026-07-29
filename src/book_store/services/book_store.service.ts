@@ -9,20 +9,20 @@ import { ApiResponse } from '../../common/helpers/api-response.helper';
 export class BookStoreService {
 
   constructor(
-    @InjectRepository(BookStore)
+    @InjectRepository(BookStore) 
     private readonly bookStoreRepo: Repository<BookStore>,
-    private dataSource: DataSource
-  ) { }
+    private dataSource:DataSource
+    ) { }
 
-  async ExecuteRawQuery(id: number) {
-    const qr = "SELECT * FROM book_store WHERE bk_id = ?"
-    let res = await this.dataSource.query(qr, [id])
-    if (res) {
+  async ExecuteRawQuery(){
+    const qr = "SELECT * FROM book_store WHERE bk_id = 3"
+    let res =  await this.dataSource.query(qr)
+     if (res) {
       return ApiResponse.success("Book Fetched Successfully", res)
     } else {
       return ApiResponse.error("No Book Found", 404)
     }
-
+    
   }
 
   // ====================== Create New Book in DB =====================
@@ -37,7 +37,7 @@ export class BookStoreService {
   }
   // ====================== Get all books from DB =====================
   async findAll(Query: FindManyOptions<BookStore> | undefined) {
-
+    
     const data = await this.bookStoreRepo.find(Query);
     if (data.length > 0) {
       return {
