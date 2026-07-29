@@ -55,9 +55,9 @@ export class BookStoreController {
     );
   }
 
-  @Get("get_raw")
-  async get(){
-    return await this.bookStoreService.ExecuteRawQuery()
+  @Get("get_raw_query")
+  async get() {
+    return await this.bookStoreService.ExecuteRawQuery(23)
   }
 
 
