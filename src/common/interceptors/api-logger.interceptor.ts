@@ -9,18 +9,35 @@ import { Observable, tap } from 'rxjs';
 import { LoggerHelper } from '../helpers/logger.helper';
 import { GeneratorHelper}  from '../helpers/generator.helper'
 import { BrowserHelper}  from '../helpers/browserInfo.helper'
+import { ConfigService } from '@nestjs/config';
 
 const ignoredRoutes = [
     "/monitoring"
 ];
  
 @Injectable()
-export class ApiLoggerInterceptor
-    implements NestInterceptor {
+export class ApiLoggerInterceptor implements NestInterceptor {
+    isEnabled:boolean | undefined = false;
+    constructor(private configService:ConfigService){
+       const value = this.configService.get('ENABLE_API_LOGS');
+        console.log('Value:', value);
+        console.log('Type:', typeof value);
+
+        this.isEnabled = value === 'true';
+
+        console.log('isEnabled:',typeof this.isEnabled);
+    }
+
     intercept(
         context: ExecutionContext,
         next: CallHandler
     ): Observable<any> {
+    // Overide Logs written if they diabled from env file:
+        // eslint-disable-next-line no-extra-boolean-cast
+        if (!this.isEnabled) {
+         return next.handle();
+        }
+
         const request = context.switchToHttp().getRequest();
         const response = context.switchToHttp().getResponse();
         const start = Date.now();
@@ -28,7 +45,6 @@ export class ApiLoggerInterceptor
         if (ignoredRoutes.includes(request.originalUrl)) {
             return next.handle();
         }
-
         return next.handle().pipe(
             tap((body) => {
                 const end = Date.now();

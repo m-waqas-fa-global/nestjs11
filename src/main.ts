@@ -81,10 +81,10 @@ async function bootstrap() {
       },
     }),
   );
-  app.useGlobalInterceptors(new ApiLoggerInterceptor());
+  // app.useGlobalInterceptors(new ApiLoggerInterceptor());
 
   await app.listen(process.env.PORT ?? 2000, () => {
-    console.log(`Server is running on port: ${process.env.PORT}`);
+    console.log(`Server is running on localhost:${process.env.PORT}`);
   });
 }
 bootstrap();

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ReportsModule } from './reports/reports.module';
-import { APP_GUARD, RouterModule } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino/LoggerModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NotificationEngineModule } from './notification_engine/notification_engine.module';
@@ -17,6 +17,9 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guards/custom-throttler.guard'
+import { WishListModule } from './modules/wish-list/wish-list.module';
+import { BookReviewsModule } from './modules/book-reviews/book-reviews.module';
+import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
 
 const dbConfig:TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
@@ -42,7 +45,7 @@ const ThrottleConfig =
   {
     name: 'default',
     ttl: 60000, // 1 minute
-    limit: 5,  // 10 requests per minute
+    limit: 15,  // 10 requests per minute
   }
 ]
 
@@ -57,7 +60,7 @@ const ThrottleConfig =
 @Module({
   imports: [
   // Database Connection Module:
-    TypeOrmModule.forRoot(dbConfig),
+  TypeOrmModule.forRoot(dbConfig),
   // Configure Rate Limiting:
   ThrottlerModule.forRoot(ThrottleConfig)  ,
   // Cache Server Connection Module:
@@ -85,6 +88,8 @@ const ThrottleConfig =
     BookStoreModule,
     // =========================  Configure In Memory Database sqlite ==========================
     MonitoringModule,
+    WishListModule,
+    BookReviewsModule,
     // AuthModule,
   ],
   controllers: [AppController],
@@ -93,6 +98,10 @@ const ThrottleConfig =
     {
       provide:APP_GUARD,
       useClass:CustomThrottlerGuard
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ApiLoggerInterceptor,
     }
   ],
 })
