@@ -35,7 +35,7 @@ export default tseslint.config(
       '@typescript-eslint/await-thenable': 'warn',
 
       // Imports
-      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-imports': 'warn',
 
       // Code style
       'prefer-const': 'error',

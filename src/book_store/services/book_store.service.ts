@@ -16,7 +16,7 @@ export class BookStoreService {
 
   async ExecuteRawQuery(){
     const qr = "SELECT * FROM book_store WHERE bk_id = 3"
-    let res =  await this.dataSource.query(qr)
+    const res =  await this.dataSource.query(qr)
      if (res) {
       return ApiResponse.success("Book Fetched Successfully", res)
     } else {
