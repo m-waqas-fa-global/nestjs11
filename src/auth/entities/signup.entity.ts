@@ -1,18 +1,42 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity("sign-up-table")
-export class SignUpEntity{
-    
-    @PrimaryGeneratedColumn()
-    id:number
+@Entity('users')
+export class UsersEntity {
 
-    @Column({
-        type:"varchar",
-        length: 50,
-        default: null
-    })
-    name:string
+  @PrimaryGeneratedColumn()
+  user_id: number;
 
-    @Column({type:"varchar",length:35,unique:true,default:null})
-    email:string
+  @Column({
+    type: 'varchar',
+    length: 50,
+  })
+  name: string;
+
+  @Column({
+    type: 'varchar',
+    length: 100,
+    unique: true,
+  })
+  email: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+  })
+  password: string;
+
+  @Column({
+    type: 'boolean',
+    default: true,
+  })
+  is_active: boolean;
+
+  @CreateDateColumn()
+  created_at: Date;
 }

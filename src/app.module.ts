@@ -85,12 +85,12 @@ const ThrottleConfig =
 
     // FileServerModule,
     // NotificationEngineModule,
-    BookStoreModule,
+    // BookStoreModule,
     // =========================  Configure In Memory Database sqlite ==========================
     MonitoringModule,
-    WishListModule,
-    BookReviewsModule,
-    // AuthModule,
+    // WishListModule,
+    // BookReviewsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

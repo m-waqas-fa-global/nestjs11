@@ -1,7 +1,7 @@
-export interface SignUpInterface {
+export interface SignUpData {
     name:string
     email:string
     password:string
 }
 
-export type Login = Omit<SignUpInterface,"name">;
+export type Login = Omit<SignUpData,"name">;

@@ -56,6 +56,7 @@ export class BookStoreController {
       res,
     );
   }
+  
   @Throttle({ default: { limit: 3, ttl: 60000 } })
   @Get("execute_raw_query")
   async get(){

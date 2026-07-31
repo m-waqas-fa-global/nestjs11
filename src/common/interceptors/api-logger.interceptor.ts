@@ -20,12 +20,7 @@ export class ApiLoggerInterceptor implements NestInterceptor {
     isEnabled:boolean | undefined = false;
     constructor(private configService:ConfigService){
        const value = this.configService.get('ENABLE_API_LOGS');
-        console.log('Value:', value);
-        console.log('Type:', typeof value);
-
         this.isEnabled = value === 'true';
-
-        console.log('isEnabled:',typeof this.isEnabled);
     }
 
     intercept(

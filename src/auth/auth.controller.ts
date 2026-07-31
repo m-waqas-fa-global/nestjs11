@@ -2,6 +2,7 @@ import { Body, Controller ,Post} from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { ApiResponse } from '../common/helpers/api-response.helper';
 import {LoginDTO} from './dto/login.dto'
+import { SignUpDTO } from './dto/sign-up.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -13,8 +14,8 @@ export class AuthController {
   }
 
   @Post("sign_up")
-  sign_up(){
-    return ApiResponse.success("User sign_up")
+  sign_up(@Body() body:SignUpDTO){
+    return this.authService.userSignUp(body)
   }
 
 }
