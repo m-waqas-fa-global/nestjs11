@@ -45,27 +45,16 @@ const ThrottleConfig =
   {
     name: 'default',
     ttl: 60000, // 1 minute
-    limit: 15,  // 10 requests per minute
+    limit: 5,  // 10 requests per minute
   }
 ]
 
-// [
-//   {
-//     name: 'short',
-//     ttl: 1000,
-//     limit: 3,
-//   },
-// ]
-
 @Module({
   imports: [
-  // Database Connection Module:
-  TypeOrmModule.forRoot(dbConfig),
-  // Configure Rate Limiting:
-  ThrottlerModule.forRoot(ThrottleConfig)  ,
-  // Cache Server Connection Module:
-  // CacheModule.registerAsync(CacheConfig),
-
+  TypeOrmModule.forRoot(dbConfig),    // Database Connection Module:
+  ThrottlerModule.forRoot(ThrottleConfig), //Configure Rate Limiting:
+  // CacheModule.registerAsync(CacheConfig), // Cache Server Connection Module:
+ 
   // Tell nestjs which one file is loading in the project [npm i @nestjs/config] by giving the env file name:
     ConfigModule.forRoot({
       isGlobal: true,
@@ -83,6 +72,7 @@ const ThrottleConfig =
     //   }
     // ]),
 
+  
     // FileServerModule,
     // NotificationEngineModule,
     // BookStoreModule,

@@ -1,12 +1,126 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ApiResponse } from '../../common/helpers/api-response.helper';
-import { SignUpData } from '../interfaces/auth.interface';
+import { Login, SignUpDto } from '../interfaces/auth.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UsersEntity } from '../entities/signup.entity';
+import { Repository } from 'typeorm';
+import { HashService } from './hashing.service';
 
 @Injectable()
 export class AuthService {
-    constructor() {}
+    constructor(
+        @InjectRepository(UsersEntity)
+        private readonly userTableRepo: Repository<UsersEntity>,
+        private readonly hashService: HashService    // Hash Service:
+    ) { }
+    // ========== Create New User in Database: ===============
+    async createUser(signUpData: SignUpDto) {
+        //check if user already exist
+        const existingUser = await this.userTableRepo.findOneBy({ email: signUpData.email });
+        if (existingUser) {
+            return ApiResponse.error("User already exist", HttpStatus.BAD_REQUEST)
+        }
+        //password Hashing Process:
+        const hashPassword = await this.hashService.hashPassword(
+            signUpData.password
+        )
+        // create entity:
+        const user = this.userTableRepo.create({
+            ...signUpData,
+            password: hashPassword
+        })
 
-    userSignUp(signUpData: SignUpData) {
-        return ApiResponse.success("User registered successfully", signUpData)
+        //saved user into the Database:
+        try {
+            const createdUser = await this.userTableRepo.save(user);
+            return ApiResponse.success(
+                `User ${createdUser.name} created successfully!`,
+                null,
+                HttpStatus.CREATED
+            )
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to create user');
+        }
     }
+    // ========== Get All signup users from Database: ===============
+    async getAllSignUsers() {
+        const res = await this.userTableRepo.find();
+        return ApiResponse.success("List of sign up users", res);
+    }
+
+    async loginUser(loginData: Login) {
+        //check if user already exist
+        const existingUser = await this.userTableRepo.findOneBy({ email: loginData.email });
+        if (!existingUser) {
+            return ApiResponse.error(
+                "User not found registered first", 
+                HttpStatus.NOT_FOUND
+            )
+        }
+
+        // check user cridentails:
+        const isTrue = await this.hashService.isCompare(loginData.password, existingUser.password)
+        if (!isTrue) {
+            return ApiResponse.error(
+                "Bad Credentials : Invalid username or password",
+                HttpStatus.BAD_REQUEST
+            )
+        }
+        // Check user is_active if not then throw exception:
+        if (!existingUser.is_active) {
+            return ApiResponse.error(
+                "User Locked : Please contect your admin",
+                HttpStatus.BAD_REQUEST
+            )
+        } 
+        
+
+        const response = {
+            token: crypto.randomUUID(),
+            id: existingUser.user_id,
+            name: existingUser.name,
+            email: existingUser.email,
+            is_active: existingUser.is_active,
+        }
+
+        return ApiResponse.success(
+            "User login successfully",
+            response,
+            HttpStatus.OK
+        )
+
+    }
+
+    async changeUserStatus(userId: number) {
+        // Check if the user exists
+        const user = await this.userTableRepo.findOneBy({
+          user_id: userId,
+        });
+        // check user exit or not
+        if (!user) {
+          return ApiResponse.error(
+            'User not found.',
+            HttpStatus.NOT_FOUND,
+          );
+        }
+      
+        // Toggle active status
+        user.is_active = !user.is_active;
+        // Save changes
+        const updatedUser = await this.userTableRepo.save(user);
+        // send response back to client
+        return ApiResponse.success(
+          `User has been ${
+            updatedUser.is_active ? 'activated' : 'deactivated'
+          } successfully.`,
+          null,
+          HttpStatus.OK,
+        );
+      }
 }
+
+
+// {
+//     "email": "waqas@example.com",
+//     "password": "waqas@123"
+//   }
