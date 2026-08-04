@@ -5,7 +5,7 @@ import { UpdateBookStoreDto } from './dto/update-book.dto';
 import { IsNull, Not } from 'typeorm';
 import { PdfService } from './services/pdf.service';
 import { AuditHelper } from '../common/helpers/audit.helper';
-import { SkipThrottle  , Throttle} from '@nestjs/throttler';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @Controller('books')
 export class BookStoreController {
@@ -30,7 +30,7 @@ export class BookStoreController {
         price: true,
         author: true,
         is_available: true,
-        created_at:true
+        created_at: false
       }
     };
     return this.bookStoreService.findAll(query);
@@ -56,10 +56,10 @@ export class BookStoreController {
       res,
     );
   }
-  
+
   @Throttle({ default: { limit: 3, ttl: 60000 } })
   @Get("execute_raw_query")
-  async get(){
+  async get() {
     return await this.bookStoreService.ExecuteRawQuery()
   }
 

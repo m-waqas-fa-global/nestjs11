@@ -1,5 +1,4 @@
 import PDFDocument from 'pdfkit';
-import { Response } from 'express';
 
 export class PdfService {
   generateStatsReport(stats: any, res: any) {

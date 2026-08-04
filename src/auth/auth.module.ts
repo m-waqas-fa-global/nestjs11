@@ -11,15 +11,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 const RBACEntities = [
   UsersEntity,           // users table entity:
-  // RoleEntity,            // User Roles List Table:               // This Table has static content already created
-  // PermissionEntity,      // User Permission List Table:          // This Table has static content already created
+  RoleEntity,            // User Roles List Table:               // This Table has static content already created
+  PermissionEntity,      // User Permission List Table:          // This Table has static content already created
   // UserRoleEntity,        // User Assigned Roles Table
   // RolePermissionEntity   // User Assigned Permisssion Table
 ]
 
 @Module({
-  imports:[TypeOrmModule.forFeature([...RBACEntities])],
+  imports: [TypeOrmModule.forFeature([...RBACEntities])],
   controllers: [AuthController],
-  providers: [AuthService , HashService],
+  providers: [AuthService, HashService],
 })
-export class AuthModule {}
+export class AuthModule { }

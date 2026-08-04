@@ -5,13 +5,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from '../entities/signup.entity';
 import { Repository } from 'typeorm';
 import { HashService } from './hashing.service';
+import { RoleEntity } from '../entities/role.entity';
+import { PermissionEntity } from '../entities/permission.entity';
 
 @Injectable()
 export class AuthService {
     constructor(
+        // UserTableEntity:
         @InjectRepository(UsersEntity)
         private readonly userTableRepo: Repository<UsersEntity>,
-        private readonly hashService: HashService    // Hash Service:
+        // RolesTableEntity:
+        @InjectRepository(RoleEntity)
+        private readonly rolesTableRepo: Repository<RoleEntity>,
+        // PermissionsTableEntity:
+        @InjectRepository(PermissionEntity)
+        private readonly permissionTableRepo: Repository<PermissionEntity>,
+        // Hash Service:
+        private readonly hashService: HashService
     ) { }
     // ========== Create New User in Database: ===============
     async createUser(signUpData: SignUpDto) {
@@ -53,7 +63,7 @@ export class AuthService {
         const existingUser = await this.userTableRepo.findOneBy({ email: loginData.email });
         if (!existingUser) {
             return ApiResponse.error(
-                "User not found registered first", 
+                "User not found registered first",
                 HttpStatus.NOT_FOUND
             )
         }
@@ -72,8 +82,8 @@ export class AuthService {
                 "User Locked : Please contect your admin",
                 HttpStatus.BAD_REQUEST
             )
-        } 
-        
+        }
+
 
         const response = {
             token: crypto.randomUUID(),
@@ -94,33 +104,54 @@ export class AuthService {
     async changeUserStatus(userId: number) {
         // Check if the user exists
         const user = await this.userTableRepo.findOneBy({
-          user_id: userId,
+            user_id: userId,
         });
         // check user exit or not
         if (!user) {
-          return ApiResponse.error(
-            'User not found.',
-            HttpStatus.NOT_FOUND,
-          );
+            return ApiResponse.error(
+                'User not found.',
+                HttpStatus.NOT_FOUND,
+            );
         }
-      
+
         // Toggle active status
         user.is_active = !user.is_active;
         // Save changes
         const updatedUser = await this.userTableRepo.save(user);
         // send response back to client
         return ApiResponse.success(
-          `User has been ${
-            updatedUser.is_active ? 'activated' : 'deactivated'
-          } successfully.`,
-          null,
-          HttpStatus.OK,
+            `User has been ${updatedUser.is_active ? 'activated' : 'deactivated'
+            } successfully.`,
+            null,
+            HttpStatus.OK,
         );
-      }
+    }
+    // ===================== Role Permissions =================
+    async get_roles_permissions(query: Object) {
+        const rolesQuery = {
+            select: {
+                role_name: true,
+                role_id: true,
+                is_active: false,
+                created_at: false
+            }
+        }
+        const permissionQuery = {
+            select: {
+                permission_id: true,
+                permission_name: true,
+                created_at: false
+            }
+        }
+
+        const roles = await this.rolesTableRepo.find(rolesQuery);
+        const permissions = await this.permissionTableRepo.find(permissionQuery);
+
+        return ApiResponse.success(
+            "Roles and Permissions",
+            { roles, permissions },
+            HttpStatus.OK
+        )
+    }
+
 }
-
-
-// {
-//     "email": "waqas@example.com",
-//     "password": "waqas@123"
-//   }

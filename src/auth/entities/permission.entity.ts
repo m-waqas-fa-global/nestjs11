@@ -20,5 +20,5 @@ export class PermissionEntity {
 
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 }
