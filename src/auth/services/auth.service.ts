@@ -1,12 +1,14 @@
 import { HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ApiResponse } from '../../common/helpers/api-response.helper';
-import { Login, SignUpDto } from '../interfaces/auth.interface';
+import { Login, SignUpBody } from '../interfaces/auth.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from '../entities/signup.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { HashService } from './hashing.service';
 import { RoleEntity } from '../entities/role.entity';
 import { PermissionEntity } from '../entities/permission.entity';
+import { UserRoleEntity } from '../entities/user-role.entity';
+import { RolePermissionEntity } from '../entities/role-permission.entity';
 
 @Injectable()
 export class AuthService {
@@ -20,16 +22,59 @@ export class AuthService {
         // PermissionsTableEntity:
         @InjectRepository(PermissionEntity)
         private readonly permissionTableRepo: Repository<PermissionEntity>,
+
+        @InjectRepository(UserRoleEntity)
+        private readonly userRoleEntity: Repository<UserRoleEntity>,
+        // PermissionsTableEntity:
+        @InjectRepository(RolePermissionEntity)
+        private readonly rolePermissionTableEntity: Repository<RolePermissionEntity>,
         // Hash Service:
         private readonly hashService: HashService
     ) { }
+
+
+    // ============================================================================
+    async isValidRole(roleId: number): Promise<boolean> {                   // Validate Roles:
+        return this.rolesTableRepo.exist({
+            where: {
+                role_id: roleId,
+            },
+        });
+    }
+
+    async isValidPermissions(permissionIds: number[]): Promise<boolean> {    // Validate Permissions:
+        const uniquePermissionIds = [...new Set(permissionIds)];
+        const permissions = await this.permissionTableRepo.find({
+            where: {
+                permission_id: In(uniquePermissionIds),
+            },
+            select: ['permission_id'],
+        });
+
+        return permissions.length === uniquePermissionIds.length;
+    }
+    // ============================================================================
+
+
     // ========== Create New User in Database: ===============
-    async createUser(signUpData: SignUpDto) {
+    async createUser(signUpData: SignUpBody) {
+        let createdUser: any;
         //check if user already exist
         const existingUser = await this.userTableRepo.findOneBy({ email: signUpData.email });
         if (existingUser) {
             return ApiResponse.error("User already exist", HttpStatus.BAD_REQUEST)
         }
+
+        // Roles and PermissionsIds Validation Check;
+        const isValidRole = await this.isValidRole(signUpData.role_id);
+        if (!isValidRole) {
+            return ApiResponse.error("Invalid User Role ID", HttpStatus.BAD_REQUEST)
+        }
+        const isValidPermissions = await this.isValidPermissions(signUpData.permission_ids);
+        if (!isValidPermissions) {
+            return ApiResponse.error("Invalid User Permissions IDs", HttpStatus.BAD_REQUEST)
+        }
+
         //password Hashing Process:
         const hashPassword = await this.hashService.hashPassword(
             signUpData.password
@@ -39,18 +84,32 @@ export class AuthService {
             ...signUpData,
             password: hashPassword
         })
-
         //saved user into the Database:
         try {
-            const createdUser = await this.userTableRepo.save(user);
-            return ApiResponse.success(
-                `User ${createdUser.name} created successfully!`,
-                null,
-                HttpStatus.CREATED
-            )
+            createdUser = await this.userTableRepo.save(user);
         } catch (error) {
             throw new InternalServerErrorException('Failed to create user');
         }
+        //User Role Table Creation:
+        const userRole = this.userRoleEntity.create({
+            user_id: createdUser.user_id,
+            role_id: signUpData.role_id
+        })
+        // Save UserRole in Database
+        await this.userRoleEntity.save(userRole);
+        // User  Permission Table Creation:
+        const userRolePermission = this.rolePermissionTableEntity.create({
+            role_id: signUpData.role_id,
+            permission_ids: signUpData.permission_ids
+        })
+        // Save Permission in Database
+        await this.rolePermissionTableEntity.save(userRolePermission);
+
+        return ApiResponse.success(
+            `User ${createdUser.name} created successfully!`,
+            null,
+            HttpStatus.CREATED
+        )
     }
     // ========== Get All signup users from Database: ===============
     async getAllSignUsers() {
@@ -153,5 +212,8 @@ export class AuthService {
             HttpStatus.OK
         )
     }
+
+
+
 
 }

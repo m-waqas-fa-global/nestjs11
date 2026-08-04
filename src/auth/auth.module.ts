@@ -13,8 +13,8 @@ const RBACEntities = [
   UsersEntity,           // users table entity:
   RoleEntity,            // User Roles List Table:               // This Table has static content already created
   PermissionEntity,      // User Permission List Table:          // This Table has static content already created
-  // UserRoleEntity,        // User Assigned Roles Table
-  // RolePermissionEntity   // User Assigned Permisssion Table
+  UserRoleEntity,        // User Assigned Roles Table
+  RolePermissionEntity   // User Assigned Permisssion Table
 ]
 
 @Module({

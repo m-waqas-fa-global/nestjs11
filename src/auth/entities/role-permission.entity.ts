@@ -1,12 +1,12 @@
-import { 
-  Entity, 
-  Unique, 
-  PrimaryGeneratedColumn, 
-  Column 
+import {
+  Entity,
+  Unique,
+  PrimaryGeneratedColumn,
+  Column
 } from "typeorm";
 
 @Entity('role_permissions')
-@Unique(['role_id', 'permission_id'])
+@Unique(['role_id', 'permission_ids'])
 export class RolePermissionEntity {
 
   @PrimaryGeneratedColumn()
@@ -18,7 +18,7 @@ export class RolePermissionEntity {
   role_id: number;
 
   @Column({
-    type: 'int',
+    type: 'simple-array',
   })
-  permission_id: number;
+  permission_ids: number[];
 }

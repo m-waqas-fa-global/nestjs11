@@ -26,6 +26,7 @@ export class AuthController {
   @Post("sign_up")
   @ApiBody({ type: CreateUserDto })
   sign_up(@Body() body: SignUpDTO) {
+    // return { res: body, msg: "Sign Iup" }
     return this.authService.createUser(body)
   }
 
