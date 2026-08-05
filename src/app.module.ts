@@ -20,41 +20,44 @@ import { CustomThrottlerGuard } from './common/guards/custom-throttler.guard'
 import { WishListModule } from './modules/wish-list/wish-list.module';
 import { BookReviewsModule } from './modules/book-reviews/book-reviews.module';
 import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
+import { JwtModule } from '@nestjs/jwt';
 
-const dbConfig:TypeOrmModuleOptions | undefined = {
+const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
   database: 'database.sqlite',
   synchronize: true,
   autoLoadEntities: true,
 }
-const CacheConfig ={
+const CacheConfig = {
   isGlobal: true, // Makes the cache instance available everywhere without re-importing
   useFactory: async () => ({
     store: await redisStore({
       socket: {
         host: 'localhost',
-        port:  6379,
+        port: 6379,
       },
       password: process.env.REDIS_PASSWORD || undefined,
       ttl: 60 * 15000, // Default Time-To-Live: 60 seconds (in milliseconds)
     }),
   }),
 }
-const ThrottleConfig = 
-[
-  {
-    name: 'default',
-    ttl: 60000, // 1 minute
-    limit: 5,  // 10 requests per minute
-  }
-]
+const ThrottleConfig =
+  [
+    {
+      name: 'default',
+      ttl: 60000, // 1 minute
+      limit: 5,  // 10 requests per minute
+    }
+  ]
 
 @Module({
   imports: [
-  TypeOrmModule.forRoot(dbConfig),    // Database Connection Module:
-  ThrottlerModule.forRoot(ThrottleConfig), //Configure Rate Limiting:
-  // CacheModule.registerAsync(CacheConfig), // Cache Server Connection Module:
- 
+    TypeOrmModule.forRoot(dbConfig),    // Database Connection Module:
+    ThrottlerModule.forRoot(ThrottleConfig), //Configure Rate Limiting:
+    // CacheModule.registerAsync(CacheConfig), // Cache Server Connection Module:
+
+    
+
   // Tell nestjs which one file is loading in the project [npm i @nestjs/config] by giving the env file name:
     ConfigModule.forRoot({
       isGlobal: true,
@@ -72,12 +75,12 @@ const ThrottleConfig =
     //   }
     // ]),
 
-  
+
     // FileServerModule,
     // NotificationEngineModule,
     // BookStoreModule,
     // =========================  Configure In Memory Database sqlite ==========================
-    MonitoringModule,
+    // MonitoringModule,
     // WishListModule,
     // BookReviewsModule,
     AuthModule,
@@ -86,8 +89,8 @@ const ThrottleConfig =
   providers: [
     AppService,
     {
-      provide:APP_GUARD,
-      useClass:CustomThrottlerGuard
+      provide: APP_GUARD,
+      useClass: CustomThrottlerGuard
     },
     {
       provide: APP_INTERCEPTOR,

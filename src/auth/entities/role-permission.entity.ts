@@ -5,7 +5,7 @@ import {
   Column
 } from "typeorm";
 
-@Entity('role_permissions')
+@Entity('role_permissions')    // Table Name:
 @Unique(['role_id', 'permission_ids'])
 export class RolePermissionEntity {
 

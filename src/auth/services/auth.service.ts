@@ -9,6 +9,8 @@ import { RoleEntity } from '../entities/role.entity';
 import { PermissionEntity } from '../entities/permission.entity';
 import { UserRoleEntity } from '../entities/user-role.entity';
 import { RolePermissionEntity } from '../entities/role-permission.entity';
+import { transformResponse } from '../services/transform.helper';
+import { JwtAuthService } from './jwt.service';
 
 @Injectable()
 export class AuthService {
@@ -29,12 +31,14 @@ export class AuthService {
         @InjectRepository(RolePermissionEntity)
         private readonly rolePermissionTableEntity: Repository<RolePermissionEntity>,
         // Hash Service:
-        private readonly hashService: HashService
+        private readonly hashService: HashService,
+
+        private readonly JWTService: JwtAuthService
     ) { }
 
 
     // ============================================================================
-    async isValidRole(roleId: number): Promise<boolean> {                   // Validate Roles:
+    private async isValidRole(roleId: number): Promise<boolean> {                   // Validate Roles:
         return this.rolesTableRepo.exist({
             where: {
                 role_id: roleId,
@@ -42,7 +46,7 @@ export class AuthService {
         });
     }
 
-    async isValidPermissions(permissionIds: number[]): Promise<boolean> {    // Validate Permissions:
+    private async isValidPermissions(permissionIds: number[]): Promise<boolean> {    // Validate Permissions:
         const uniquePermissionIds = [...new Set(permissionIds)];
         const permissions = await this.permissionTableRepo.find({
             where: {
@@ -52,6 +56,56 @@ export class AuthService {
         });
 
         return permissions.length === uniquePermissionIds.length;
+    }
+
+    private async getUserRoleAndPermission(user_id: number) {
+        const userRoleMapping = await this.userRoleEntity.findOneBy({
+          user_id,
+        });
+        // return if no role exist:
+        if (!userRoleMapping) {
+          return null;
+        }
+        // get role name from RolesTable:
+        const role = await this.rolesTableRepo.findOne({
+          where: {
+            role_id: userRoleMapping.role_id,
+          },
+          select: {
+            role_id: true,
+            role_name: true,
+          }
+        });
+
+        const permission = await this.getUserPermissions(role?.role_id);
+        // user role & permissions:
+        return {
+            roles : transformResponse([role],'role_id','role_name'), 
+            permissions : transformResponse(permission,'permission_id','permission_name'), 
+        }
+    }
+
+    private async getUserPermissions(role_id:number | undefined){
+        // getting user permission ids from rolePermissionTableEntity:
+        const rolePermission  = await this.rolePermissionTableEntity.findOneBy({
+            role_id: role_id,
+        });
+
+        if (!rolePermission) {
+            return [];
+        }
+
+        // Step 3: Get permission details
+        return this.permissionTableRepo.find({
+            where: {
+              permission_id: In(rolePermission.permission_ids),
+            },
+            select: {
+              permission_id: true,
+              permission_name: true,
+            },
+        });
+
     }
     // ============================================================================
 
@@ -107,13 +161,21 @@ export class AuthService {
 
         return ApiResponse.success(
             `User ${createdUser.name} created successfully!`,
-            null,
+            createdUser,
             HttpStatus.CREATED
         )
     }
     // ========== Get All signup users from Database: ===============
     async getAllSignUsers() {
-        const res = await this.userTableRepo.find();
+        const query = {
+            select: {
+                user_id : true,
+                name : true,
+                email : true,
+                created_at : true
+            }
+        }
+        const res = await this.userTableRepo.find(query);
         return ApiResponse.success("List of sign up users", res);
     }
 
@@ -135,21 +197,33 @@ export class AuthService {
                 HttpStatus.BAD_REQUEST
             )
         }
+
         // Check user is_active if not then throw exception:
         if (!existingUser.is_active) {
             return ApiResponse.error(
                 "User Locked : Please contect your admin",
                 HttpStatus.BAD_REQUEST
             )
+        } 
+        
+        // Getting Role and Permission of currently login user:
+        const userRolePermissions =  await this.getUserRoleAndPermission(existingUser.user_id)
+        
+        const jwt_payload = {
+            "sub": existingUser.user_id,      // user id
+            "email": existingUser.email,
+            // "role_id": 1
         }
 
+        const token = this.JWTService.generateJwtToken(jwt_payload)
 
         const response = {
-            token: crypto.randomUUID(),
+            token: token,
             id: existingUser.user_id,
             name: existingUser.name,
             email: existingUser.email,
             is_active: existingUser.is_active,
+            ...userRolePermissions
         }
 
         return ApiResponse.success(
@@ -157,7 +231,6 @@ export class AuthService {
             response,
             HttpStatus.OK
         )
-
     }
 
     async changeUserStatus(userId: number) {
@@ -172,7 +245,6 @@ export class AuthService {
                 HttpStatus.NOT_FOUND,
             );
         }
-
         // Toggle active status
         user.is_active = !user.is_active;
         // Save changes
@@ -185,8 +257,9 @@ export class AuthService {
             HttpStatus.OK,
         );
     }
+
     // ===================== Role Permissions =================
-    async get_roles_permissions(query: Object) {
+    async get_roles_permissions_list() {
         const rolesQuery = {
             select: {
                 role_name: true,
@@ -208,12 +281,13 @@ export class AuthService {
 
         return ApiResponse.success(
             "Roles and Permissions",
-            { roles, permissions },
+            { 
+                roles : transformResponse(roles,'role_id','role_name'), 
+                permissions : transformResponse(permissions,'permission_id','permission_name'), 
+            },
             HttpStatus.OK
         )
     }
 
-
-
-
+   
 }

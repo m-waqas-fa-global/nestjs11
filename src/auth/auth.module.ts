@@ -8,6 +8,8 @@ import { RolePermissionEntity } from './entities/role-permission.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
 import { HashService } from './services/hashing.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtAuthService } from './services/jwt.service';
 
 const RBACEntities = [
   UsersEntity,           // users table entity:
@@ -18,8 +20,17 @@ const RBACEntities = [
 ]
 
 @Module({
-  imports: [TypeOrmModule.forFeature([...RBACEntities])],
+  imports: [
+    TypeOrmModule.forFeature([...RBACEntities]),
+    // Jwt Module:
+    JwtModule.register({
+      secret: 'mySuperSecretKey@098765^%$#',
+      signOptions: {
+        expiresIn: '1d'
+      }
+    })
+  ],
   controllers: [AuthController],
-  providers: [AuthService, HashService],
+  providers: [AuthService, HashService , JwtAuthService],
 })
 export class AuthModule { }

@@ -42,12 +42,7 @@ export class AuthController {
 
   @Get("get_roles_permissions")
   get_roles_permissions() {
-    const query = {
-      select: {
-        created_at: false
-      }
-    }
-    return this.authService.get_roles_permissions(query)
+    return this.authService.get_roles_permissions_list()
   }
 
 }
