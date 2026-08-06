@@ -9,6 +9,6 @@ export class JwtAuthService{
     ){}
 
     async generateJwtToken(payload:Object){
-        await this.jwtService.signAsync(payload)
+       return await this.jwtService.sign(payload)
     }
 }

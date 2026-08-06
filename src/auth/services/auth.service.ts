@@ -34,7 +34,9 @@ export class AuthService {
         private readonly hashService: HashService,
 
         private readonly JWTService: JwtAuthService
-    ) { }
+    ) { 
+        // this.userTableRepo.delete({user_id:1})    // Be Attention Don't execute this query: 
+    }
 
 
     // ============================================================================
@@ -78,9 +80,10 @@ export class AuthService {
         });
 
         const permission = await this.getUserPermissions(role?.role_id);
+        const extractRoleObj = transformResponse([role],'role_id','role_name')
         // user role & permissions:
         return {
-            roles : transformResponse([role],'role_id','role_name'), 
+            roles : extractRoleObj ?  extractRoleObj[0] : null, 
             permissions : transformResponse(permission,'permission_id','permission_name'), 
         }
     }
@@ -161,7 +164,7 @@ export class AuthService {
 
         return ApiResponse.success(
             `User ${createdUser.name} created successfully!`,
-            createdUser,
+            null,
             HttpStatus.CREATED
         )
     }
@@ -211,19 +214,23 @@ export class AuthService {
         
         const jwt_payload = {
             "sub": existingUser.user_id,      // user id
-            "email": existingUser.email,
-            // "role_id": 1
+            // "name": existingUser.name,
+            "email": existingUser.email,      // email
+            "role_id": userRolePermissions?.roles?.id,
+            "roles": userRolePermissions?.roles?.name
         }
 
-        const token = this.JWTService.generateJwtToken(jwt_payload)
-
-        const response = {
-            token: token,
+        const token = await this.JWTService.generateJwtToken(jwt_payload);
+        const user = {
             id: existingUser.user_id,
             name: existingUser.name,
             email: existingUser.email,
             is_active: existingUser.is_active,
             ...userRolePermissions
+        };
+        const response = {
+            token: token,
+            user
         }
 
         return ApiResponse.success(

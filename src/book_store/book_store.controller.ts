@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, Res, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, Res, Req, UseGuards } from '@nestjs/common';
 import { BookStoreService } from './services/book_store.service';
 import { CreateBookDTO } from './dto/create-book.dto';
 import { UpdateBookStoreDto } from './dto/update-book.dto';
@@ -6,7 +6,12 @@ import { IsNull, Not } from 'typeorm';
 import { PdfService } from './services/pdf.service';
 import { AuditHelper } from '../common/helpers/audit.helper';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import {ApiBearerAuth} from '@nestjs/swagger'
 
+
+@UseGuards(JwtAuthGuard)    // this is protected API End Point
+@ApiBearerAuth()
 @Controller('books')
 export class BookStoreController {
   constructor(

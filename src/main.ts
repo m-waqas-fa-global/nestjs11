@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConsoleLogger, INestApplication, ValidationPipe } from '@nestjs/common';
+import { ConsoleLogger, INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import session from 'express-session';
@@ -14,6 +14,7 @@ function SwaggerConfig(app: INestApplication): void {
       'This Notify Service API allows you to send emails and SMS messages using the NestJS framework.',
     ).setVersion('4.0')
     .addTag('API Endpoints')
+    .addBearerAuth() // 👈 Enables Bearer Auth in Swagger UI
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs-swagger', app, document);
@@ -82,6 +83,10 @@ async function bootstrap() {
     }),
   );
   // app.useGlobalInterceptors(new ApiLoggerInterceptor());
+
+  app.enableVersioning({
+    type: VersioningType.URI
+  })
 
   await app.listen(process.env.PORT ?? 2000, () => {
     console.log(`Server is running on localhost:${process.env.PORT}`);

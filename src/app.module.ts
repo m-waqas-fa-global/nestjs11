@@ -52,37 +52,40 @@ const ThrottleConfig =
 
 @Module({
   imports: [
+    // =========================  Configure In Memory Database sqlite ==========================
     TypeOrmModule.forRoot(dbConfig),    // Database Connection Module:
     ThrottlerModule.forRoot(ThrottleConfig), //Configure Rate Limiting:
     // CacheModule.registerAsync(CacheConfig), // Cache Server Connection Module:
 
-    
-
-  // Tell nestjs which one file is loading in the project [npm i @nestjs/config] by giving the env file name:
+    // Tell nestjs which one file is loading in the project [npm i @nestjs/config] by giving the env file name:
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env.example"
     }),
-    // RouterModule.register([
-    //   {
-    //     path: "api",
-    //     children: [
-    //       {
-    //         path: "files",
-    //         module: FileServerModule
-    //       }
-    //     ]
-    //   }
-    // ]),
 
+    RouterModule.register([
+      {
+        path: "api",
+        children: [
+          {
+            path: "auth",
+            module: AuthModule
+          },
+          {
+            path: "book",
+            module:BookStoreModule
+          }
+        ]
+      }
+    ]),
 
     // FileServerModule,
     // NotificationEngineModule,
-    // BookStoreModule,
-    // =========================  Configure In Memory Database sqlite ==========================
     // MonitoringModule,
     // WishListModule,
     // BookReviewsModule,
+    
+    BookStoreModule,
     AuthModule,
   ],
   controllers: [AppController],
