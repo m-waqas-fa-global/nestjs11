@@ -6,6 +6,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') implements CanActivate{
    
     canActivate(context: ExecutionContext) {
       return super.canActivate(context);
+      const request  = context.switchToHttp().getRequest()
+
     }
 
     handleRequest(err: any, user: any, info: any){

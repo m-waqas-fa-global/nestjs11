@@ -9,16 +9,15 @@ import { SkipThrottle, Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {ApiBearerAuth} from '@nestjs/swagger'
 
-
-@UseGuards(JwtAuthGuard)    // this is protected API End Point
-@ApiBearerAuth()
-@Controller('books')
+@Controller()
 export class BookStoreController {
   constructor(
     private readonly bookStoreService: BookStoreService,
     private readonly PdfService: PdfService
   ) { }
   // ========================  Static API Methods  =========================
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   @Post("create")
   create(@Body() createBookBody: CreateBookDTO) {
     return this.bookStoreService.create(createBookBody);
@@ -35,12 +34,14 @@ export class BookStoreController {
         price: true,
         author: true,
         is_available: true,
+        cover_photo:true,
         created_at: false
       }
     };
     return this.bookStoreService.findAll(query);
   }
-
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   @Get("get_deleted_books")
   deletedItem() {
     const query = {
@@ -61,7 +62,8 @@ export class BookStoreController {
       res,
     );
   }
-
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   @Throttle({ default: { limit: 3, ttl: 60000 } })
   @Get("execute_raw_query")
   async get() {
@@ -76,18 +78,22 @@ export class BookStoreController {
     //const audit = AuditHelper.getAuditInfo(req)
     return this.bookStoreService.findOne(+id);
   }
-
+   
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBookStoreDto: UpdateBookStoreDto) {
     return this.bookStoreService.update(+id, updateBookStoreDto);
   }
 
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.bookStoreService.remove(+id);
   }
-
-  @Get('update_status/:id')
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   updateStatus(@Param('id', ParseIntPipe) id: number) {
     return this.bookStoreService.changeBookStatus(id)
   }

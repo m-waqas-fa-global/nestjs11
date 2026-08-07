@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ReportsModule } from './reports/reports.module';
 import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino/LoggerModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NotificationEngineModule } from './notification_engine/notification_engine.module';
-import { FileServerModule } from './file-server/file-server.module';
 import { BookStoreModule } from './book_store/book_store.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
@@ -21,6 +19,7 @@ import { WishListModule } from './modules/wish-list/wish-list.module';
 import { BookReviewsModule } from './modules/book-reviews/book-reviews.module';
 import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
 import { JwtModule } from '@nestjs/jwt';
+import { ReportsModule } from './modules/reports/reports.module';
 
 const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
@@ -72,18 +71,18 @@ const ThrottleConfig =
             module: AuthModule
           },
           {
-            path: "book",
+            path: "books",
             module:BookStoreModule
           }
         ]
       }
     ]),
 
-    // FileServerModule,
     // NotificationEngineModule,
     // MonitoringModule,
     // WishListModule,
     // BookReviewsModule,
+    // ReportsModule,
     
     BookStoreModule,
     AuthModule,

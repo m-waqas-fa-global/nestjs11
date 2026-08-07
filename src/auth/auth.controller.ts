@@ -8,7 +8,7 @@ import { ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from './decorators/signup.swagger';
 import { LoginApiBodyDto } from './decorators/login.swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import {ApiBearerAuth} from '@nestjs/swagger'
+import { ApiBearerAuth } from '@nestjs/swagger'
 
 
 @Controller()
@@ -39,12 +39,14 @@ export class AuthController {
     // return {...req.user,msg:"user provided token"}
     return this.authService.getAllSignUsers()
   }
+
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
   @ApiBearerAuth()
   @Get("lock_user/:id")
   activeUser(@Param('id') user_id: string) {
     return this.authService.changeUserStatus(Number(user_id))
   }
+
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
   @ApiBearerAuth()
   @Get("get_roles_permissions")

@@ -9,8 +9,6 @@ YELLOW="\033[1;33m"
 BOLD_GREEN="\033[1;32m"
 RESET="\033[0m"
 
-clear
-
 echo -e "${BOLD_GREEN}=======================================================================${RESET}"
 echo -e "${BOLD_GREEN}                  🚀  NEST.JS PROJECT STATISTICS TOOL  🚀                       ${RESET}"
 echo -e "${BOLD_GREEN}=======================================================================${RESET}"
