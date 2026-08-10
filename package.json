@@ -19,7 +19,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed": "ts-node src/database/seeder/seed.ts"
+    "seed": "ts-node src/database/seeder/seed.ts",
+    "migrate:rename": "ts-node src/database/migration/rename-table-name.ts",
+    "migration:up": "typeorm-ts-node-commonjs migration:run -d src/config/data-source.ts",
+    "migration:down": "typeorm-ts-node-commonjs migration:revert -d src/config/data-source.ts",
+    "migration:show": "typeorm-ts-node-commonjs migration:show -d src/config/data-source.ts"
   },
   "dependencies": {
     "@apollo/server": "5.4.0",

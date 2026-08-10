@@ -5,7 +5,7 @@ import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino/LoggerModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NotificationEngineModule } from './notification_engine/notification_engine.module';
-import { BookStoreModule } from './book_store/book_store.module';
+import { BookStoreModule } from './books/book_store.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { MonitoringModule } from './monitoring/monitoring.module';

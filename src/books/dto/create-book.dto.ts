@@ -7,9 +7,22 @@ export class CreateBookDTO {
 
     @IsString()
     @IsNotEmpty()
-    author: string;
+    subtitle: string;
+
+    @IsString()
+    @IsNotEmpty()
+    description: string;
+
+    cover_photo:string | null
 
     @IsNumber()
     @IsNotEmpty()
     price: number;
+
+    @IsNotEmpty()
+    publication_date:Date;
+
+    pages:number
+
+    language:string
 }

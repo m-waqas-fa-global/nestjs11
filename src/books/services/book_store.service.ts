@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateBook, UpdateBook } from '../interfaces/books.interface';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookStore } from '../entities/book_store.entity';
+import { BookStore } from '../entities/books.entity';
 import { DataSource, FindManyOptions, PrimaryGeneratedColumn, Repository } from 'typeorm';
 import { ApiResponse } from '../../common/helpers/api-response.helper';
 

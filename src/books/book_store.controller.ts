@@ -7,7 +7,9 @@ import { PdfService } from './services/pdf.service';
 import { AuditHelper } from '../common/helpers/audit.helper';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import {ApiBearerAuth} from '@nestjs/swagger'
+import {ApiBearerAuth,ApiBody} from '@nestjs/swagger'
+import { CreateBookSwagger } from './swagger/create.book.swagger';
+
 
 @Controller()
 export class BookStoreController {
@@ -18,6 +20,7 @@ export class BookStoreController {
   // ========================  Static API Methods  =========================
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
   @ApiBearerAuth()
+  @ApiBody({ type: CreateBookSwagger })
   @Post("create")
   create(@Body() createBookBody: CreateBookDTO) {
     return this.bookStoreService.create(createBookBody);
@@ -32,9 +35,10 @@ export class BookStoreController {
         bk_id: true,
         title: true,
         price: true,
-        author: true,
+        author_id: true,
         is_available: true,
         cover_photo:true,
+        subtitle:true,
         created_at: false
       }
     };
