@@ -14,14 +14,14 @@ import {
     @Column({
       type: 'varchar',
       length: 100,
-      nullable: false,
+      unique: true,
     })
     name: string;
   
     @Column({
       type: 'text',
-      nullable: true,
       default: null,
+      length:150
     })
     bio: string;
   
@@ -41,8 +41,6 @@ import {
     // })
     // website: string;
   
-    @CreateDateColumn({
-      type: 'timestamp',
-    })
+    @CreateDateColumn()
     created_at: Date;
   }

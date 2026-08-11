@@ -21,7 +21,7 @@ export class CreateBookSwagger {
 
   @ApiProperty({
     description: 'The cover photo of the book',
-    example: 'storage/uploads/cover.webp',
+    example: 'storage/books/cover.webp',
     nullable: true,
   })
   cover_photo: string | null;
@@ -53,4 +53,17 @@ export class CreateBookSwagger {
     example: 'English',
   })
   language: string;
+
+  @ApiProperty({
+    description: 'Id of specific Author they writte this book',
+    example: 3,
+    type: Number,
+  })
+  author_id: number;
+
+  @ApiProperty({
+    description: 'Publisher Ids how publish this book',
+    example: 7,
+  })
+  publisher_id: number;
 }

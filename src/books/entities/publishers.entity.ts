@@ -2,26 +2,25 @@ import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn} from 'typeorm'
 
 
 @Entity("publishers")
-export class AuthorsEntity{
+export class PublishersEntity{
 
     // 🏢 Publishers → Publisher information
 
-    @PrimaryGeneratedColumn()
-    publisher_id: number;
+  @PrimaryGeneratedColumn()
+  publisher_id: number;
   
-    @Column({
-      type: 'varchar',
-      length: 150,
-      nullable: false,
-    })
-    name: string;
+  @Column({
+    type: 'varchar',
+    length: 150,
+    unique:true
+  })
+  name: string;
   
-    @Column({
+  @Column({
       type: 'text',
-      nullable: true,
       default: null,
-    })
-    description: string;
+  })
+  desc: string;
   
     // @Column({
     //   type: 'varchar',
@@ -31,9 +30,7 @@ export class AuthorsEntity{
     // })
     // website: string;
 
-    @CreateDateColumn({
-      type: 'timestamp',
-    })
-    created_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
      
 }

@@ -18,11 +18,12 @@ export class BookStoreController {
     private readonly PdfService: PdfService
   ) { }
   // ========================  Static API Methods  =========================
-  @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  // @ApiBearerAuth()
   @ApiBody({ type: CreateBookSwagger })
   @Post("create")
   create(@Body() createBookBody: CreateBookDTO) {
+    // return {res:"Responded!" , data: createBookBody }
     return this.bookStoreService.create(createBookBody);
   }
 
@@ -35,8 +36,6 @@ export class BookStoreController {
         bk_id: true,
         title: true,
         price: true,
-        author_id: true,
-        is_available: true,
         cover_photo:true,
         subtitle:true,
         created_at: false
@@ -44,18 +43,18 @@ export class BookStoreController {
     };
     return this.bookStoreService.findAll(query);
   }
-  @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  @ApiBearerAuth()
-  @Get("get_deleted_books")
-  deletedItem() {
-    const query = {
-      withDeleted: true,
-      where: {
-        deleted_at: Not(IsNull()),
-      },
-    }
-    return this.bookStoreService.findAll(query);
-  }
+  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  // @ApiBearerAuth()
+  // @Get("get_deleted_books")
+  // deletedItem() {
+  //   const query = {
+  //     withDeleted: true,
+  //     where: {
+  //       deleted_at: Not(IsNull()),
+  //     },
+  //   }
+  //   return this.bookStoreService.findAll(query);
+  // }
 
   @Get("downloard_stats_pdf")
   async downloadStats(@Res() res: Response) {
@@ -66,15 +65,18 @@ export class BookStoreController {
       res,
     );
   }
-  @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  @ApiBearerAuth()
-  @Throttle({ default: { limit: 3, ttl: 60000 } })
-  @Get("execute_raw_query")
-  async get() {
-    return await this.bookStoreService.ExecuteRawQuery()
+  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  // @ApiBearerAuth()
+  // @Throttle({ default: { limit: 3, ttl: 60000 } })
+  // @Get("execute_raw_query")
+  // async get() {
+  //   return await this.bookStoreService.ExecuteRawQuery()
+  // }
+
+  @Get('get_auther_publishers')
+  getAuther(){
+    return this.bookStoreService.getAutherPublisher();
   }
-
-
 
   // ========================  Dynamic API Methods  =========================
   @Get('get_by_id/:id')

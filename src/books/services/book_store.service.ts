@@ -1,18 +1,32 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateBook, UpdateBook } from '../interfaces/books.interface';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookStore } from '../entities/books.entity';
+import { BooksEntity} from '../entities/books.entity';
 import { DataSource, FindManyOptions, PrimaryGeneratedColumn, Repository } from 'typeorm';
 import { ApiResponse } from '../../common/helpers/api-response.helper';
+import { AuthorEntity } from '../entities/authors.entity';
+import { PublishersEntity } from '../entities/publishers.entity';
 
 @Injectable()
 export class BookStoreService {
 
   constructor(
-    @InjectRepository(BookStore) 
-    private readonly bookStoreRepo: Repository<BookStore>,
+    @InjectRepository(BooksEntity) 
+    private readonly bookStoreRepo: Repository<BooksEntity>,
+
+    @InjectRepository(AuthorEntity) 
+    private readonly autherRepo: Repository<AuthorEntity>,
+
+    @InjectRepository(PublishersEntity) 
+    private readonly publisherRepo: Repository<PublishersEntity>,
     private dataSource:DataSource
-    ) { }
+  ) {}
+
+  async hardDeleteMultiple(): Promise<void> {
+    // Executes: DELETE FROM user WHERE id IN (1, 2, 3...)
+    const ids = [14,15,16,17,18,19,20,21,22]
+    await this.bookStoreRepo.delete(ids);
+  }
 
   async ExecuteRawQuery(){
     const qr = "SELECT * FROM book_store WHERE bk_id = 3"
@@ -22,7 +36,6 @@ export class BookStoreService {
     } else {
       return ApiResponse.error("No Book Found", 404)
     }
-    
   }
 
   // ====================== Create New Book in DB =====================
@@ -36,9 +49,9 @@ export class BookStoreService {
     };
   }
   // ====================== Get all books from DB =====================
-  async findAll(Query: FindManyOptions<BookStore> | undefined) {
+  async findAll(Query: FindManyOptions<BooksEntity> | undefined) {
     
-    const data = await this.bookStoreRepo.find(Query);
+    const data = await this.bookStoreRepo.find();
     if (data.length > 0) {
       return {
         success: true,
@@ -57,8 +70,18 @@ export class BookStoreService {
   // ====================== Get single book by ID from DB =====================
   async findOne(id: number) {
     const book = await this.bookStoreRepo.findOneBy({ bk_id: id });
+ 
+    const author = await this.autherRepo.findOneBy({author_id:book?.author_id})
+    const publisher = await this.publisherRepo.findOneBy({publisher_id:book?.publisher_id})
+
+    const response = {
+      ...book,
+      author,
+      publisher
+    }
+
     if (book) {
-      return ApiResponse.success("Book Fetched Successfully", book)
+      return ApiResponse.success("Book Fetched Successfully", response)
     } else {
       return ApiResponse.error("No Book Found", 404)
     }
@@ -73,11 +96,9 @@ export class BookStoreService {
   async remove(id: number) {
     // return `This action removes a #${id} bookStore`;
     const deletedBook = await this.bookStoreRepo.softDelete(id)
-
     if (deletedBook.affected === 0) {
       throw new NotFoundException('Book not found');
     }
-
     return ApiResponse.success(`Book deleted successfully`)
   }
 
@@ -105,8 +126,17 @@ export class BookStoreService {
       min_price: await this.bookStoreRepo.minimum('price'),
       max_price: await this.bookStoreRepo.maximum('price')
     }
-
     return stats
+  }
+
+  async getAutherPublisher(){
+    const author = await this.autherRepo.find();
+    const pub = await this.publisherRepo.find();
+    const res = {
+      author,
+      pub
+     }
+    return ApiResponse.success("Publisher and Author List Fetched",res)
   }
 
 }

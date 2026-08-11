@@ -20,6 +20,8 @@ import { BookReviewsModule } from './modules/book-reviews/book-reviews.module';
 import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
 import { JwtModule } from '@nestjs/jwt';
 import { ReportsModule } from './modules/reports/reports.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
@@ -45,9 +47,14 @@ const ThrottleConfig =
     {
       name: 'default',
       ttl: 60000, // 1 minute
-      limit: 5,  // 10 requests per minute
+      limit: 15,  // 10 requests per minute
     }
   ]
+
+  const ServeStatic = {
+    rootPath: join(process.cwd(), 'storage'),
+    serveRoot: '/storage',
+  }
 
 @Module({
   imports: [
@@ -62,6 +69,8 @@ const ThrottleConfig =
       envFilePath: ".env.example"
     }),
 
+    ServeStaticModule.forRoot(ServeStatic),
+
     RouterModule.register([
       {
         path: "api",
@@ -73,14 +82,15 @@ const ThrottleConfig =
           {
             path: "books",
             module:BookStoreModule
-          }
+          },
+          
         ]
       }
     ]),
 
     // NotificationEngineModule,
     // MonitoringModule,
-    // WishListModule,
+    WishListModule,
     // BookReviewsModule,
     // ReportsModule,
     

@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity("book_store")   // book_store     // books
-export class BookStore {
+export class BooksEntity {
     
     // ========== Basic Books Details: ==============
     @PrimaryGeneratedColumn()
@@ -27,6 +27,7 @@ export class BookStore {
 
     @Column({
       type: 'text',
+      length:500,
       nullable: true,
       default: null,
     })
@@ -34,7 +35,7 @@ export class BookStore {
 
     @Column({
       type: 'varchar',
-      length: 500,
+      length: 150,
       nullable: true,
       default: null,
     })
@@ -44,11 +45,11 @@ export class BookStore {
     price: number;
 
     // ========== Author Details: ==============
-    @Column({ default: null, unique: true })
+    @Column({ type:'int', default: null })
     author_id : number;
 
-    @Column({ default: null, nullable: true, length: 100 })
-    publisher_id: string;
+    @Column({ type:'int', default: null })
+    publisher_id: number;
 
     @Column({ default: 1 })
     is_available: boolean;
@@ -70,7 +71,7 @@ export class BookStore {
       type: 'varchar',
       length: 50,
       nullable: true,
-      default:"EN"
+      default:"English"
     })
     language: string;
 

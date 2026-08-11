@@ -25,8 +25,6 @@ import {
     })
     book_id: number;
   
-    @CreateDateColumn({
-      type: 'timestamp',
-    })
+    @CreateDateColumn()
     created_at: Date;
   }
