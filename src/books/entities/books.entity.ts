@@ -40,12 +40,12 @@ export class BooksEntity {
       default: null,
     })
     cover_photo: string | null;
-
+    
     @Column({ default: null, nullable: true, type: "decimal", precision: 10, scale: 2 })
     price: number;
 
     // ========== Author Details: ==============
-    @Column({ type:'int', default: null })
+    @Column({ type:'int',default: null })
     author_id : number;
 
     @Column({ type:'int', default: null })

@@ -27,7 +27,7 @@ const RBACEntities = [
     JwtModule.register({
       secret: 'mySuperSecretKey@098765',
       signOptions: {
-        expiresIn: '1m'
+        expiresIn: '30m'
       }
     })
   ],

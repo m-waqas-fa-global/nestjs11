@@ -6,18 +6,23 @@ import { BooksEntity } from './entities/books.entity';
 import { PdfService } from './services/pdf.service';
 import { AuthorEntity } from './entities/authors.entity';
 import { PublishersEntity } from './entities/publishers.entity';
+import { WishlistEntity } from '../modules/wish-list/entities/wishlists.entity';
 
 const Entities = [
     BooksEntity,
     AuthorEntity,
-    PublishersEntity
+    PublishersEntity,
+    WishlistEntity
 ]
-
+ 
 @Module({
   imports: [
-    TypeOrmModule.forFeature(Entities)
+    TypeOrmModule.forFeature(Entities),
   ],
   controllers: [BookStoreController],
-  providers: [BookStoreService,PdfService],
+  providers: [
+    BookStoreService,
+    PdfService,
+  ],
 })
 export class BookStoreModule { }

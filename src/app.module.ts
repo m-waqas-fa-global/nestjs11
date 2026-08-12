@@ -49,12 +49,12 @@ const ThrottleConfig =
       ttl: 60000, // 1 minute
       limit: 15,  // 10 requests per minute
     }
-  ]
+]
 
-  const ServeStatic = {
-    rootPath: join(process.cwd(), 'storage'),
-    serveRoot: '/storage',
-  }
+const ServeStatic = {
+  rootPath: join(process.cwd(), 'storage'),
+  serveRoot: '/storage',
+}
 
 @Module({
   imports: [

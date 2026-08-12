@@ -2,10 +2,11 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { CreateBook, UpdateBook } from '../interfaces/books.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BooksEntity} from '../entities/books.entity';
-import { DataSource, FindManyOptions, PrimaryGeneratedColumn, Repository } from 'typeorm';
+import { DataSource, FindManyOptions, Repository } from 'typeorm';
 import { ApiResponse } from '../../common/helpers/api-response.helper';
 import { AuthorEntity } from '../entities/authors.entity';
 import { PublishersEntity } from '../entities/publishers.entity';
+import { WishlistEntity } from '../../modules/wish-list/entities/wishlists.entity';
 
 @Injectable()
 export class BookStoreService {
@@ -19,6 +20,10 @@ export class BookStoreService {
 
     @InjectRepository(PublishersEntity) 
     private readonly publisherRepo: Repository<PublishersEntity>,
+
+    @InjectRepository(WishlistEntity)
+    private readonly wishlistRepo: Repository<WishlistEntity>,
+
     private dataSource:DataSource
   ) {}
 
@@ -40,13 +45,20 @@ export class BookStoreService {
 
   // ====================== Create New Book in DB =====================
   async create(createBookBody: CreateBook) {
-    const book = this.bookStoreRepo.create(createBookBody);
-    await this.bookStoreRepo.save(book);
-    return {
-      success: true,
-      message: "Book Added Successfully",
-      res: book
-    };
+    try {
+      const book = this.bookStoreRepo.create(createBookBody);
+      await this.bookStoreRepo.save(book);
+      return {
+        success: true,
+        message: "Book Added Successfully",
+        res: book
+      };
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerErrorException(
+        "Server Error! Unable to create book"
+      );
+    }
   }
   // ====================== Get all books from DB =====================
   async findAll(Query: FindManyOptions<BooksEntity> | undefined) {
@@ -68,14 +80,16 @@ export class BookStoreService {
     }
   }
   // ====================== Get single book by ID from DB =====================
-  async findOne(id: number) {
-    const book = await this.bookStoreRepo.findOneBy({ bk_id: id });
+  async findOne(book_id: number,user_id:number) {
+    const book = await this.bookStoreRepo.findOneBy({ bk_id: book_id });
  
     const author = await this.autherRepo.findOneBy({author_id:book?.author_id})
     const publisher = await this.publisherRepo.findOneBy({publisher_id:book?.publisher_id})
+    const is_wishlist = await this.isWishlisted(user_id,book_id)
 
     const response = {
       ...book,
+      is_wishlist:is_wishlist,
       author,
       publisher
     }
@@ -137,6 +151,17 @@ export class BookStoreService {
       pub
      }
     return ApiResponse.success("Publisher and Author List Fetched",res)
+  }
+
+  // Check whether a book is wishlisted
+  async isWishlisted(user_id:number,book_id:number):Promise<boolean>{
+    const listed =  await this.wishlistRepo.findOne({
+       where:{
+        user_id : user_id,
+        book_id : book_id
+       }
+     }) 
+    return !!listed
   }
 
 }

@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, Res, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Res, Req, UseGuards } from '@nestjs/common';
 import { BookStoreService } from './services/book_store.service';
 import { CreateBookDTO } from './dto/create-book.dto';
 import { UpdateBookStoreDto } from './dto/update-book.dto';
-import { IsNull, Not } from 'typeorm';
 import { PdfService } from './services/pdf.service';
 import { AuditHelper } from '../common/helpers/audit.helper';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
@@ -28,7 +27,7 @@ export class BookStoreController {
   }
 
   @Get("get_all")
-  findAll() {
+  async findAll() {
     // Query and for getting Data From Database:
     const query = {
       withDeleted: false,
@@ -41,48 +40,30 @@ export class BookStoreController {
         created_at: false
       }
     };
-    return this.bookStoreService.findAll(query);
+    return await this.bookStoreService.findAll(query);
   }
-  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  // @ApiBearerAuth()
-  // @Get("get_deleted_books")
-  // deletedItem() {
-  //   const query = {
-  //     withDeleted: true,
-  //     where: {
-  //       deleted_at: Not(IsNull()),
-  //     },
-  //   }
-  //   return this.bookStoreService.findAll(query);
-  // }
 
   @Get("downloard_stats_pdf")
   async downloadStats(@Res() res: Response) {
     const result = await this.bookStoreService.checkTableStats();
-
     return this.PdfService.generateStatsReport(
       result,
       res,
     );
   }
-  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  // @ApiBearerAuth()
-  // @Throttle({ default: { limit: 3, ttl: 60000 } })
-  // @Get("execute_raw_query")
-  // async get() {
-  //   return await this.bookStoreService.ExecuteRawQuery()
-  // }
-
+ 
   @Get('get_auther_publishers')
   getAuther(){
     return this.bookStoreService.getAutherPublisher();
   }
 
   // ========================  Dynamic API Methods  =========================
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
   @Get('get_by_id/:id')
-  findOne(@Param('id', ParseIntPipe) id: string, @Req() req: Request) {
+  findOne(@Param('id', ParseIntPipe) id: string, @Req() req: any) {
     //const audit = AuditHelper.getAuditInfo(req)
-    return this.bookStoreService.findOne(+id);
+    return this.bookStoreService.findOne(+id,req.user.user_id);
   }
    
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
@@ -105,3 +86,27 @@ export class BookStoreController {
   }
 
 }
+
+  // Place this end point before the dynamic routes:
+
+
+  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  // @ApiBearerAuth()
+  // @Get("get_deleted_books")
+  // deletedItem() {
+  //   const query = {
+  //     withDeleted: true,
+  //     where: {
+  //       deleted_at: Not(IsNull()),
+  //     },
+  //   }
+  //   return this.bookStoreService.findAll(query);
+  // }
+
+   // @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  // @ApiBearerAuth()
+  // @Throttle({ default: { limit: 3, ttl: 60000 } })
+  // @Get("execute_raw_query")
+  // async get() {
+  //   return await this.bookStoreService.ExecuteRawQuery()
+  // }

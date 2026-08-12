@@ -7,9 +7,7 @@ import {
   
   @Entity('wishlists')
   export class WishlistEntity {
-
-     // ❤️ Wishlist Module/Table → User ↔ Book wishlist relationship
-
+  //❤️Wishlist Module/Table → User ↔ Book wishlist relationship
     @PrimaryGeneratedColumn()
     wishlist_id: number;
   

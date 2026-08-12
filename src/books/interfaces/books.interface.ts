@@ -8,6 +8,8 @@ export interface Books {
     publication_date: Date;
     pages: number;
     language: string;
+    author_id:number;
+    publisher_id:number;
 }
 
 export type CreateBook = Omit<Books, "bk_id">;
