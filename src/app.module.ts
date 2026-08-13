@@ -91,7 +91,7 @@ const ServeStatic = {
     // NotificationEngineModule,
     // MonitoringModule,
     WishListModule,
-    // BookReviewsModule,
+    BookReviewsModule,
     // ReportsModule,
     
     BookStoreModule,

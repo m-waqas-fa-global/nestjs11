@@ -59,6 +59,7 @@ export class WishListService {
     const wishListedBooks = await this.findBooksByIds(bookIds);
     const res = {
       user_id,
+      email:"user@gmail.com",
       books: wishListedBooks,
     };
 

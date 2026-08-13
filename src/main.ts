@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConsoleLogger, INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConsoleLogger, INestApplication, ValidationPipe } from '@nestjs/common';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import session from 'express-session';
-import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
 import * as path from 'path';
+import { join } from 'path';
 
 function SwaggerConfig(app: INestApplication): void {
   const config = new DocumentBuilder()
@@ -14,10 +14,23 @@ function SwaggerConfig(app: INestApplication): void {
       'This Notify Service API allows you to send emails and SMS messages using the NestJS framework.',
     ).setVersion('4.0')
     .addTag('API Endpoints')
-    .addBearerAuth() // 👈 Enables Bearer Auth in Swagger UI
-    .build();
+    .addBearerAuth(
+    // {
+    //   type: 'http',
+    //   scheme: 'bearer',
+    //   bearerFormat: 'JWT',
+    //   name: 'Authorization',
+    //   in: 'header',
+    // },
+    // 'bearerAuth',
+  )
+  .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs-swagger', app, document);
+  SwaggerModule.setup('api-docs', app, document
+  //   ,{
+  //    customJs: '/swagger-auth.js',
+  // }
+);
 }
 
 function ViewEngineConfig(app: NestExpressApplication): void {
@@ -84,9 +97,12 @@ async function bootstrap() {
   );
   // app.useGlobalInterceptors(new ApiLoggerInterceptor());
 
-  app.enableVersioning({
-    type: VersioningType.URI
-  })
+  // app.enableVersioning({
+  //   type: VersioningType.URI
+  // })
+
+  // Serve the public folder statically
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   await app.listen(process.env.PORT ?? 2000, () => {
     console.log(`Server is running on localhost:${process.env.PORT}`);

@@ -42,12 +42,10 @@ import {
   
     @Column({
       type: 'boolean',
-      default: false,
+      default: true,
     })
     is_approved: boolean;
 
-    @CreateDateColumn({
-        type: 'timestamp',
-      })
-      created_at: Date;
+    @CreateDateColumn()
+    created_at: Date;
   }

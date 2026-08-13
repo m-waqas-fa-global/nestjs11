@@ -95,7 +95,7 @@ private homePage: string = `
     </div>
     <div class="card">
       <h3>Swagger API Docs</h3>
-      <p>Interactive API documentation. <a href="/api-docs-swagger" target="_blank">View Docs</a></p>
+      <p>Interactive API documentation. <a href="/api-docs" target="_blank">View Docs</a></p>
     </div>
   </div>
 </section>

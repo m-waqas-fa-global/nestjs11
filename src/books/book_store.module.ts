@@ -7,12 +7,14 @@ import { PdfService } from './services/pdf.service';
 import { AuthorEntity } from './entities/authors.entity';
 import { PublishersEntity } from './entities/publishers.entity';
 import { WishlistEntity } from '../modules/wish-list/entities/wishlists.entity';
+import { BookReviewEntity } from '../modules/book-reviews/entities/book_reviews.entity';
 
 const Entities = [
-    BooksEntity,
-    AuthorEntity,
-    PublishersEntity,
-    WishlistEntity
+  BooksEntity,
+  AuthorEntity,
+  PublishersEntity,
+  WishlistEntity,      // WishList Table Entity
+  BookReviewEntity     // Books Review Table Entity
 ]
  
 @Module({
@@ -25,4 +27,4 @@ const Entities = [
     PdfService,
   ],
 })
-export class BookStoreModule { }
+export class BookStoreModule {}

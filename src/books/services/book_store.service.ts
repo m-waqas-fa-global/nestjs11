@@ -7,6 +7,9 @@ import { ApiResponse } from '../../common/helpers/api-response.helper';
 import { AuthorEntity } from '../entities/authors.entity';
 import { PublishersEntity } from '../entities/publishers.entity';
 import { WishlistEntity } from '../../modules/wish-list/entities/wishlists.entity';
+import { privateDecrypt } from 'crypto';
+import { BookReviewEntity } from '../../modules/book-reviews/entities/book_reviews.entity';
+import { use } from 'passport';
 
 @Injectable()
 export class BookStoreService {
@@ -23,6 +26,9 @@ export class BookStoreService {
 
     @InjectRepository(WishlistEntity)
     private readonly wishlistRepo: Repository<WishlistEntity>,
+
+    @InjectRepository(BookReviewEntity)
+    private readonly productReviewRepo:Repository<BookReviewEntity>,
 
     private dataSource:DataSource
   ) {}
@@ -61,44 +67,53 @@ export class BookStoreService {
     }
   }
   // ====================== Get all books from DB =====================
-  async findAll(Query: FindManyOptions<BooksEntity> | undefined) {
-    
-    const data = await this.bookStoreRepo.find();
+  async findAll() {
+    const data = await this.bookStoreRepo.find({
+      select: [
+        'bk_id',
+        'title',
+        'subtitle',
+        'cover_photo',
+        'price',
+        'author_id',
+        'created_at',
+      ],
+      withDeleted: false,
+    });
     if (data.length > 0) {
-      return {
-        success: true,
-        message: "Books Fetched Successfully",
-        res: data
-      };
+      return ApiResponse.success("Books Fetched Successfully", data)
     }
     else {
-      return {
-        success: false,
-        message: "No Books Found",
-        res: []
-      };
+      return ApiResponse.success("No Books Found", null)
     }
   }
   // ====================== Get single book by ID from DB =====================
-  async findOne(book_id: number,user_id:number) {
-    const book = await this.bookStoreRepo.findOneBy({ bk_id: book_id });
- 
-    const author = await this.autherRepo.findOneBy({author_id:book?.author_id})
-    const publisher = await this.publisherRepo.findOneBy({publisher_id:book?.publisher_id})
-    const is_wishlist = await this.isWishlisted(user_id,book_id)
-
+  async getBookSingleDetail(book_id: number,user_id:number) {
+    // Geting books basic details form books table:
+    const book_basic_details = await this.bookStoreRepo.findOneBy({ bk_id: book_id });
+    // Geting Author Details who writte this book:
+    const author = await this.autherRepo.findOneBy({author_id:book_basic_details?.author_id});
+    // Geting Publisher Details who publis this book:
+    const publisher = await this.publisherRepo.findOneBy({publisher_id:book_basic_details?.publisher_id});
+    // This book(book_id) is added in wishlist by user:
+    const is_wishlist = await this.isWishlisted(user_id,book_id);
+    // Get Book Reviews From BooksReviewTable:
+    const product_review = await this.getReviewsList(user_id,book_id)
+    // Build API Resposne:
     const response = {
-      ...book,
+      ...book_basic_details,
       is_wishlist:is_wishlist,
       author,
-      publisher
+      publisher,
+      reviews:product_review?.length > 0 ? product_review : null,
     }
-
-    if (book) {
+    // Sends back to client:
+    if (book_basic_details) {
       return ApiResponse.success("Book Fetched Successfully", response)
     } else {
       return ApiResponse.error("No Book Found", 404)
     }
+
   }
 
   async update(id: number, updateBookStoreDto: UpdateBook) {
@@ -152,16 +167,26 @@ export class BookStoreService {
      }
     return ApiResponse.success("Publisher and Author List Fetched",res)
   }
-
+ //===============================================   Helper Methods ===========================================
   // Check whether a book is wishlisted
   async isWishlisted(user_id:number,book_id:number):Promise<boolean>{
     const listed =  await this.wishlistRepo.findOne({
-       where:{
+      where:{
         user_id : user_id,
         book_id : book_id
-       }
+      }
      }) 
     return !!listed
+  }
+
+  async getReviewsList(user_id:number,book_id:number){
+   return await this.productReviewRepo.find({
+      select:['created_at','is_approved','rating','review_text'],
+      where:{
+        user_id,
+        book_id
+      }
+    })
   }
 
 }

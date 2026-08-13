@@ -16,6 +16,9 @@ export class BookStoreController {
     private readonly bookStoreService: BookStoreService,
     private readonly PdfService: PdfService
   ) { }
+  
+
+  
   // ========================  Static API Methods  =========================
   // @UseGuards(JwtAuthGuard)    // this is protected API End Point
   // @ApiBearerAuth()
@@ -28,19 +31,7 @@ export class BookStoreController {
 
   @Get("get_all")
   async findAll() {
-    // Query and for getting Data From Database:
-    const query = {
-      withDeleted: false,
-      select: {
-        bk_id: true,
-        title: true,
-        price: true,
-        cover_photo:true,
-        subtitle:true,
-        created_at: false
-      }
-    };
-    return await this.bookStoreService.findAll(query);
+    return await this.bookStoreService.findAll();
   }
 
   @Get("downloard_stats_pdf")
@@ -62,8 +53,7 @@ export class BookStoreController {
   @ApiBearerAuth()
   @Get('get_by_id/:id')
   findOne(@Param('id', ParseIntPipe) id: string, @Req() req: any) {
-    //const audit = AuditHelper.getAuditInfo(req)
-    return this.bookStoreService.findOne(+id,req.user.user_id);
+    return this.bookStoreService.getBookSingleDetail(+id,req.user.user_id);
   }
    
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
@@ -87,8 +77,7 @@ export class BookStoreController {
 
 }
 
-  // Place this end point before the dynamic routes:
-
+// ======================== Place this end point before the dynamic routes: =================================
 
   // @UseGuards(JwtAuthGuard)    // this is protected API End Point
   // @ApiBearerAuth()

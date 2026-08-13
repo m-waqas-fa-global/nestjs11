@@ -75,15 +75,14 @@ export class BooksEntity {
     })
     language: string;
 
-
     // =========== Soft Delete Column in Books Table: ===========
     // Standard soft delete column
-    @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+    @DeleteDateColumn({ name: 'deleted_at', nullable: true , select:false})
     deleted_at: Date;
 
     @CreateDateColumn()
     created_at: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({select:false})
     updated_at: Date;
 }
