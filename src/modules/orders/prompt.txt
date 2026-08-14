@@ -1,0 +1,29 @@
+Explain Order Module in details with ecach property needed form frontend when user place order and little bit concern with paymment API when called?
+
+
+2. What Angular should send
+
+When the user clicks Place Order, Angular can send something like:
+
+{
+  "items": [
+    {
+      "book_id": 10,
+      "quantity": 2
+    },
+    {
+      "book_id": 25,
+      "quantity": 1
+    }
+  ],
+  "shipping_address": {
+    "full_name": "Muhammad Waqas",
+    "phone": "1234567890",
+    "address_line_1": "123 Main Street",
+    "address_line_2": "",
+    "city": "Dallas",
+    "state": "Texas",
+    "postal_code": "75001",
+    "country": "USA"
+  }
+}

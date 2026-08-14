@@ -16,12 +16,14 @@ import { redisStore } from 'cache-manager-redis-yet';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guards/custom-throttler.guard'
 import { WishListModule } from './modules/wish-list/wish-list.module';
-import { BookReviewsModule } from './modules/book-reviews/book-reviews.module';
 import { ApiLoggerInterceptor } from './common/interceptors/api-logger.interceptor';
 import { JwtModule } from '@nestjs/jwt';
 import { ReportsModule } from './modules/reports/reports.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { OrdersModule } from './modules/orders/orders.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { BookReviewsModule } from './modules/reviews/book-reviews.module';
 
 const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
@@ -90,12 +92,16 @@ const ServeStatic = {
 
     // NotificationEngineModule,
     // MonitoringModule,
-    WishListModule,
-    BookReviewsModule,
+
+    // WishListModule,
+    // BookReviewsModule,
+
     // ReportsModule,
     
-    BookStoreModule,
+    // BookStoreModule,
     AuthModule,
+    OrdersModule,
+    // PaymentModule,
   ],
   controllers: [AppController],
   providers: [

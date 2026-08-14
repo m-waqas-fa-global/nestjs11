@@ -8,8 +8,8 @@ import { AuthorEntity } from '../entities/authors.entity';
 import { PublishersEntity } from '../entities/publishers.entity';
 import { WishlistEntity } from '../../modules/wish-list/entities/wishlists.entity';
 import { privateDecrypt } from 'crypto';
-import { BookReviewEntity } from '../../modules/book-reviews/entities/book_reviews.entity';
 import { use } from 'passport';
+import { BookReviewEntity } from '../../modules/reviews/entities/book_reviews.entity';
 
 @Injectable()
 export class BookStoreService {

@@ -7,7 +7,7 @@ import { PdfService } from './services/pdf.service';
 import { AuthorEntity } from './entities/authors.entity';
 import { PublishersEntity } from './entities/publishers.entity';
 import { WishlistEntity } from '../modules/wish-list/entities/wishlists.entity';
-import { BookReviewEntity } from '../modules/book-reviews/entities/book_reviews.entity';
+import { BookReviewEntity } from '../modules/reviews/entities/book_reviews.entity';
 
 const Entities = [
   BooksEntity,
