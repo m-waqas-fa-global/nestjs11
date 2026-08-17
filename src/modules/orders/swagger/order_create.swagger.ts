@@ -49,34 +49,6 @@ export class ShippingAddressDto {
   @IsString()
   @IsNotEmpty()
   address_line_1: string;
-
-  @ApiProperty({
-    example: 'Dallas',
-  })
-  @IsString()
-  @IsNotEmpty()
-  city: string;
-
-  @ApiProperty({
-    example: 'Texas',
-  })
-  @IsString()
-  @IsNotEmpty()
-  state: string;
-
-  @ApiProperty({
-    example: '75001',
-  })
-  @IsString()
-  @IsNotEmpty()
-  postal_code: string;
-
-  @ApiProperty({
-    example: 'USA',
-  })
-  @IsString()
-  @IsNotEmpty()
-  country: string;
 }
 
 export class CreateOrderSwagger {
@@ -104,10 +76,6 @@ export class CreateOrderSwagger {
       full_name: 'Muhammad Waqas',
       phone: '1234567890',
       address_line_1: '123 Main Street',
-      city: 'Dallas',
-      state: 'Texas',
-      postal_code: '75001',
-      country: 'USA',
     },
   })
   @ValidateNested()

@@ -98,7 +98,7 @@ const ServeStatic = {
 
     // ReportsModule,
     
-    // BookStoreModule,
+    BookStoreModule,
     AuthModule,
     OrdersModule,
     // PaymentModule,

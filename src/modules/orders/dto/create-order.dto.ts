@@ -32,22 +32,6 @@ export class ShippingAddressDTO {
   @IsString()
   @IsNotEmpty()
   address_line_1: string;
-
-  @IsString()
-  @IsNotEmpty()
-  city: string;
-
-  @IsString()
-  @IsNotEmpty()
-  state: string;
-
-  @IsString()
-  @IsNotEmpty()
-  postal_code: string;
-
-  @IsString()
-  @IsNotEmpty()
-  country: string;
 }
 
 export class CreateOrderDTO {

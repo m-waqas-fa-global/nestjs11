@@ -16,14 +16,11 @@ export class OrderEntity {
   subtotal: number;
 
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
-  shipping_fee: number;
-
-  @Column('decimal', { precision: 10, scale: 2, default: 0 })
   discount: number;
 
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
   tax: number;
-
+  
   @Column('decimal', { precision: 10, scale: 2 })
   total_amount: number;
 
@@ -42,7 +39,4 @@ export class OrderEntity {
 
   @CreateDateColumn()
   created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 }
