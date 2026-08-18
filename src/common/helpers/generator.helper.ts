@@ -1,14 +1,11 @@
 export class GeneratorHelper {
-    //   REF-20260722-000001
-    static generateReferenceNumber(sequence: number): string {
-        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-
-        return `REF-${date}-${sequence.toString().padStart(6, '0')}`;
+    // ORD-48214
+    static generateOrderNumber(): string {
+        return `ORD-${Math.floor(10000 + Math.random() * 90000)}`;
     }
     // INV-20260722-000001
     static generateInvoiceNumber(sequence: number): string {
         const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-
         return `INV-${date}-${sequence.toString().padStart(6, '0')}`;
     }
     // BOOK-000001
@@ -19,5 +16,4 @@ export class GeneratorHelper {
     static generateRequestId(): string {
         return `REQ-${Math.floor(1000 + Math.random() * 9000)}`;
     }
-     
 }

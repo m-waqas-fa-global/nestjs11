@@ -45,4 +45,9 @@ export class CreateOrderDTO {
   @ValidateNested()
   @Type(() => ShippingAddressDTO)
   shipping_address: ShippingAddressDTO;
+
+  @IsString()
+  @IsNotEmpty()
+  payment_id: string;
+
 }

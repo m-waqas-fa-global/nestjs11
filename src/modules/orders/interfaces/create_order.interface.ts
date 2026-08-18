@@ -12,4 +12,5 @@ export interface IShippingAddress {
 export interface CreateOrderInterface {
   items: IOrderItem[];
   shipping_address: IShippingAddress;
+  payment_id:string;
 }

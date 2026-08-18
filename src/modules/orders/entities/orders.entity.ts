@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 
 @Entity('orders')
 export class OrderEntity {
@@ -16,10 +16,10 @@ export class OrderEntity {
   subtotal: number;
 
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
-  discount: number;
+  discount_pct: number;
 
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
-  tax: number;
+  tax_pct: number;
   
   @Column('decimal', { precision: 10, scale: 2 })
   total_amount: number;

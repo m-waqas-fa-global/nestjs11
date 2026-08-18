@@ -81,4 +81,12 @@ export class CreateOrderSwagger {
   @ValidateNested()
   @Type(() => ShippingAddressDto)
   shipping_address: ShippingAddressDto;
+
+  @ApiProperty({
+    example: 'MOCK-PAY-12345',
+    description: 'Payment ID returned by the payment service',
+  })
+  @IsString()
+  @IsNotEmpty()
+  payment_id: string;
 }

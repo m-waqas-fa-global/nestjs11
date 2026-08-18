@@ -9,7 +9,6 @@ import {
 
 @Entity("book_store")   // book_store     // books
 export class BooksEntity {
-    
     // ========== Basic Books Details: ==============
     @PrimaryGeneratedColumn()
     bk_id: number;
