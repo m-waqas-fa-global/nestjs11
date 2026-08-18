@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateOrderInterface } from '../interfaces/create_order.interface';
 import { ApiResponse } from '../../../common/helpers/api-response.helper';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BooksEntity } from '../../../books/entities/books.entity';
 import { In, Repository } from 'typeorm';
+import { BooksEntity } from '../../books/entities/books.entity';
 
 
 @Injectable()

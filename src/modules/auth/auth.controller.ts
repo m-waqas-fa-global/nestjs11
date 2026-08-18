@@ -1,6 +1,5 @@
 import { Body, Controller, Post, Get, Param ,Req, UseGuards} from '@nestjs/common';
 import { AuthService } from './services/auth.service';
-import { ApiResponse } from '../common/helpers/api-response.helper';
 import { LoginDTO } from './dto/login.dto'
 import { SignUpDTO } from './dto/sign-up.dto';
 import { HashService } from './services/hashing.service';

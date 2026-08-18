@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NotificationEngineController } from './notification_engine.controller';
+import { NotificationEngineController } from './notification.controller';
 import { EmailService } from './services/email.service';
 import { InboxSmsService } from './services/inbox-sms.service';
 import { ConfigModule } from '@nestjs/config';

@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
-import { AuthorEntity } from '../../books/entities/authors.entity';
+import { AuthorEntity } from '../../modules/books/entities/authors.entity';
+
 
 export async function seedAuthers(dataSource: DataSource) {
   const autherRepository = dataSource.getRepository(AuthorEntity);

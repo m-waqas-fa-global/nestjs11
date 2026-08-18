@@ -4,12 +4,8 @@ import { AppService } from './app.service';
 import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino/LoggerModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { NotificationEngineModule } from './notification_engine/notification_engine.module';
-import { BookStoreModule } from './books/book_store.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
-import { MonitoringModule } from './monitoring/monitoring.module';
-import { AuthModule } from './auth/auth.module';
 
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
@@ -24,6 +20,10 @@ import { join } from 'path';
 import { OrdersModule } from './modules/orders/orders.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { BookReviewsModule } from './modules/reviews/book-reviews.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { BookStoreModule } from './modules/books/book_store.module';
+import { MonitoringModule } from './modules/monitoring/monitoring.module';
+import { NotificationEngineModule } from './modules/notifications/notification.module';
 
 const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
@@ -92,16 +92,15 @@ const ServeStatic = {
 
     // NotificationEngineModule,
     // MonitoringModule,
+    // ReportsModule,
 
     // WishListModule,
     // BookReviewsModule,
-
-    // ReportsModule,
-    
+    // 
     BookStoreModule,
     AuthModule,
     OrdersModule,
-    // PaymentModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [

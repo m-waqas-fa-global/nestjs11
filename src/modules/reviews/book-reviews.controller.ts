@@ -3,7 +3,7 @@ import { BookReviewsService } from './services/book-reviews.service';
 import { CreateBookReviewDto } from './dto/review';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateReviewSwagger } from './swagger/create.swagger';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('reviews')
 export class BookReviewsController {

@@ -1,5 +1,4 @@
 import { HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ApiResponse } from '../../common/helpers/api-response.helper';
 import { Login, SignUpBody } from '../interfaces/auth.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from '../entities/signup.entity';
@@ -11,6 +10,7 @@ import { UserRoleEntity } from '../entities/user-role.entity';
 import { RolePermissionEntity } from '../entities/role-permission.entity';
 import { transformResponse } from '../services/transform.helper';
 import { JwtAuthService } from './jwt.service';
+import { ApiResponse } from '../../../common/helpers/api-response.helper';
 
 @Injectable()
 export class AuthService {

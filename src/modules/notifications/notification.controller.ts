@@ -1,12 +1,11 @@
-import { Controller, Get, Post, Body, Req, HttpException, HttpStatus, InternalServerErrorException, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req } from '@nestjs/common';
 import { SendEmailDTO } from './dto/sendEmail.dto';
 import { InboxSmsDTO } from './dto/inboxSms.dto';
 import { EmailService } from './services/email.service';
 import { InboxSmsService } from './services/inbox-sms.service';
 import { emailTemplate } from './templates/email_temp';
 import { smsTemplate } from './templates/sms_temp';
-import type { Request } from 'express';
-import { ApiExcludeController, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 // @ApiExcludeController()
 @ApiTags('notification controller APIs')
@@ -37,10 +36,9 @@ export class NotificationEngineController {
     return this.InboxSms.sendSms(to, message);
   }
 
-
   // Create Seesion on Nest.js Server for Hundling Loggin User:
   // Create Session Endpoint
-  @Get('create')
+  @Get('create-session')
   createSession(@Req() request: any) {
     request.session.user = 'John Doe';
     request.session.sid = '1234567890';
@@ -55,7 +53,7 @@ export class NotificationEngineController {
   }
 
   // Get Session Endpoint
-  @Get('get')
+  @Get('get-session')
   getSession(@Req() request: any) {
     const sessionData = request.session;
     delete sessionData.session; // Remove cookie information from the response
@@ -65,55 +63,55 @@ export class NotificationEngineController {
   }
 
   // ================== Destroy Session Endpoint ==================
-  @Get('destroy')
-  destroySession(@Req() request: Request) {
-    request.session.destroy((err) => {
-      if (err) {
+  // @Get('destroy')
+  // destroySession(@Req() request: Request) {
+  //   request.session.destroy((err) => {
+  //     if (err) {
      
-      }
-    });
-    return {
-      message: 'Session destroyed successfully!',
-    };
-  }
+  //     }
+  //   });
+  //   return {
+  //     message: 'Session destroyed successfully!',
+  //   };
+  // }
 
-  @Get('get-carts/:id')
-  async getAllCarts(@Param('id', ParseIntPipe) id: number) {
-    try {
-      const data = await this.InboxSms.getData(id ? Number(id) : null);
-      if (!data) {
-        throw new HttpException(
-          { success: false, message: 'No cart data found' },
-          HttpStatus.NOT_FOUND
-        );
-      }
-      return {
-        success: true,
-        message: 'Amazon cart data fetched successfully',
-        data,
-      };
-    } catch (error) {
-      // If it's already a NestJS HttpException, rethrow it
-      if (error instanceof HttpException) throw error;
-      // Catch network or database errors
-      throw new HttpException(
-        { success: false, message: 'Error during data fetch', error: error.message },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-  }
+  // @Get('get-carts/:id')
+  // async getAllCarts(@Param('id', ParseIntPipe) id: number) {
+  //   try {
+  //     const data = await this.InboxSms.getData(id ? Number(id) : null);
+  //     if (!data) {
+  //       throw new HttpException(
+  //         { success: false, message: 'No cart data found' },
+  //         HttpStatus.NOT_FOUND
+  //       );
+  //     }
+  //     return {
+  //       success: true,
+  //       message: 'Amazon cart data fetched successfully',
+  //       data,
+  //     };
+  //   } catch (error) {
+  //     // If it's already a NestJS HttpException, rethrow it
+  //     if (error instanceof HttpException) throw error;
+  //     // Catch network or database errors
+  //     throw new HttpException(
+  //       { success: false, message: 'Error during data fetch', error: error.message },
+  //       HttpStatus.INTERNAL_SERVER_ERROR
+  //     );
+  //   }
+  // }
 
-  @Get("MIS/waqas/197")
-  data() {
-    return {
-      "id": 5,
-      "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
-      "user_id": 2,
-      "name": "test",
-      "status": "1",
-      "created_at": "2026-07-07 04:46:04",
-      "updated_at": "2026-07-07 04:46:04"
-    }
-  }
+  // @Get("MIS/waqas/197")
+  // data() {
+  //   return {
+  //     "id": 5,
+  //     "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  //     "user_id": 2,
+  //     "name": "test",
+  //     "status": "1",
+  //     "created_at": "2026-07-07 04:46:04",
+  //     "updated_at": "2026-07-07 04:46:04"
+  //   }
+  // }
 
 }

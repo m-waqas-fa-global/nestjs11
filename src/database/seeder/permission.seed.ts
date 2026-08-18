@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
-import { PermissionEntity } from '../../auth/entities/permission.entity';
+import { PermissionEntity } from '../../modules/auth/entities/permission.entity';
+
 
 export async function seedPermissions(dataSource: DataSource) {
 

@@ -8,7 +8,7 @@ export class MonitoringController {
   ) {}
 
     // GET /monitoring/health
-    @Get()
+    @Get('dashboard')
     @Render('health')
     getHealthDashboard() {
       const logs = this.monitoringService.getLogs();

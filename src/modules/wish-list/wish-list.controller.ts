@@ -3,7 +3,8 @@ import { WishListService } from './services/wish-list.service';
 import { WishListDTO } from './dto/wishlist.dto';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { WishlistSwagger } from './swagger/add.swagger';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
 
 @UseGuards(JwtAuthGuard)    // this is protected API End Point
 @ApiBearerAuth()

@@ -1,7 +1,9 @@
 
 # Create Welcome Screen:
-bash ./scripts/welcome.sh
+bash ./bash_scripts/welcome.sh
 # Run project scripts for checking project structure like components,modules,services:
-bash ./scripts/stats.sh
+bash ./bash_scripts/stats.sh
 # Scan Project for checking losg in entire project:
-bash ./scripts/scanlog.sh
+bash ./bash_scripts/scanlog.sh
+
+

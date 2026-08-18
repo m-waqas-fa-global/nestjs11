@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistEntity } from '../entities/wishlists.entity';
 import { In, Repository } from 'typeorm';
 import { ApiResponse } from '../../../common/helpers/api-response.helper';
-import { BooksEntity } from '../../../books/entities/books.entity';
+import { BooksEntity } from '../../books/entities/books.entity';
+
 
 @Injectable()
 export class WishListService {

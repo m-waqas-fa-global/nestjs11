@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { PublishersEntity } from '../../books/entities/publishers.entity';
+import { PublishersEntity } from '../../modules/books/entities/publishers.entity';
   
 export async function seedPublishers(dataSource: DataSource) {
   const publisherRepository = dataSource.getRepository(PublishersEntity);

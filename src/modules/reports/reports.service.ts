@@ -94,11 +94,6 @@ export class ReportsService {
     return `This action removes a #${id} report`;
   }
 
-  getAPILogs() {
-    const res = { msg: "logs", data: [] }
-    return res;
-  }
-
   searchByStatus(status: string) {
     const isCompleted = status.toLowerCase() === true.toString();
     return this.reports.filter(report => report.status === isCompleted);
