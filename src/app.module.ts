@@ -24,6 +24,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BookStoreModule } from './modules/books/book_store.module';
 import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { NotificationEngineModule } from './modules/notifications/notification.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
@@ -101,6 +102,7 @@ const ServeStatic = {
     AuthModule,
     OrdersModule,
     PaymentModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [

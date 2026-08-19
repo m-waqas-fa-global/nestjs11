@@ -53,4 +53,11 @@ export class AuthController {
     return this.authService.get_roles_permissions_list()
   }
 
+  @Get("change-password")
+  chnagePassword(){
+    return {
+      msg:"Chnage Password: API In Progress..."
+    }
+  }
+
 }

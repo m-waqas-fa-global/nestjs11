@@ -37,6 +37,6 @@ export class OrderEntity {
   })
   payment_status: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({select:false})
   created_at: Date;
 }

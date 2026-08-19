@@ -38,5 +38,8 @@ const RBACEntities = [
     JwtAuthService,
     JwtStrategy       // JWT Strategy Serice for Verifyin thre incoming token
   ],
+  exports:[
+    AuthService
+  ]
 })
 export class AuthModule { }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateOrderInterface } from '../interfaces/create_order.interface';
 import { ApiResponse } from '../../../common/helpers/api-response.helper';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -100,8 +100,7 @@ export class OrdersService {
       total_amount: totalAmount,
       shipping_address: createOrder.shipping_address
     })
-
-    console.log("Before creating into DB:", saveOrder)
+    // console.log("Before creating into DB:", saveOrder)
 
     try {
       // Save Orders and Order Item Entity
@@ -134,12 +133,34 @@ export class OrdersService {
     return ApiResponse.success("Order Placed SuccessFully", saveOrder)
   }
 
-  async findAll() {
-    return {
-      orders: await this.orderTableRepo.find(),
-      orderItems: await this.orderItemsTableRepo.find(),
-      msg:"List of order placed by single user"
-    };
+  async findAll(userId: number) {
+    const response: any = []
+    // Get User Order form OrderTable:
+    const orders = await this.orderTableRepo.find(
+      {
+        where: {
+          user_id: userId
+        }
+      }
+    )
+    // Check if OrderTable is empty then throw exception don't break the next workflow:
+    if (orders?.length === 0) {
+      throw new InternalServerErrorException("Server Error: Order Not Found")
+    }
+    // Get Order items from the orderItems Array:
+    for (const order of orders) {
+      const items = await this.orderItemsTableRepo.find({
+        select:['book_title','quantity','total_price','unit_price'],
+        where: {
+          order_id: order?.order_id
+        }
+      })
+      response.push({
+        ...order,
+        items
+      })
+    }
+    return ApiResponse.success("Order detail fetched", response)
   }
 
   async markPaymentSuccessfull(orderId: number) {

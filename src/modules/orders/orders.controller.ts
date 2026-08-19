@@ -5,13 +5,12 @@ import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateOrderSwagger } from './swagger/order_create.swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)    // this is protected API End Point
+@ApiBearerAuth()
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
   
-
-  @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  @ApiBearerAuth()
   @ApiBody({type:CreateOrderSwagger})
   @Post('place_order')
   create(@Body() createOrderDto: CreateOrderDTO,@Req() req:any) {
@@ -19,7 +18,7 @@ export class OrdersController {
   }
 
   @Get('get_order_history')
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Req() req:any) {
+    return this.ordersService.findAll(req.user.user_id);
   }
 }

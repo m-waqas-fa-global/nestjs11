@@ -296,5 +296,13 @@ export class AuthService {
         )
     }
 
+
+    async getRegisteredUserCount(){
+        return {
+            total_user: await this.userTableRepo.count(),
+            active_user: 3,
+        }
+    }
+
    
 }
