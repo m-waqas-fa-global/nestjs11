@@ -102,7 +102,7 @@ const ServeStatic = {
     AuthModule,
     OrdersModule,
     PaymentModule,
-    DashboardModule,
+    // DashboardModule,
   ],
   controllers: [AppController],
   providers: [

@@ -134,18 +134,18 @@ export class OrdersService {
   }
 
   async findAll(userId: number) {
-    const response: any = []
+    const response: any = [];
     // Get User Order form OrderTable:
     const orders = await this.orderTableRepo.find(
       {
-        where: {
+        where: {  
           user_id: userId
         }
       }
     )
     // Check if OrderTable is empty then throw exception don't break the next workflow:
     if (orders?.length === 0) {
-      throw new InternalServerErrorException("Server Error: Order Not Found")
+      return ApiResponse.success("Records Not Found: Checkout our page enjoy shoping",null)
     }
     // Get Order items from the orderItems Array:
     for (const order of orders) {
@@ -161,6 +161,37 @@ export class OrdersService {
       })
     }
     return ApiResponse.success("Order detail fetched", response)
+    // this.orderTableRepo
+    //     .createQueryBuilder('order')
+    // Single query with LEFT JOIN - fetches orders and their items in one go
+    // const orders = await this.orderTableRepo
+    //     .createQueryBuilder('order')
+    //     .leftJoinAndSelect(
+    //         'order.orderItems',  // The relationship property name in Order entity
+    //         'orderItems'          // Alias for the joined table
+    //     )
+    //     .select([
+    //         'order',              // Select all order columns
+    //         'orderItems.book_title',
+    //         'orderItems.quantity',
+    //         'orderItems.total_price',
+    //         'orderItems.unit_price'
+    //     ])
+    //     .where('order.user_id = :userId', { userId })
+    //     .getMany();
+
+    // // Check if orders exist
+    // if (!orders || orders.length === 0) {
+    //     return ApiResponse.success("Records Not Found: Checkout our page enjoy shopping", null);
+    // }
+
+    // // Transform the result to match your original response structure
+    // const response = orders.map(order => ({
+    //     ...order,
+    //     items: order || []  // TypeORM automatically populates this
+    // }));
+
+    // return ApiResponse.success("Order detail fetched", response);
   }
 
   async markPaymentSuccessfull(orderId: number) {

@@ -4,6 +4,7 @@ import { OrdersService } from './services/orders.service';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateOrderSwagger } from './swagger/order_create.swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Request } from 'express';
 
 @UseGuards(JwtAuthGuard)    // this is protected API End Point
 @ApiBearerAuth()
