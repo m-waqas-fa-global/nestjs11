@@ -7,7 +7,7 @@ export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Get('get_user_stats')
-  findAll() {
+  findAll() {   
     return this.dashboardService.userStats();
   }
 

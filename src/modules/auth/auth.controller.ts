@@ -8,6 +8,8 @@ import { CreateUserDto } from './decorators/signup.swagger';
 import { LoginApiBodyDto } from './decorators/login.swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger'
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ForgotPasswordDto } from './dto/reset-password.dto';
 
 
 @Controller()
@@ -42,7 +44,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
   @ApiBearerAuth()
   @Get("lock_user/:id")
-  activeUser(@Param('id') user_id: string) {
+  activeUser(@Param('id') user_id: string) {  
     return this.authService.changeUserStatus(Number(user_id))
   }
 
@@ -52,11 +54,22 @@ export class AuthController {
   get_roles_permissions() {
     return this.authService.get_roles_permissions_list()
   }
-
-  @Get("change-password")
-  chnagePassword(){
+  
+  @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  @ApiBearerAuth()
+  @Post("change-password")
+  chnagePassword(@Body() body:ChangePasswordDto){
     return {
-      msg:"Chnage Password: API In Progress..."
+      msg:"Chnage Password: API In Progress...",
+      dta:body
+    }
+  }
+
+  @Post("forgot-password")
+  forgotPassword(@Body() body:ForgotPasswordDto){
+    return {
+      msg:"forgotPassword: API In Progress...",
+      dta:body
     }
   }
 

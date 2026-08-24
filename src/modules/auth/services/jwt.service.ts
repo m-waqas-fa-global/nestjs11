@@ -16,7 +16,7 @@ export class JwtAuthService{
         private readonly jwtService: JwtService,
     ){}
 
-    async generateJwtToken(payload:Object){
+    async generateJwtToken(payload:object){
        return await this.jwtService.sign(payload)
     }
 }
