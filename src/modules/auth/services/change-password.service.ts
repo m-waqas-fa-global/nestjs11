@@ -1,85 +1,104 @@
 // src/auth/auth.service.ts
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { ChangePasswordDto } from '../dto/change-password.dto';
 import { UsersEntity } from '../entities/signup.entity';
-
+import { changePassInterface } from '../interfaces/change-password.interface';
+import { HashService } from './hashing.service';
+import { ApiResponse } from '../../../common/helpers/api-response.helper';
+import { EmailService } from '../../notifications/services/email.service';
 
 @Injectable()
 export class ChangePasswordService {
-  private readonly logger = new Logger(ChangePasswordService.name);
-
   constructor(
     @InjectRepository(UsersEntity)
     private userRepository: Repository<UsersEntity>,
-  ) {}
+    // Hash Password Service:
+    private readonly hashSerice: HashService,
+    private readonly sendEmail: EmailService
+  ) { }
 
-  /**
-   * Change user password with comprehensive validation
-   * @param userId - ID of the user
-   * @param changePasswordDto - Password change data
-   * @returns Promise with change password result
-   */
-  async changePassword(
-    userId: string,
-    changePasswordDto: ChangePasswordDto,
-  ): Promise<any> {
-    const { current_password, new_password, confirm_password } = changePasswordDto;
+  // Chnages Password: 
+  async changePassword(userId: number, changePassBody: changePassInterface) {
+    // Destructure with proper variable naming
+    const { current_password, new_password, confirm_password } = changePassBody;
 
-    // Validate password confirmation
+    // Check if new password and confirm password match
     if (new_password !== confirm_password) {
-      this.logger.warn(`Password confirmation mismatch for user ID: ${userId}`);
-     
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'New password and confirm password do not match',
+        error: 'Bad Request'
+      });
     }
 
-    // Find user
-    const user = await this.userRepository.findOne({
+    // Get User From Database Table
+    const user: UsersEntity | null = await this.userRepository.findOne({
       where: { user_id: Number(userId) },
-      select: ['user_id', 'password', 'email'],
+      select: ['user_id', 'password', 'email']
     });
 
+    // Check if user exists
     if (!user) {
-      this.logger.error(`User not found with ID: ${userId}`);
-      throw new NotFoundException('User not found');
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'User not found',
+        error: 'Not Found'
+      });
     }
 
-    // Check if new password is different from current
-    const isSamePassword = await bcrypt.compare(new_password, user.password);
-    if (isSamePassword) {
-      this.logger.warn(`User attempted to use same password: ${userId}`);
-     
+    // Check if current password is correct
+    const isValidPassword = await this.hashSerice.isCompare(
+      current_password,
+      user.password
+    );
+
+    if (!isValidPassword) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Current password is incorrect',
+        error: 'Bad Request'
+      });
     }
 
-    // Verify current password
-    const isPasswordValid = await bcrypt.compare(current_password, user.password);
-    if (!isPasswordValid) {
-      this.logger.warn(`Invalid current password for user: ${userId}`);
-     
+    // Check if new password is same as current password
+    const isSamePassword = await this.hashSerice.isCompare(
+      new_password,
+      user.password
+    );
+
+    if (isSamePassword === true) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'New password must be different from current password',
+        error: 'Bad Request'
+      });
     }
 
+    // All checks are completed, update user password
     try {
-      // Hash new password
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(new_password, saltRounds);
+      const hashedPassword = await this.hashSerice.hashPassword(new_password);
 
       // Update password in database
       await this.userRepository.update(userId, {
         password: hashedPassword,
-        created_at: new Date(),
+        updated_at: new Date(),
       });
 
-      this.logger.log(`Password successfully changed for user: ${userId}`);
-
-      return {
-        success: true,
-        message: 'Password changed successfully',
-        timestamp: new Date(),
-      };
+      return ApiResponse.success('Password changed successfully');
     } catch (error:any) {
-      this.logger.error(`Failed to change password for user ${userId}: ${error.message}`);
-      throw error;
+      throw new InternalServerErrorException({
+        statusCode: 500,
+        message: 'Failed to update password. Please try again later.',
+        error: error.message
+      });
     }
   }
+
+  // Forgot Password:
+  async forgotPassword(){
+     return this.sendEmail.send()
+  }
+
+
 }

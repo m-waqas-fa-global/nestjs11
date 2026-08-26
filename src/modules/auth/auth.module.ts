@@ -11,6 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthService } from './services/jwt.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ChangePasswordService } from './services/change-password.service';
+import { EmailService } from '../notifications/services/email.service';
 
 const RBACEntities = [
   UsersEntity,           // users table entity:
@@ -36,7 +38,9 @@ const RBACEntities = [
     AuthService, 
     HashService , 
     JwtAuthService,
-    JwtStrategy       // JWT Strategy Serice for Verifyin thre incoming token
+    JwtStrategy,      // JWT Strategy Serice for Verifyin thre incoming token,
+    ChangePasswordService,
+    EmailService
   ],
   exports:[
     AuthService

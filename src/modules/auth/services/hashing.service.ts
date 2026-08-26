@@ -22,7 +22,7 @@ export class HashService {
       hash_password:string
      */
 
-    async isCompare(password:string,hash:string){ 
+    async isCompare(password:string,hash:string | any){ 
         const isMatch = await bcrypt.compare(password, hash);
         return isMatch;
     }

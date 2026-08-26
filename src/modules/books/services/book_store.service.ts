@@ -9,6 +9,7 @@ import { PublishersEntity } from '../entities/publishers.entity';
 import { BookReviewEntity } from '../../reviews/entities/book_reviews.entity';
 import { WishlistEntity } from '../../wish-list/entities/wishlists.entity';
 import { ApiResponse } from '../../../common/helpers/api-response.helper';
+import { WishListService } from '../../wish-list/services/wish-list.service';
 
 
 
@@ -61,7 +62,7 @@ export class BookStoreService {
         res: book
       };
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       throw new InternalServerErrorException(
         "Server Error! Unable to create book"
       );

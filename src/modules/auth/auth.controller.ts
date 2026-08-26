@@ -10,6 +10,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/reset-password.dto';
+import { ChangePasswordService } from './services/change-password.service';
 
 
 @Controller()
@@ -17,7 +18,7 @@ export class AuthController {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly hashPasswordService: HashService
+    private readonly changePassService: ChangePasswordService
   ) { }
 
   @Post("login")
@@ -58,15 +59,18 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
   @ApiBearerAuth()
   @Post("change-password")
-  chnagePassword(@Body() body:ChangePasswordDto){
-    return {
-      msg:"Chnage Password: API In Progress...",
-      dta:body
-    }
+  chnagePassword(@Body() body:ChangePasswordDto, @Req() req:any){
+    const userId = req.user.user_id;
+    return this.changePassService.changePassword( 
+      userId,
+      body
+    )
+    // return {msg:"Testing..."}
   }
 
   @Post("forgot-password")
   forgotPassword(@Body() body:ForgotPasswordDto){
+    return this.changePassService.forgotPassword()
     return {
       msg:"forgotPassword: API In Progress...",
       dta:body

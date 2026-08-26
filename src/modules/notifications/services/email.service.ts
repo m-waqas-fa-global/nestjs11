@@ -138,4 +138,11 @@ export class EmailService {
       );
     }
   }
+
+
+  send(){
+    return {
+      msg:"send email for OPT"
+    }
+  }
 }

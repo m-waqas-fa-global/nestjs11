@@ -36,6 +36,9 @@ export class UsersEntity {
   })
   is_active: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({select:false})
   created_at: Date;
+
+  @CreateDateColumn({select:false})
+  updated_at: Date;
 }

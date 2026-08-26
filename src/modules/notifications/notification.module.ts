@@ -8,5 +8,6 @@ import { HttpModule } from '@nestjs/axios';
   controllers: [NotificationEngineController],
   imports: [HttpModule, ConfigModule],
   providers: [EmailService, InboxSmsService],
+  exports:[EmailService]
 })
 export class NotificationEngineModule { }
