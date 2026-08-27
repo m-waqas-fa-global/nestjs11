@@ -6,7 +6,6 @@ import { UsersEntity } from '../entities/signup.entity';
 import { changePassInterface } from '../interfaces/change-password.interface';
 import { HashService } from './hashing.service';
 import { ApiResponse } from '../../../common/helpers/api-response.helper';
-import { EmailService } from '../../notifications/services/email.service';
 
 @Injectable()
 export class ChangePasswordService {
@@ -14,12 +13,14 @@ export class ChangePasswordService {
     @InjectRepository(UsersEntity)
     private userRepository: Repository<UsersEntity>,
     // Hash Password Service:
-    private readonly hashSerice: HashService,
-    private readonly sendEmail: EmailService
+    private readonly hashSerice: HashService
   ) { }
 
   // Chnages Password: 
-  async changePassword(userId: number, changePassBody: changePassInterface) {
+  async changePassword(
+    userId: number, 
+    changePassBody: changePassInterface
+  ) {
     // Destructure with proper variable naming
     const { current_password, new_password, confirm_password } = changePassBody;
 
@@ -94,11 +95,4 @@ export class ChangePasswordService {
       });
     }
   }
-
-  // Forgot Password:
-  async forgotPassword(){
-     return this.sendEmail.send()
-  }
-
-
 }

@@ -3,22 +3,24 @@ import { AuthService } from './services/auth.service';
 import { LoginDTO } from './dto/login.dto'
 import { SignUpDTO } from './dto/sign-up.dto';
 import { HashService } from './services/hashing.service';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './decorators/signup.swagger';
 import { LoginApiBodyDto } from './decorators/login.swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { ForgotPasswordDto } from './dto/reset-password.dto';
+import { ForgotPasswordDto, ResetPasswordDTO, VerifyOTPDTO } from './dto/reset-password.dto';
 import { ChangePasswordService } from './services/change-password.service';
-
+import { ResetPasswordService } from './services/reset-password.service';
 
 @Controller()
 export class AuthController {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly changePassService: ChangePasswordService
+    private readonly changePassService: ChangePasswordService,
+    private readonly resetPassService: ResetPasswordService,
+    
   ) { }
 
   @Post("login")
@@ -30,7 +32,6 @@ export class AuthController {
   @Post("sign_up")
   @ApiBody({ type: CreateUserDto })
   sign_up(@Body() body: SignUpDTO) {
-    // return { res: body, msg: "Sign Iup" }
     return this.authService.createUser(body)
   }
   
@@ -38,7 +39,6 @@ export class AuthController {
   @ApiBearerAuth()
   @Get("sign_up_list")
   getAll(@Req() req:any) {
-    // return {...req.user,msg:"user provided token"}
     return this.authService.getAllSignUsers()
   }
 
@@ -65,16 +65,32 @@ export class AuthController {
       userId,
       body
     )
-    // return {msg:"Testing..."}
+  }
+// ===========================================================================================================
+  // =========================== Reset Password End Ponits ===============================
+// ===========================================================================================================
+
+  @ApiTags('Recovery/Reset Password') // 👈 Group 1
+  @Post("forgot-password")
+  forgotPassword(@Body() body:ForgotPasswordDto){ 
+    return this.resetPassService.forgotPassword(body.email)
   }
 
-  @Post("forgot-password")
-  forgotPassword(@Body() body:ForgotPasswordDto){
-    return this.changePassService.forgotPassword()
-    return {
-      msg:"forgotPassword: API In Progress...",
-      dta:body
-    }
+  @ApiTags('Recovery/Reset Password') // 👈 Group 2
+  @Post("verify-reset-otp")
+  verifyPassword(@Body() body:VerifyOTPDTO){
+    return this.resetPassService.verifyOTP(
+      body.email,
+      body.otp
+    )
+  }
+  @ApiTags('Recovery/Reset Password') // 👈 Group 2
+  @Post("reset-password")
+  resetPassword(@Body() body:ResetPasswordDTO){
+    return this.resetPassService.resetPassword(
+      body.new_password,
+      body.reset_token
+    )
   }
 
 }

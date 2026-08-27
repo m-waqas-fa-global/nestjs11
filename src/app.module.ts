@@ -91,7 +91,7 @@ const ServeStatic = {
       }
     ]),
 
-    // NotificationEngineModule,
+    NotificationEngineModule,
     // MonitoringModule,
     // ReportsModule,
 

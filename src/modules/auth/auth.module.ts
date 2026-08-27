@@ -13,13 +13,16 @@ import { JwtAuthService } from './services/jwt.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ChangePasswordService } from './services/change-password.service';
 import { EmailService } from '../notifications/services/email.service';
+import { ResetPasswordService } from './services/reset-password.service';
+import { PasswordResetEntity } from './entities/password_reset_otps.entity';
 
 const RBACEntities = [
   UsersEntity,           // users table entity:
   RoleEntity,            // User Roles List Table:               // This Table has static content already created
   PermissionEntity,      // User Permission List Table:          // This Table has static content already created
   UserRoleEntity,        // User Assigned Roles Table
-  RolePermissionEntity   // User Assigned Permisssion Table
+  RolePermissionEntity,  // User Assigned Permisssion Table
+  PasswordResetEntity       // password recovery Table store generated OTP
 ]
 
 @Module({
@@ -40,7 +43,8 @@ const RBACEntities = [
     JwtAuthService,
     JwtStrategy,      // JWT Strategy Serice for Verifyin thre incoming token,
     ChangePasswordService,
-    EmailService
+    ResetPasswordService,
+    EmailService,
   ],
   exports:[
     AuthService

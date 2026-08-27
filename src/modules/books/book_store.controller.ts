@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Res, Req, UseGuards } from '@nestjs/common';
+import { 
+  Controller, 
+  Get, Post, 
+  Body, Patch, 
+  Param, Delete, 
+  ParseIntPipe, 
+  Res, Req, 
+  UseGuards 
+} from '@nestjs/common';
 import { BookStoreService } from './services/book_store.service';
 import { CreateBookDTO } from './dto/create-book.dto';
 import { UpdateBookStoreDto } from './dto/update-book.dto';
@@ -6,6 +14,9 @@ import { PdfService } from './services/pdf.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {ApiBearerAuth,ApiBody} from '@nestjs/swagger'
 import { CreateBookSwagger } from './swagger/create.book.swagger';
+
+    // console.log(`https://mylinkforall.com/products/little-babies-suits`);
+
 
 
 @Controller()
