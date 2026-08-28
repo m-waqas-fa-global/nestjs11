@@ -41,4 +41,7 @@ export class UsersEntity {
 
   @CreateDateColumn({select:false})
   updated_at: Date;
+
+  @CreateDateColumn({select:false})
+  password_reset_at: Date;
 }

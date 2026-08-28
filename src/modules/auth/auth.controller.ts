@@ -20,7 +20,6 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly changePassService: ChangePasswordService,
     private readonly resetPassService: ResetPasswordService,
-    
   ) { }
 
   @Post("login")
@@ -70,13 +69,13 @@ export class AuthController {
   // =========================== Reset Password End Ponits ===============================
 // ===========================================================================================================
 
-  @ApiTags('Recovery/Reset Password') // 👈 Group 1
   @Post("forgot-password")
   forgotPassword(@Body() body:ForgotPasswordDto){ 
-    return this.resetPassService.forgotPassword(body.email)
+    return this.resetPassService.forgotPassword(
+      body.email
+    )
   }
 
-  @ApiTags('Recovery/Reset Password') // 👈 Group 2
   @Post("verify-reset-otp")
   verifyPassword(@Body() body:VerifyOTPDTO){
     return this.resetPassService.verifyOTP(
@@ -84,7 +83,7 @@ export class AuthController {
       body.otp
     )
   }
-  @ApiTags('Recovery/Reset Password') // 👈 Group 2
+
   @Post("reset-password")
   resetPassword(@Body() body:ResetPasswordDTO){
     return this.resetPassService.resetPassword(

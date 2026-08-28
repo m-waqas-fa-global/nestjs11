@@ -13,7 +13,6 @@ export class HashService {
     async genPassSalt(){
       return await bcrypt.genSalt();
     }
-
     /**
     @author 
       M Waqas
@@ -21,9 +20,8 @@ export class HashService {
       current_password: string,
       hash_password:string
      */
-
     async isCompare(password:string,hash:string | any){ 
-        const isMatch = await bcrypt.compare(password, hash);
-        return isMatch;
+      const isMatch = await bcrypt.compare(password, hash);
+      return isMatch;
     }
 }

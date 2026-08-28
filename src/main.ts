@@ -6,6 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import session from 'express-session';
 import * as path from 'path';
 import { join } from 'path';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 function SwaggerConfig(app: INestApplication): void {
   const config = new DocumentBuilder()
@@ -103,6 +105,9 @@ async function bootstrap() {
 
   // Serve the public folder statically
   app.useStaticAssets(join(__dirname, '..', 'public'));
+
+
+  // app.useGlobalGuards(new JwtAuthGuard());
 
   await app.listen(process.env.PORT ?? 2000, () => {
     console.log(`Server is running on localhost:${process.env.PORT}`);

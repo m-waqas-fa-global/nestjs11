@@ -5,7 +5,6 @@ import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { WishlistSwagger } from './swagger/add.swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-
 @UseGuards(JwtAuthGuard)    // this is protected API End Point
 @ApiBearerAuth()
 @Controller('wish-list')
