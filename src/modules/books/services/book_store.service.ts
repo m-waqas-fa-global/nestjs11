@@ -61,7 +61,7 @@ export class BookStoreService {
         message: "Book Added Successfully",
         res: book
       };
-    } catch (error) {
+    } catch (error:any) {
       // console.log(error)
       throw new InternalServerErrorException(
         "Server Error! Unable to create book"

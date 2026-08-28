@@ -32,7 +32,7 @@ export class BookStoreController {
   @ApiBody({ type: CreateBookSwagger })
   @Post("create")
   create(@Body() createBookBody: CreateBookDTO) {
-    // return {res:"Responded!" , data: createBookBody }
+    return {res:"Responded!" , data: createBookBody }
     return this.bookStoreService.create(createBookBody);
   }
 
