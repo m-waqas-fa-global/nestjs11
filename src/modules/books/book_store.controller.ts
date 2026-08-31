@@ -5,15 +5,21 @@ import {
   Param, Delete, 
   ParseIntPipe, 
   Res, Req, 
-  UseGuards 
+  UseGuards, 
+  UseInterceptors,
+  UploadedFile,
+  ValidationPipe,
+  BadRequestException
 } from '@nestjs/common';
 import { BookStoreService } from './services/book_store.service';
-import { CreateBookDTO } from './dto/create-book.dto';
-import { UpdateBookStoreDto } from './dto/update-book.dto';
+import { CreateBookValidationDto } from './dto/create-book.dto';
 import { PdfService } from './services/pdf.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import {ApiBearerAuth,ApiBody} from '@nestjs/swagger'
+import {ApiBearerAuth,ApiBody, ApiConsumes} from '@nestjs/swagger'
 import { CreateBookSwagger } from './swagger/create.book.swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
+import { diskStorage } from 'multer';
 
     // console.log(`https://mylinkforall.com/products/little-babies-suits`);
 
@@ -29,11 +35,49 @@ export class BookStoreController {
   // ========================  Static API Methods  =========================
   // @UseGuards(JwtAuthGuard)    // this is protected API End Point
   // @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('cover_photo', {
+        storage: diskStorage({
+            // File Location for saving Images:
+            destination: './storage/books',    
+            // Create File Name for uplaoded Cover
+            filename: (req, file, cb) => {
+                // ✅ Generate 6-digit random number
+                const randomNumber = Math.floor(100000 + Math.random() * 900000);
+                const ext = extname(file.originalname);
+                cb(null, `cover-${randomNumber}${ext}`);
+            },
+        }),
+        // Validation Image Extension like png , jpg
+        fileFilter: (req, file, cb) => {    
+            const allowedMimes = ['image/jpg','image/jpeg','image/png'];     //
+            if (allowedMimes.includes(file.mimetype)) {
+                cb(null, true);
+            } else {
+                cb(new BadRequestException('Only JPG and PNG images are allowed'), false);
+            }
+        },
+        // Images Size Validation
+        limits: {
+            fileSize: 5 * 1024 * 1024, // 5MB
+        },
+  }))
   @ApiBody({ type: CreateBookSwagger })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors()
   @Post("create")
-  create(@Body() createBookBody: CreateBookDTO) {
-    return {res:"Responded!" , data: createBookBody }
-    return this.bookStoreService.create(createBookBody);
+  create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body(new ValidationPipe({ transform: true })) createBookDto: CreateBookValidationDto,
+  ) {
+    // check if image is not exist
+    if (!file) {
+      throw new BadRequestException('Book cover photo is required');
+    }
+    // return {res:"Responded: End Point Work In Progress" , data: createBookDto ,iMAGES:file}
+    return this.bookStoreService.createBookWithCover(
+      createBookDto,
+      file.path
+    );
   }
 
   @Get("get_all")
@@ -63,12 +107,12 @@ export class BookStoreController {
     return this.bookStoreService.getBookSingleDetail(+id,req.user.user_id);
   }
    
-  @UseGuards(JwtAuthGuard)    // this is protected API End Point
-  @ApiBearerAuth()
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookStoreDto: UpdateBookStoreDto) {
-    return this.bookStoreService.update(+id, updateBookStoreDto);
-  }
+  // @UseGuards(JwtAuthGuard)    // this is protected API End Point
+  // @ApiBearerAuth()
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateBookStoreDto: UpdateBookStoreDto) {
+  //   return this.bookStoreService.update(+id, updateBookStoreDto);
+  // }
 
   @UseGuards(JwtAuthGuard)    // this is protected API End Point
   @ApiBearerAuth()

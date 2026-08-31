@@ -2,7 +2,7 @@ import { Controller, Post } from "@nestjs/common";
 
 @Controller()
 export class UploadsController {
-    constructor() {}
+  constructor() {}
 
   @Post('uploads_cover_photo')
   cover_photo(){

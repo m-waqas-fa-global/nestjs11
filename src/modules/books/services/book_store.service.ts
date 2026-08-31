@@ -52,9 +52,13 @@ export class BookStoreService {
   }
 
   // ====================== Create New Book in DB =====================
-  async create(createBookBody: CreateBook) {
+  async createBookWithCover(createBookBody: CreateBook,fileName:string) {
     try {
-      const book = this.bookStoreRepo.create(createBookBody);
+      // Create Repo Object for Create 
+      const book = this.bookStoreRepo.create({
+        ...createBookBody,
+        cover_photo:fileName
+      });
       await this.bookStoreRepo.save(book);
       return {
         success: true,

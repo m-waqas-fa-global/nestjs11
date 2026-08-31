@@ -1,38 +1,61 @@
-import { IsNotEmpty, IsString, IsNumber, IsOptional } from "class-validator";
+// src/modules/books/dto/create-book-validation.dto.ts
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsNumber,
+  IsDateString,
+  IsInt,
+  Min,
+  IsPositive,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateBookDTO {
-    @IsString()
-    @IsNotEmpty()
-    title: string;
+export class CreateBookValidationDto {
+  @IsString()
+  @IsNotEmpty({ message: 'Title is required' })
+  title: string;
 
-    @IsString()
-    @IsNotEmpty()
-    subtitle: string;
+  @IsString()
+  @IsOptional()
+  subtitle: string;
 
-    @IsString()
-    @IsNotEmpty()
-    description: string;
+  @IsString()
+  @IsOptional()
+  description: string;
 
-    @IsOptional()
-    @IsString()
-    cover_photo: string | null;
+  @IsOptional()
+  cover_photo: string | null;
 
-    @IsNumber()
-    @IsNotEmpty()
-    price: number;
+  @IsNumber({}, { message: 'Price must be a number' })
+  @IsNotEmpty({ message: 'Price is required' })
+  @Min(0, { message: 'Price must be greater than or equal to 0' })
+  @Type(() => Number)
+  price: number;
 
-    @IsNotEmpty()
-    publication_date:Date;
+  @IsOptional()
+  @IsDateString({}, { message: 'Publication date must be a valid date (YYYY-MM-DD)' })
+  publication_date: Date;
 
-    @IsNumber()
-    pages:number
+  @IsOptional()
+  @IsInt({ message: 'Pages must be an integer' })
+  @IsPositive({ message: 'Pages must be a positive number' })
+  @Type(() => Number)
+  pages: number;
 
-    @IsString()
-    language:string
+  @IsString()
+  @IsOptional()
+  language: string;
 
-    @IsNumber()
-    author_id:number
+  @IsNumber({}, { message: 'Author ID must be a number' })
+  @IsNotEmpty({ message: 'Author ID is required' })
+  @IsPositive({ message: 'Author ID must be a positive number' })
+  @Type(() => Number)
+  author_id: number;
 
-    @IsNumber() 
-    publisher_id:number
+  @IsNumber({}, { message: 'Publisher ID must be a number' })
+  @IsNotEmpty({ message: 'Publisher ID is required' })
+  @IsPositive({ message: 'Publisher ID must be a positive number' })
+  @Type(() => Number)
+  publisher_id: number;
 }
