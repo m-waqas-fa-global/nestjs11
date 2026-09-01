@@ -67,11 +67,12 @@ function globalBodyValidation(app: INestApplication) {
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    //Hundle Compile Config Setting:
     logger: new ConsoleLogger({
       colors: true,
       json: false,
-      prefix: "NestJS Logs",
-      timestamp: false
+      prefix: "NestJS Compile",
+      timestamp: true
     }),
     // Enable Nest.js DEV Tools:
     // snapshot: true

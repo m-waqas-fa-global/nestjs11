@@ -10,6 +10,8 @@ import { BookReviewEntity } from '../../reviews/entities/book_reviews.entity';
 import { WishlistEntity } from '../../wish-list/entities/wishlists.entity';
 import { ApiResponse } from '../../../common/helpers/api-response.helper';
 import { WishListService } from '../../wish-list/services/wish-list.service';
+import { join } from 'path';
+import { unlink } from 'fs/promises';
 
 
 
@@ -52,12 +54,12 @@ export class BookStoreService {
   }
 
   // ====================== Create New Book in DB =====================
-  async createBookWithCover(createBookBody: CreateBook,fileName:string) {
+  async createBookWithCover(createBookBody: CreateBook, filePath:string) {
     try {
       // Create Repo Object for Create 
       const book = this.bookStoreRepo.create({
         ...createBookBody,
-        cover_photo:fileName
+        cover_photo:filePath
       });
       await this.bookStoreRepo.save(book);
       return {
@@ -66,7 +68,16 @@ export class BookStoreService {
         res: book
       };
     } catch (error:any) {
-      // console.log(error)
+        console.log(error)
+        const file = join(process.cwd(), filePath);
+        // ✅ Check if file exists before deleting
+        try {
+          await unlink(filePath);
+        } catch (error: any) {
+          // File doesn't exist or already deleted
+          console.warn(`Failed to delete file ${file}: ${error.message}`);
+        }
+
       throw new InternalServerErrorException(
         "Server Error! Unable to create book"
       );
