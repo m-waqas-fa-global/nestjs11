@@ -8,7 +8,6 @@ import { AuthorEntity } from './entities/authors.entity';
 import { PublishersEntity } from './entities/publishers.entity';
 import { BookReviewEntity } from '../reviews/entities/book_reviews.entity';
 import { WishlistEntity } from '../wish-list/entities/wishlists.entity';
-import { UploadsController } from './uploads.controller';
 
 const Entities = [
   BooksEntity,
@@ -22,7 +21,10 @@ const Entities = [
   imports: [
     TypeOrmModule.forFeature(Entities),
   ],
-  controllers: [BookStoreController,UploadsController],
+  controllers: [
+    BookStoreController,
+    // UploadsController
+  ],
   providers: [
     BookStoreService,
     PdfService,

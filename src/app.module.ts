@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
@@ -25,13 +25,16 @@ import { BookStoreModule } from './modules/books/book_store.module';
 import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { NotificationEngineModule } from './modules/notifications/notification.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { DbStatsService } from './common/services/DbStats.service';
 
 const dbConfig: TypeOrmModuleOptions | undefined = {
   type: 'sqlite',
-  database: 'database.sqlite',
+  database: 'database.sqlite',  //,  ':memory:'
   synchronize: true,
   autoLoadEntities: true,
 }
+
+
 const CacheConfig = {
   isGlobal: true, // Makes the cache instance available everywhere without re-importing
   useFactory: async () => ({
@@ -114,9 +117,24 @@ const ServeStatic = {
     {
       provide: APP_INTERCEPTOR,
       useClass: ApiLoggerInterceptor,
-    }
+    },
+    DbStatsService
   ],
 })
-export class AppModule {
-  constructor(readonly configService: ConfigService) { }
+export class AppModule implements OnModuleInit{
+  constructor(readonly configService: ConfigService,private readonly dbStatsService:DbStatsService) { }
+
+   // Added async keyword to safely block NestJS boot cycle until database tasks finish
+  async onModuleInit(): Promise<void> {
+    //  this.runRawQuery()
+  }
+
+  async runRawQuery(){
+    try {
+      await this.dbStatsService.backupAndDropTables('books', false);
+      console.log('Database maintenance completed successfully during bootstrap.');
+    } catch (error) {
+      console.error('Database maintenance failed during lifecycle startup:', error);
+    }
+  }
 }

@@ -7,7 +7,7 @@ import {
   DeleteDateColumn 
 } from 'typeorm';
 
-@Entity("book_store")   // book_store     // books
+@Entity("books")
 export class BooksEntity {
     // ========== Basic Books Details: ==============
     @PrimaryGeneratedColumn()
