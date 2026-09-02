@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateBook, UpdateBook } from '../interfaces/books.interface';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BooksEntity} from '../entities/books.entity';
+import { BooksEntity } from '../entities/books.entity';
 import { DataSource, FindManyOptions, Repository } from 'typeorm';
 
 import { AuthorEntity } from '../entities/authors.entity';
@@ -19,34 +19,34 @@ import { unlink } from 'fs/promises';
 export class BookStoreService {
 
   constructor(
-    @InjectRepository(BooksEntity) 
+    @InjectRepository(BooksEntity)
     private readonly bookStoreRepo: Repository<BooksEntity>,
 
-    @InjectRepository(AuthorEntity) 
+    @InjectRepository(AuthorEntity)
     private readonly autherRepo: Repository<AuthorEntity>,
 
-    @InjectRepository(PublishersEntity) 
+    @InjectRepository(PublishersEntity)
     private readonly publisherRepo: Repository<PublishersEntity>,
 
     @InjectRepository(WishlistEntity)
     private readonly wishlistRepo: Repository<WishlistEntity>,
 
     @InjectRepository(BookReviewEntity)
-    private readonly productReviewRepo:Repository<BookReviewEntity>,
+    private readonly productReviewRepo: Repository<BookReviewEntity>,
 
-    private dataSource:DataSource
-  ) {}
+    private dataSource: DataSource
+  ) { }
 
   async hardDeleteMultiple(): Promise<void> {
     // Executes: DELETE FROM user WHERE id IN (1, 2, 3...)
-    const ids = [14,15,16,17,18,19,20,21,22]
+    const ids = [14, 15, 16, 17, 18, 19, 20, 21, 22]
     await this.bookStoreRepo.delete(ids);
   }
 
-  async ExecuteRawQuery(){
+  async ExecuteRawQuery() {
     const qr = "SELECT * FROM book_store WHERE bk_id = 3"
-    const res =  await this.dataSource.query(qr)
-     if (res) {
+    const res = await this.dataSource.query(qr)
+    if (res) {
       return ApiResponse.success("Book Fetched Successfully", res)
     } else {
       return ApiResponse.error("No Book Found", 404)
@@ -54,33 +54,35 @@ export class BookStoreService {
   }
 
   // ====================== Create New Book in DB =====================
-  async createBookWithCover(createBookBody: CreateBook, filePath:string) {
+  async createBookWithCover(createBookBody: CreateBook, filePath: string) {
+    // Check author or publisher exist in Database or not:
+    const authorExists = await this.autherRepo.exists({ where: { author_id: createBookBody.author_id } });
+    const publisherExists = await this.publisherRepo.exists({ where: { publisher_id: createBookBody.publisher_id } });
+
+    if (!authorExists) {
+      throw new BadRequestException('The selected author does not exist.');
+    }
+    if (!publisherExists) {
+      throw new BadRequestException('The selected publisher does not exist.');
+    }
+
     try {
       // Create Repo Object for Create 
       const book = this.bookStoreRepo.create({
         ...createBookBody,
-        cover_photo:filePath
+        cover_photo: filePath
       });
       await this.bookStoreRepo.save(book);
-      return {
-        success: true,
-        message: "Book Added Successfully",
-        res: book
-      };
-    } catch (error:any) {
-        console.log(error)
-        const file = join(process.cwd(), filePath);
-        // ✅ Check if file exists before deleting
-        try {
-          await unlink(filePath);
-        } catch (error: any) {
-          // File doesn't exist or already deleted
-          console.warn(`Failed to delete file ${file}: ${error.message}`);
-        }
-
-      throw new InternalServerErrorException(
-        "Server Error! Unable to create book"
-      );
+      return ApiResponse.success("Book Added Successfully", book)
+    } catch (error: any) {
+      console.log(error)
+      const file = join(process.cwd(), filePath);
+      try {
+        await unlink(filePath);
+      } catch (error: any) {
+        console.warn(`Failed to delete file ${file}: ${error.message}`);
+      }
+      throw new InternalServerErrorException("Server Error! Unable to create book");
     }
   }
   // ====================== Get all books from DB =====================
@@ -105,24 +107,24 @@ export class BookStoreService {
     }
   }
   // ====================== Get single book by ID from DB =====================
-  async getBookSingleDetail(book_id: number,user_id:number) {
+  async getBookSingleDetail(book_id: number, user_id: number) {
     // Geting books basic details form books table:
     const book_basic_details = await this.bookStoreRepo.findOneBy({ bk_id: book_id });
     // Geting Author Details who writte this book:
-    const author = await this.autherRepo.findOneBy({author_id:book_basic_details?.author_id});
+    const author = await this.autherRepo.findOneBy({ author_id: book_basic_details?.author_id });
     // Geting Publisher Details who publis this book:
-    const publisher = await this.publisherRepo.findOneBy({publisher_id:book_basic_details?.publisher_id});
+    const publisher = await this.publisherRepo.findOneBy({ publisher_id: book_basic_details?.publisher_id });
     // This book(book_id) is added in wishlist by user:
-    const is_wishlist = await this.isWishlisted(user_id,book_id);
+    const is_wishlist = await this.isWishlisted(user_id, book_id);
     // Get Book Reviews From BooksReviewTable:
-    const product_review = await this.getReviewsList(user_id,book_id)
+    const product_review = await this.getReviewsList(user_id, book_id)
     // Build API Resposne:
     const response = {
       ...book_basic_details,
-      is_wishlist:is_wishlist,
+      is_wishlist: is_wishlist,
       author,
       publisher,
-      reviews:product_review?.length > 0 ? product_review : null,
+      reviews: product_review?.length > 0 ? product_review : null,
     }
     // Sends back to client:
     if (book_basic_details) {
@@ -175,31 +177,31 @@ export class BookStoreService {
     return stats
   }
 
-  async getAutherPublisher(){
+  async getAutherPublisher() {
     const author = await this.autherRepo.find();
     const pub = await this.publisherRepo.find();
     const res = {
       author,
       pub
-     }
-    return ApiResponse.success("Publisher and Author List Fetched",res)
+    }
+    return ApiResponse.success("Publisher and Author List Fetched", res)
   }
- //===============================================   Helper Methods ===========================================
+  //===============================================   Helper Methods ===========================================
   // Check whether a book is wishlisted
-  async isWishlisted(user_id:number,book_id:number):Promise<boolean>{
-    const listed =  await this.wishlistRepo.findOne({
-      where:{
-        user_id : user_id,
-        book_id : book_id
+  async isWishlisted(user_id: number, book_id: number): Promise<boolean> {
+    const listed = await this.wishlistRepo.findOne({
+      where: {
+        user_id: user_id,
+        book_id: book_id
       }
-     }) 
+    })
     return !!listed
   }
 
-  async getReviewsList(user_id:number,book_id:number){
-   return await this.productReviewRepo.find({
-      select:['created_at','is_approved','rating','review_text'],
-      where:{
+  async getReviewsList(user_id: number, book_id: number) {
+    return await this.productReviewRepo.find({
+      select: ['created_at', 'is_approved', 'rating', 'review_text'],
+      where: {
         user_id,
         book_id
       }
