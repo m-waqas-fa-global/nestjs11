@@ -46,21 +46,7 @@ They are 3 different to check apps depandancy graph of overall module and servic
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Compile Time Error
 [NestJS Logs] 29600  - 08/13/2026, 12:18:20 AM   ERROR [ExceptionHandler] UnknownDependenciesException [Error]: Nest can't resolve dependencies of the WishListService (?). Please make sure that the argument "WishlistEntityRepository" at index [0] is available in the BookStoreModule context.
 
 Potential solutions:
@@ -97,3 +83,5 @@ For more common dependency resolution issues, see: https://docs.nestjs.com/faq/c
     id: 'a6b4981a5a3de6738436f'
   }
 }
+
+1. UnknownDependenciesException

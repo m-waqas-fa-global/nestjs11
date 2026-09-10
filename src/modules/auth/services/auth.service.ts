@@ -112,7 +112,6 @@ export class AuthService {
     }
     // ============================================================================
 
-
     // ========== Create New User in Database: ===============
     async createUser(signUpData: SignUpBody) {
         let createdUser: any;
@@ -296,11 +295,13 @@ export class AuthService {
         )
     }
 
-    async getRegisteredUserCount(){
+    async getRegisteredUserStats(){
         return {
             total_user: await this.userTableRepo.count(),
-            active_user: 3,
+            active_user: await this.userTableRepo.count({ where: { is_active: true } }),
+            diabled_user: await this.userTableRepo.count({ where: { is_active: false } }),
         }
     }
-   
+
+    // Get User Statics for Dashboard Reporting:
 }

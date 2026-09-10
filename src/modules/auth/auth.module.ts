@@ -27,7 +27,7 @@ const RBACEntities = [
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([...RBACEntities]),
+    TypeOrmModule.forFeature([...RBACEntities]),    
     // Jwt Module:
     JwtModule.register({
       secret: 'mySuperSecretKey@098765',
@@ -47,7 +47,7 @@ const RBACEntities = [
     EmailService,
   ],
   exports:[
-    AuthService
+    AuthService,
   ]
 })
 export class AuthModule { }

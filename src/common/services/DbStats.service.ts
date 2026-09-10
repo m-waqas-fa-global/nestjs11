@@ -40,13 +40,13 @@ export class DbStatsService {
 
   //  Get All DB Statics
   async logCurrentStats() {
-    const stats = await this.getMetrics();
+    const data = await this.getMetrics();
     // console.log('--- SYSTEM DATABASE PERFORMANCE SNAPSHOT ---');
     // console.log(`Allocated RAM Target Size: ${stats.databaseSize}`);
     // console.log(`Total Number of Tables in SQLITE DB: ${stats.totalTablesCount}`);
     // console.log(`Active Table Records: ${JSON.stringify(stats.tablesDetails)}`);
     // console.log('---------------------------------------------');]
-    return stats;
+    return data;
   }
 
   async backupAndDropTables(tableName:string,tableBackUp:boolean = true): Promise<void> {

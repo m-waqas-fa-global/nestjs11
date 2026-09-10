@@ -8,9 +8,8 @@ import { GeneratorHelper } from '../../../common/helpers/generator.helper';
 import { PaymentService } from '../../payment/services/payment.service';
 import { OrderEntity } from '../entities/orders.entity';
 import { OrderItemEntity } from '../entities/order_items.entity';
-import { PaymentStatusEnum } from '../../payment/enums/enum';
-import { OrderStatusEnum } from '../enums/enums';
-import { AwsInstance } from 'twilio/lib/rest/accounts/v1/credential/aws';
+import { OrderStatusEnum } from '../../../common/enums/order.status.enum';
+import { PaymentStatusEnum } from '../../../common/enums/payment.status.enum';
 
 
 @Injectable()
@@ -138,19 +137,19 @@ export class OrdersService {
     // Get User Order form OrderTable:
     const orders = await this.orderTableRepo.find(
       {
-        where: {  
+        where: {
           user_id: userId
         }
       }
     )
     // Check if OrderTable is empty then throw exception don't break the next workflow:
     if (orders?.length === 0) {
-      return ApiResponse.success("Records Not Found: Checkout our page enjoy shoping",null)
+      return ApiResponse.success("Records Not Found: Checkout our page enjoy shoping", null)
     }
     // Get Order items from the orderItems Array:
     for (const order of orders) {
       const items = await this.orderItemsTableRepo.find({
-        select:['book_title','quantity','total_price','unit_price'],
+        select: ['book_title', 'quantity', 'total_price', 'unit_price'],
         where: {
           order_id: order?.order_id
         }
@@ -203,4 +202,19 @@ export class OrdersService {
       }
     )
   }
+
+  // =============================== Order Reporting Methods ======================================
+
+  async orderStatsReports() {
+    return {
+      totalOrders: await this.orderTableRepo.count() ?? 0,
+      totalAmt: (await this.orderTableRepo.sum('total_amount', { order_status: OrderStatusEnum.CONFIRMED })) ?? 0,
+      orderPending: await this.orderTableRepo.count({ where: { order_status: OrderStatusEnum.PENDING } }) ?? 0,
+      orderConfirmed: await this.orderTableRepo.count({ where: { order_status: OrderStatusEnum.CONFIRMED } }) ?? 0,
+      paymentConfirmed: await this.orderTableRepo.count({ where: { payment_status: PaymentStatusEnum.PAID } }) ?? 0,
+      paymentPending: await this.orderTableRepo.count({ where: { payment_status: PaymentStatusEnum.PENDING } }) ?? 0,
+    }
+  }
+
+
 }

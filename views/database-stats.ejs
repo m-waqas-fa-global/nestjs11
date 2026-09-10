@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Statistics(SQLITE)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    .summary {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .heading {
+      display: flex;
+      justify-content: center;
+      background: black;
+      color: white;
+      padding: 8px;
+      margin-top: 0;
+    }
+
+    .summary p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #3498db;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .total-row {
+      font-weight: bold;
+      background-color: #ecf0f1;
+    }
+
+    .no-size {
+      color: #999;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body style="margin-top: 0;">
+  <h1 class="heading">Database Statistics</h1>
+
+  <div class="summary">
+    <p><strong>Database Size:</strong>
+      <%= databaseSize %>
+    </p>
+    <p><strong>Total Tables:</strong>
+      <%= totalTablesCount %>
+    </p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Table Name</th>
+        <th>No of Rows</th>
+        <th>Table Size</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tablesDetails.forEach(function(table) { %>
+        <tr>
+          <td>
+            <%= table.table %>
+          </td>
+          <td>
+            <%= table.rows %>
+          </td>
+          <td>
+            <% if (table.size) { %>
+              <%= table.size %>
+                <% } else { %>
+                  <span class="no-size">N/A</span>
+                  <% } %>
+          </td>
+        </tr>
+        <% }); %>
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td>Total</td>
+        <td>
+          <%= tablesDetails.reduce(function(sum, t) { return sum + t.rows; }, 0) %>
+        </td>
+        <td>
+          <%= databaseSize %>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiExcludeController } from '@nestjs/swagger';
 import { DbStatsService } from './common/services/DbStats.service';
@@ -15,8 +15,10 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('get_db_stats')
+  @Get('/db-stats')
+  @Render("database-stats")
   async getDBStats() {
-    return await this.dbStatsService.logCurrentStats();
+    const data = await this.dbStatsService.logCurrentStats();
+    return data; 
   }
 }

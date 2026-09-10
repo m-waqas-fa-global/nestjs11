@@ -53,7 +53,7 @@ const ThrottleConfig =
     {
       name: 'default',
       ttl: 60000, // 1 minute
-      limit: 15,  // 10 requests per minute
+      limit: 10,  // 10 requests per minute
     }
 ]
 
@@ -89,7 +89,10 @@ const ServeStatic = {
             path: "books",
             module:BookStoreModule
           },
-          
+          {
+            path: "dashboard",
+            module:DashboardModule
+          },
         ]
       }
     ]),
@@ -105,7 +108,7 @@ const ServeStatic = {
     AuthModule,
     OrdersModule,
     PaymentModule,
-    // DashboardModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [
