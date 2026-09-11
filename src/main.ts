@@ -11,9 +11,9 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 function SwaggerConfig(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('NestJS Notify Service API')
+    .setTitle("NestJS ChapterOne API's")
     .setDescription(
-      'This Notify Service API allows you to send emails and SMS messages using the NestJS framework.',
+      'This is the API Service ChapterOne Beckend Server using the NestJS framework.',
     ).setVersion('4.0')
     .addTag('API Endpoints')
     .addBearerAuth(

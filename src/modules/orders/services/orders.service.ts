@@ -207,12 +207,12 @@ export class OrdersService {
 
   async orderStatsReports() {
     return {
-      totalOrders: await this.orderTableRepo.count() ?? 0,
-      totalAmt: (await this.orderTableRepo.sum('total_amount', { order_status: OrderStatusEnum.CONFIRMED })) ?? 0,
-      orderPending: await this.orderTableRepo.count({ where: { order_status: OrderStatusEnum.PENDING } }) ?? 0,
-      orderConfirmed: await this.orderTableRepo.count({ where: { order_status: OrderStatusEnum.CONFIRMED } }) ?? 0,
-      paymentConfirmed: await this.orderTableRepo.count({ where: { payment_status: PaymentStatusEnum.PAID } }) ?? 0,
-      paymentPending: await this.orderTableRepo.count({ where: { payment_status: PaymentStatusEnum.PENDING } }) ?? 0,
+      total_orders: await this.orderTableRepo.count() ?? 0,
+      total_amt: (await this.orderTableRepo.sum('total_amount', { order_status: OrderStatusEnum.CONFIRMED })) ?? 0,
+      order_pending: await this.orderTableRepo.count({ where: { order_status: OrderStatusEnum.PENDING } }) ?? 0,
+      order_confirmed: await this.orderTableRepo.count({ where: { order_status: OrderStatusEnum.CONFIRMED } }) ?? 0,
+      payment_confirmed: await this.orderTableRepo.count({ where: { payment_status: PaymentStatusEnum.PAID } }) ?? 0,
+      payment_pending: await this.orderTableRepo.count({ where: { payment_status: PaymentStatusEnum.PENDING } }) ?? 0,
     }
   }
 
