@@ -44,3 +44,22 @@ Check out a few resources that may come in handy when working with NestJS:
 - Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
 - Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
 
+
+
+## TypeORM Integration with Database Conections:
+```
+  TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'WaqasAli@968',   //  WaqasAli@968
+      database: 'cms_database',
+      autoLoadEntities: true,
+      synchronize: true,
+      // ssl: {    
+      //   rejectUnauthorized: true,
+      // },
+    }),
+
+```    
