@@ -16,10 +16,7 @@ export class PublishersEntity{
   })
   name: string;
   
-  @Column({
-      type: 'text',
-      default: null,
-  })
+  @Column({ type: 'varchar', length: 500, nullable: true })
   desc: string;
   
     // @Column({

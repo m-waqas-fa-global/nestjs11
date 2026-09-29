@@ -24,12 +24,7 @@ export class BooksEntity {
     })
     subtitle: string;
 
-    @Column({
-      type: 'text',
-      length:500,
-      nullable: true,
-      default: null,
-    })
+    @Column({ type: 'varchar', length: 500, nullable: true })
     description: string;
 
     @Column({

@@ -15,10 +15,10 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/db-stats')
-  @Render("database-stats")
-  async getDBStats() {
-    const data = await this.dbStatsService.logCurrentStats();
-    return data; 
-  }
+  // @Get('/db-stats')
+  // @Render("database-stats")
+  // async getDBStats() {
+  //   const data = await this.dbStatsService.logCurrentStats();
+  //   return data; 
+  // }
 }

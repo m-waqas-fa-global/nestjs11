@@ -16,7 +16,7 @@ import { ApiLoggerInterceptor } from './common/interceptors/api-logger.intercept
 import { JwtModule } from '@nestjs/jwt';
 import { ReportsModule } from './modules/reports/reports.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import path, { join } from 'path';
 import { OrdersModule } from './modules/orders/orders.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { BookReviewsModule } from './modules/reviews/book-reviews.module';
@@ -26,12 +26,25 @@ import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { NotificationEngineModule } from './modules/notifications/notification.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { DbStatsService } from './common/services/DbStats.service';
+import { DatabaseDumpService } from './database/Database dump/database.dump.service';
 
-const dbConfig: TypeOrmModuleOptions | undefined = {
-  type: 'sqlite',
-  database: 'database.sqlite',  //,  ':memory:'
-  synchronize: true,
+const dbConfig: TypeOrmModuleOptions = {
+  // type: 'sqlite',
+  // database: 'database.sqlite',  //,  ':memory:'
+  // synchronize: true,
+  // autoLoadEntities: true,
+
+  type: 'mysql',
+  host: process.env.DB_HOST ?? 'localhost',
+  port: Number(process.env.DB_PORT ?? 3306),
+  username: process.env.DB_USER ?? 'root',
+  password: process.env.DB_PASSWORD ?? 'WaqasAli@968',
+  database: process.env.DB_NAME ?? 'chapter_one_db',
+  synchronize: true,        // ⚠️ dev only – never true in production
   autoLoadEntities: true,
+  // charset: 'utf8mb4',
+  // timezone: 'Z',            // store/read dates as UTC
+  logging: false,
 }
 
 
@@ -121,23 +134,36 @@ const ServeStatic = {
       provide: APP_INTERCEPTOR,
       useClass: ApiLoggerInterceptor,
     },
-    DbStatsService
+    DbStatsService,
+    DatabaseDumpService
   ],
 })
 export class AppModule implements OnModuleInit{
-  constructor(readonly configService: ConfigService,private readonly dbStatsService:DbStatsService) { }
+  constructor(
+    readonly configService: ConfigService,
+    // private readonly dbStatsService:DbStatsService,
+    // private readonly dbdumpService:DatabaseDumpService
+  ) { }
 
    // Added async keyword to safely block NestJS boot cycle until database tasks finish
   async onModuleInit(): Promise<void> {
     //  this.runRawQuery()
+    // this.dbDumpFunc()       // Complete Database Dump in SQL File:
   }
 
-  async runRawQuery(){
-    try {
-      await this.dbStatsService.backupAndDropTables('books', false);
-      console.log('Database maintenance completed successfully during bootstrap.');
-    } catch (error) {
-      console.error('Database maintenance failed during lifecycle startup:', error);
-    }
-  }
+  // async runRawQuery(){
+  //   try {
+  //     await this.dbStatsService.backupAndDropTables('books', false);
+  //     console.log('Database maintenance completed successfully during bootstrap.');
+  //   } catch (error) {
+  //     console.error('Database maintenance failed during lifecycle startup:', error);
+  //   }
+  // }
+
+
+  // async dbDumpFunc(){
+  //    // Defines a path in your root project folder named 'backup-1718293.db'
+  //    const destination = path.join(process.cwd(), `sqlite-db-dump.sql`);
+  //   await this.dbdumpService.dumpSqliteToSqlFile(destination)
+  // }
 }

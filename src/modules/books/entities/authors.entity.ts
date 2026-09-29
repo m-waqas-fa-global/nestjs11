@@ -18,11 +18,7 @@ import {
     })
     name: string;
   
-    @Column({
-      type: 'text',
-      default: null,
-      length:150
-    })
+    @Column({ type: 'varchar', length: 500, nullable: true })
     bio: string;
   
     // @Column({
