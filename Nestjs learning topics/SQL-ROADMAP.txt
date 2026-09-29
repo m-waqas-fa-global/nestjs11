@@ -1,0 +1,457 @@
+SQL ROADMAP
+│
+├── 🟢 LEVEL 01 — DATABASE & SQL FUNDAMENTALS
+│   ├── Database Fundamentals
+│   │   ├── Database
+│   │   ├── DBMS
+│   │   ├── RDBMS
+│   │   ├── SQL vs NoSQL
+│   │   ├── Tables
+│   │   ├── Rows
+│   │   ├── Columns
+│   │   ├── Records
+│   │   ├── Schema
+│   │   ├── Primary Key
+│   │   ├── Foreign Key
+│   │   ├── Constraints
+│   │   └── Indexes
+│   │
+│   └── SQL Fundamentals
+│       ├── SELECT
+│       ├── FROM
+│       ├── WHERE
+│       ├── DISTINCT
+│       ├── ORDER BY
+│       ├── LIMIT
+│       ├── OFFSET
+│       ├── Aliases
+│       ├── SQL Keywords
+│       └── SQL Comments
+│
+├── 🟢 LEVEL 02 — FILTERING & DATA RETRIEVAL
+│   ├── Operators
+│   │   ├── Arithmetic Operators
+│   │   ├── Comparison Operators
+│   │   └── Logical Operators
+│   │
+│   └── Filtering
+│       ├── IN
+│       ├── NOT IN
+│       ├── BETWEEN
+│       ├── LIKE
+│       ├── NOT LIKE
+│       ├── Wildcards
+│       ├── IS NULL
+│       └── IS NOT NULL
+│
+├── 🟢 LEVEL 03 — SQL FUNCTIONS
+│   ├── String Functions
+│   │   ├── CONCAT
+│   │   ├── LOWER
+│   │   ├── UPPER
+│   │   ├── LENGTH
+│   │   ├── TRIM
+│   │   ├── SUBSTRING
+│   │   ├── REPLACE
+│   │   ├── LEFT
+│   │   └── RIGHT
+│   │
+│   ├── Numeric Functions
+│   │   ├── ROUND
+│   │   ├── CEIL
+│   │   ├── FLOOR
+│   │   ├── ABS
+│   │   ├── MOD
+│   │   └── POWER
+│   │
+│   ├── Date & Time Functions
+│   │   ├── NOW
+│   │   ├── CURRENT_DATE
+│   │   ├── CURRENT_TIME
+│   │   ├── YEAR
+│   │   ├── MONTH
+│   │   ├── DAY
+│   │   ├── Date Arithmetic
+│   │   ├── Date Comparison
+│   │   └── Date Formatting
+│   │
+│   └── NULL Functions
+│       ├── NULL
+│       ├── COALESCE
+│       └── NULLIF
+│
+├── 🟢 LEVEL 04 — DATA MODIFICATION
+│   ├── INSERT
+│   │   ├── Single Row
+│   │   ├── Multiple Rows
+│   │   ├── INSERT SELECT
+│   │   └── Default Values
+│   │
+│   ├── UPDATE
+│   │   ├── Single Column
+│   │   ├── Multiple Columns
+│   │   ├── Conditional UPDATE
+│   │   └── UPDATE Using Query
+│   │
+│   └── DELETE
+│       ├── Conditional DELETE
+│       ├── Multiple Row DELETE
+│       ├── DELETE vs TRUNCATE
+│       └── DELETE vs DROP
+│
+├── 🟡 LEVEL 05 — DATABASE DESIGN
+│   ├── Data Types
+│   │   ├── Numeric
+│   │   ├── String
+│   │   ├── Date & Time
+│   │   ├── Boolean
+│   │   ├── JSON
+│   │   └── ENUM
+│   │
+│   └── Constraints
+│       ├── PRIMARY KEY
+│       ├── FOREIGN KEY
+│       ├── UNIQUE
+│       ├── NOT NULL
+│       ├── DEFAULT
+│       └── CHECK
+│
+├── 🟡 LEVEL 06 — DATABASE RELATIONSHIPS
+│   ├── One-to-One
+│   ├── One-to-Many
+│   ├── Many-to-Many
+│   ├── Foreign Keys
+│   ├── Junction Tables
+│   ├── Referential Integrity
+│   ├── ON DELETE
+│   └── ON UPDATE
+│
+├── 🟡 LEVEL 07 — AGGREGATION
+│   ├── COUNT
+│   ├── SUM
+│   ├── AVG
+│   ├── MIN
+│   ├── MAX
+│   ├── GROUP BY
+│   │   ├── Single Column
+│   │   └── Multiple Columns
+│   └── HAVING
+│
+├── 🟡 LEVEL 08 — JOINS
+│   ├── INNER JOIN
+│   ├── LEFT JOIN
+│   ├── RIGHT JOIN
+│   ├── FULL OUTER JOIN
+│   ├── CROSS JOIN
+│   ├── SELF JOIN
+│   ├── Multiple JOINs
+│   └── JOIN Conditions
+│
+├── 🟡 LEVEL 09 — SUBQUERIES
+│   ├── Basic Subquery
+│   ├── Scalar Subquery
+│   ├── Single-Row Subquery
+│   ├── Multi-Row Subquery
+│   ├── Correlated Subquery
+│   ├── Nested Subquery
+│   ├── EXISTS
+│   ├── NOT EXISTS
+│   ├── IN
+│   └── NOT IN
+│
+├── 🟡 LEVEL 10 — SET OPERATIONS
+│   ├── UNION
+│   ├── UNION ALL
+│   ├── INTERSECT
+│   └── EXCEPT / MINUS
+│
+├── 🟠 LEVEL 11 — ADVANCED QUERYING
+│   ├── CASE
+│   │   ├── Simple CASE
+│   │   ├── Searched CASE
+│   │   └── Nested CASE
+│   │
+│   └── Common Table Expressions
+│       ├── Basic CTE
+│       ├── Multiple CTEs
+│       ├── CTE Chaining
+│       └── Recursive CTE
+│
+├── 🟠 LEVEL 12 — WINDOW FUNCTIONS
+│   ├── OVER
+│   ├── PARTITION BY
+│   ├── ORDER BY
+│   ├── Window Frames
+│   │   ├── ROWS
+│   │   └── RANGE
+│   │
+│   ├── Ranking Functions
+│   │   ├── ROW_NUMBER
+│   │   ├── RANK
+│   │   ├── DENSE_RANK
+│   │   └── NTILE
+│   │
+│   └── Analytical Functions
+│       ├── LAG
+│       ├── LEAD
+│       ├── FIRST_VALUE
+│       └── LAST_VALUE
+│
+├── 🟠 LEVEL 13 — VIEWS
+│   ├── Views
+│   │   ├── CREATE VIEW
+│   │   ├── Update View
+│   │   └── DROP VIEW
+│   │
+│   └── Materialized Views
+│       ├── Create
+│       ├── Refresh
+│       └── Drop
+│
+├── 🟠 LEVEL 14 — INDEXING
+│   ├── Index Fundamentals
+│   ├── B-Tree Index
+│   ├── Hash Index
+│   ├── Single-Column Index
+│   ├── Composite Index
+│   ├── Unique Index
+│   ├── Partial Index
+│   ├── Covering Index
+│   ├── Full-Text Index
+│   ├── Functional Index
+│   └── Index Column Order
+│
+├── 🔴 LEVEL 15 — QUERY PERFORMANCE
+│   ├── Query Parsing
+│   ├── Query Planner
+│   ├── Query Optimizer
+│   ├── Execution Plan
+│   ├── EXPLAIN
+│   ├── EXPLAIN ANALYZE
+│   ├── Table Scan
+│   ├── Index Scan
+│   ├── Index Lookup
+│   ├── Join Algorithms
+│   ├── Query Cost
+│   ├── Estimated Rows
+│   ├── Actual Rows
+│   ├── Sorting
+│   └── Temporary Tables
+│
+├── 🔴 LEVEL 16 — TRANSACTIONS
+│   ├── BEGIN
+│   ├── COMMIT
+│   ├── ROLLBACK
+│   ├── SAVEPOINT
+│   ├── ACID
+│   │   ├── Atomicity
+│   │   ├── Consistency
+│   │   ├── Isolation
+│   │   └── Durability
+│   └── Transaction Management
+│
+├── 🔴 LEVEL 17 — TRANSACTION ISOLATION
+│   ├── Read Uncommitted
+│   ├── Read Committed
+│   ├── Repeatable Read
+│   ├── Serializable
+│   ├── Snapshot Isolation
+│   ├── MVCC
+│   ├── Dirty Reads
+│   ├── Non-Repeatable Reads
+│   ├── Phantom Reads
+│   └── Lost Updates
+│
+├── 🔴 LEVEL 18 — LOCKING & CONCURRENCY
+│   ├── Shared Locks
+│   ├── Exclusive Locks
+│   ├── Row-Level Locking
+│   ├── Table-Level Locking
+│   ├── Pessimistic Locking
+│   ├── Optimistic Locking
+│   ├── Deadlocks
+│   ├── Deadlock Detection
+│   ├── Deadlock Prevention
+│   └── Lock Escalation
+│
+├── 🔴 LEVEL 19 — STORED PROCEDURES & FUNCTIONS
+│   ├── Stored Procedures
+│   │   ├── Parameters
+│   │   ├── Input Parameters
+│   │   ├── Output Parameters
+│   │   ├── Conditions
+│   │   ├── Loops
+│   │   └── Error Handling
+│   │
+│   └── User-Defined Functions
+│       ├── Scalar Functions
+│       ├── Table-Valued Functions
+│       ├── Function Parameters
+│       └── Return Values
+│
+├── 🔴 LEVEL 20 — TRIGGERS
+│   ├── BEFORE INSERT
+│   ├── AFTER INSERT
+│   ├── BEFORE UPDATE
+│   ├── AFTER UPDATE
+│   ├── BEFORE DELETE
+│   ├── AFTER DELETE
+│   ├── Trigger Conditions
+│   └── Trigger Management
+│
+├── 🔴 LEVEL 21 — DATABASE NORMALIZATION
+│   ├── Functional Dependencies
+│   ├── Data Redundancy
+│   ├── Insert Anomaly
+│   ├── Update Anomaly
+│   ├── Delete Anomaly
+│   ├── 1NF
+│   ├── 2NF
+│   ├── 3NF
+│   ├── BCNF
+│   ├── 4NF
+│   └── 5NF
+│
+├── 🔴 LEVEL 22 — DENORMALIZATION
+│   ├── Denormalization Concepts
+│   ├── Data Redundancy
+│   ├── Read Performance
+│   ├── Write Performance
+│   ├── Reporting Databases
+│   └── Normalization vs Denormalization
+│
+├── 🔴 LEVEL 23 — DATABASE ARCHITECTURE
+│   ├── Partitioning
+│   │   ├── Horizontal Partitioning
+│   │   ├── Vertical Partitioning
+│   │   ├── Range Partitioning
+│   │   ├── List Partitioning
+│   │   ├── Hash Partitioning
+│   │   └── Partition Pruning
+│   │
+│   └── Replication
+│       ├── Primary Database
+│       ├── Replica Database
+│       ├── Read Replicas
+│       ├── Replication Lag
+│       ├── Synchronous Replication
+│       ├── Asynchronous Replication
+│       └── Failover
+│
+├── 🔴 LEVEL 24 — DATABASE SCALING
+│   ├── Vertical Scaling
+│   ├── Horizontal Scaling
+│   ├── Read Scaling
+│   ├── Write Scaling
+│   ├── Connection Pooling
+│   ├── Load Balancing
+│   └── Database Sharding
+│       ├── Shard Key
+│       ├── Horizontal Sharding
+│       ├── Cross-Shard Queries
+│       └── Rebalancing
+│
+├── 🔴 LEVEL 25 — DATABASE SECURITY
+│   ├── Database Users
+│   ├── Database Roles
+│   ├── Permissions
+│   ├── GRANT
+│   ├── REVOKE
+│   ├── Least Privilege
+│   ├── Authentication
+│   ├── Authorization
+│   ├── SQL Injection
+│   ├── Parameterized Queries
+│   └── Prepared Statements
+│
+├── 🔴 LEVEL 26 — BACKUP & RECOVERY
+│   ├── Database Backup
+│   ├── Full Backup
+│   ├── Incremental Backup
+│   ├── Differential Backup
+│   ├── Database Restore
+│   ├── Point-in-Time Recovery
+│   ├── Disaster Recovery
+│   ├── Recovery Point Objective
+│   └── Recovery Time Objective
+│
+├── 🔴 LEVEL 27 — ADVANCED DATA MODELING
+│   ├── ER Diagrams
+│   ├── Entities
+│   ├── Attributes
+│   ├── Relationships
+│   ├── Cardinality
+│   ├── Optional Relationships
+│   ├── Junction Tables
+│   ├── Referential Integrity
+│   ├── Audit Tables
+│   └── Soft Deletes
+│
+├── 🔴 LEVEL 28 — SQL FOR REPORTING & ANALYTICS
+│   ├── Advanced Aggregation
+│   ├── GROUP BY
+│   ├── ROLLUP
+│   ├── CUBE
+│   ├── Window Functions
+│   ├── Running Totals
+│   ├── Moving Averages
+│   ├── Ranking
+│   ├── Percentiles
+│   ├── Cohort Analysis
+│   ├── Time-Series Analysis
+│   └── Pivot / Unpivot
+│
+├── 🔴 LEVEL 29 — ADVANCED SQL CONCEPTS
+│   ├── Recursive Queries
+│   ├── Recursive CTEs
+│   ├── JSON Queries
+│   ├── Full-Text Search
+│   ├── Geospatial Data
+│   ├── Array Types
+│   ├── Generated Columns
+│   ├── Computed Columns
+│   ├── Sequences
+│   ├── Identity Columns
+│   ├── Collations
+│   ├── Character Sets
+│   ├── Time Zones
+│   ├── Temporal Data
+│   ├── Audit Trails
+│   └── Change Data Capture
+│
+└── 🔴 LEVEL 30 — PRODUCTION SQL
+    ├── Performance
+    │   ├── Slow Query Analysis
+    │   ├── Index Optimization
+    │   ├── Query Optimization
+    │   ├── Execution Plans
+    │   ├── N+1 Queries
+    │   ├── Pagination
+    │   └── Cursor Pagination
+    │
+    ├── Reliability
+    │   ├── Transactions
+    │   ├── Deadlocks
+    │   ├── Retry Strategies
+    │   ├── Replication
+    │   ├── Failover
+    │   ├── Backups
+    │   └── Recovery
+    │
+    ├── Architecture
+    │   ├── Primary / Replica
+    │   ├── Read / Write Splitting
+    │   ├── Partitioning
+    │   ├── Sharding
+    │   ├── Caching
+    │   └── Distributed Databases
+    │
+    └── Monitoring
+        ├── Slow Query Logs
+        ├── Database Metrics
+        ├── Connection Monitoring
+        ├── Lock Monitoring
+        ├── CPU Monitoring
+        ├── Memory Monitoring
+        ├── Disk I/O
+        └── Query Latency
