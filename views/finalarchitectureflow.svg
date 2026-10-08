@@ -1,0 +1,342 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1320" width="100%" height="100%" style="background:#070a13; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgCanvas" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1021"/>
+      <stop offset="50%" stop-color="#060914"/>
+      <stop offset="100%" stop-color="#020408"/>
+    </linearGradient>
+
+    <!-- Phase Cards Gradients -->
+    <linearGradient id="cardP1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0e263d" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#081524" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="cardP2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f183c" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0e0a22" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="cardP3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#31171a" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#19090c" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="cardP4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c2920" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#051711" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowRose" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Arrow Marker -->
+    <marker id="cyanArrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <style>
+    .heading-text {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .body-text {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .mono-accent {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    @keyframes pulseDash {
+      0% { stroke-dashoffset: 60; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .conduit-flow {
+      stroke-dasharray: 6 8;
+      animation: pulseDash 1.5s linear infinite;
+    }
+  </style>
+
+  <!-- Background Base & Grid -->
+  <rect width="100%" height="100%" fill="url(#bgCanvas)"/>
+  <g opacity="0.05" stroke="#38bdf8" stroke-width="1">
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40"/>
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#gridPattern)"/>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- 1. TOP HEADER BANNER                                                   -->
+  <!-- ====================================================================== -->
+  <g transform="translate(60, 40)">
+    <rect width="1080" height="74" rx="14" fill="#0f172a" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.5"/>
+    <text x="540" y="44" fill="#38bdf8" class="heading-text" text-anchor="middle" letter-spacing="1.5">
+      END-TO-END DEPLOYMENT PIPELINE (STEP 1 TO STEP 11)
+    </text>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 2. PHASE 1: NEST.JS SERVER PREP                                        -->
+  <!-- ====================================================================== -->
+  <g transform="translate(60, 140)">
+    <!-- Container Card -->
+    <rect width="1080" height="215" rx="16" fill="url(#cardP1)" stroke="#0284c7" stroke-width="2" filter="url(#glowCyan)"/>
+    
+    <!-- Title Bar -->
+    <rect width="1080" height="46" rx="16" fill="#0369a1" fill-opacity="0.3"/>
+    <rect x="20" y="10" width="8" height="26" rx="4" fill="#38bdf8"/>
+    <text x="38" y="29" fill="#ffffff" class="heading-text">[ Phase 1: Nest.js Server Prep ]</text>
+    
+    <!-- Tech Logo Badges (Visual icons) -->
+    <g transform="translate(900, 10)">
+      <rect width="155" height="26" rx="6" fill="#0c1e30" stroke="#0284c7" stroke-width="0.8"/>
+      <circle cx="16" cy="13" r="5" fill="#e0234e"/>
+      <text x="26" y="17" fill="#fca5a5" font-size="10" font-weight="700">NestJS</text>
+      <circle cx="70" cy="13" r="5" fill="#22c55e"/>
+      <text x="80" y="17" fill="#86efac" font-size="10" font-weight="700">Node</text>
+      <circle cx="118" cy="13" r="5" fill="#38bdf8"/>
+      <text x="127" y="17" fill="#bae6fd" font-size="10" font-weight="700">PM2</text>
+    </g>
+
+    <!-- Phase 1 Body Text (Exact Word by Word) -->
+    <g transform="translate(38, 76)">
+      <!-- Logos Line -->
+      <text x="0" y="0" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="0" fill="#38bdf8" class="body-text" font-weight="700">Logos: </text>
+      <text x="80" y="0" fill="#e2e8f0" class="body-text">NestJS (Red Cat), Node.js (Green Hexagon), PM2 (Runtime)</text>
+
+      <!-- Step 1 -->
+      <text x="0" y="32" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="32" fill="#38bdf8" class="body-text" font-weight="700">Step 1: </text>
+      <text x="80" y="32" fill="#ffffff" class="body-text">Assign permanent static IP: <tspan fill="#38bdf8" class="mono-accent">192.168.1.100</tspan></text>
+
+      <!-- Step 2 -->
+      <text x="0" y="64" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="64" fill="#38bdf8" class="body-text" font-weight="700">Step 2: </text>
+      <text x="80" y="64" fill="#ffffff" class="body-text">Bind proxy server to <tspan fill="#38bdf8" class="mono-accent">0.0.0.0</tspan></text>
+
+      <!-- Step 3 -->
+      <text x="0" y="96" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="96" fill="#38bdf8" class="body-text" font-weight="700">Step 3: </text>
+      <text x="80" y="96" fill="#ffffff" class="body-text">Open inbound firewall ports (Proxy: <tspan fill="#38bdf8" class="mono-accent">3128</tspan>, Web UI: <tspan fill="#38bdf8" class="mono-accent">3000</tspan>)</text>
+
+      <!-- Step 4 -->
+      <text x="0" y="128" fill="#94a3b8" class="body-text">└─ </text>
+      <text x="24" y="128" fill="#38bdf8" class="body-text" font-weight="700">Step 4: </text>
+      <text x="80" y="128" fill="#ffffff" class="body-text">Run continuously via PM2 background daemon</text>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- CONNECTOR 1: GLOWING CYAN CONDUIT                                      -->
+  <!-- ====================================================================== -->
+  <g transform="translate(600, 355)">
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#0284c7" stroke-width="3"/>
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#38bdf8" stroke-width="3" class="conduit-flow" filter="url(#glowCyan)"/>
+    <polygon points="-6,48 6,48 0,58" fill="#38bdf8"/>
+    <rect x="25" y="14" width="200" height="26" rx="6" fill="#08233b" stroke="#0284c7" stroke-width="1"/>
+    <text x="125" y="32" fill="#38bdf8" class="body-text" font-size="12" font-weight="600" text-anchor="middle">▼ (Glowing Cyan Conduit)</text>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 3. PHASE 2: HOME ROUTER INTEGRATION                                    -->
+  <!-- ====================================================================== -->
+  <g transform="translate(60, 420)">
+    <!-- Container Card -->
+    <rect width="1080" height="215" rx="16" fill="url(#cardP2)" stroke="#8b5cf6" stroke-width="2" filter="url(#glowPurple)"/>
+    
+    <!-- Title Bar -->
+    <rect width="1080" height="46" rx="16" fill="#6d28d9" fill-opacity="0.3"/>
+    <rect x="20" y="10" width="8" height="26" rx="4" fill="#c4b5fd"/>
+    <text x="38" y="29" fill="#ffffff" class="heading-text">[ Phase 2: Home Router Integration ]</text>
+    
+    <!-- Tech Logo Badges -->
+    <g transform="translate(860, 10)">
+      <rect width="195" height="26" rx="6" fill="#140f2b" stroke="#7c3aed" stroke-width="0.8"/>
+      <circle cx="16" cy="13" r="5" fill="#a855f7"/>
+      <text x="26" y="17" fill="#e9d5ff" font-size="10" font-weight="700">Wi-Fi 6</text>
+      <circle cx="80" cy="13" r="5" fill="#38bdf8"/>
+      <text x="90" y="17" fill="#bae6fd" font-size="10" font-weight="700">OpenWrt</text>
+      <circle cx="152" cy="13" r="5" fill="#fbbf24"/>
+      <text x="162" y="17" fill="#fde68a" font-size="10" font-weight="700">Linux</text>
+    </g>
+
+    <!-- Phase 2 Body Text (Exact Word by Word) -->
+    <g transform="translate(38, 76)">
+      <!-- Logos Line -->
+      <text x="0" y="0" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="0" fill="#c4b5fd" class="body-text" font-weight="700">Logos: </text>
+      <text x="80" y="0" fill="#e2e8f0" class="body-text">Wi-Fi 6 Router, OpenWrt, Linux (Tux)</text>
+
+      <!-- Step 5 -->
+      <text x="0" y="32" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="32" fill="#c4b5fd" class="body-text" font-weight="700">Step 5: </text>
+      <text x="80" y="32" fill="#ffffff" class="body-text">Log into router admin dashboard (<tspan fill="#c4b5fd" class="mono-accent">192.168.1.1</tspan>)</text>
+
+      <!-- Step 6 -->
+      <text x="0" y="64" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="64" fill="#c4b5fd" class="body-text" font-weight="700">Step 6: </text>
+      <text x="80" y="64" fill="#ffffff" class="body-text">Configure DHCP Option 252 (WPAD auto-discovery URL)</text>
+
+      <!-- Step 7 -->
+      <text x="0" y="96" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="96" fill="#c4b5fd" class="body-text" font-weight="700">Step 7: </text>
+      <text x="80" y="96" fill="#ffffff" class="body-text">Apply iptables port redirection (Ports 80/443 -> <tspan fill="#c4b5fd" class="mono-accent">3128</tspan>)</text>
+
+      <!-- Step 8 -->
+      <text x="0" y="128" fill="#94a3b8" class="body-text">└─ </text>
+      <text x="24" y="128" fill="#c4b5fd" class="body-text" font-weight="700">Step 8: </text>
+      <text x="80" y="128" fill="#ffffff" class="body-text">Set default gateway to <tspan fill="#c4b5fd" class="mono-accent">192.168.1.100</tspan> (if acting as gateway)</text>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- CONNECTOR 2: GLOWING CYAN CONDUIT                                      -->
+  <!-- ====================================================================== -->
+  <g transform="translate(600, 635)">
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#0284c7" stroke-width="3"/>
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#38bdf8" stroke-width="3" class="conduit-flow" filter="url(#glowCyan)"/>
+    <polygon points="-6,48 6,48 0,58" fill="#38bdf8"/>
+    <rect x="25" y="14" width="200" height="26" rx="6" fill="#08233b" stroke="#0284c7" stroke-width="1"/>
+    <text x="125" y="32" fill="#38bdf8" class="body-text" font-size="12" font-weight="600" text-anchor="middle">▼ (Glowing Cyan Conduit)</text>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 4. PHASE 3: ROUTER FIREWALL BARRIER                                    -->
+  <!-- ====================================================================== -->
+  <g transform="translate(60, 700)">
+    <!-- Container Card -->
+    <rect width="1080" height="185" rx="16" fill="url(#cardP3)" stroke="#f43f5e" stroke-width="2" filter="url(#glowRose)"/>
+    
+    <!-- Title Bar -->
+    <rect width="1080" height="46" rx="16" fill="#be123c" fill-opacity="0.3"/>
+    <rect x="20" y="10" width="8" height="26" rx="4" fill="#fda4af"/>
+    <text x="38" y="29" fill="#ffffff" class="heading-text">[ Phase 3: Router Firewall Barrier ]</text>
+    
+    <!-- Element Tag Badge -->
+    <g transform="translate(860, 10)">
+      <rect width="195" height="26" rx="6" fill="#240c12" stroke="#f43f5e" stroke-width="0.8"/>
+      <circle cx="16" cy="13" r="5" fill="#f43f5e"/>
+      <text x="26" y="17" fill="#fecdd3" font-size="10" font-weight="700">Zero-Bypass Firewall</text>
+    </g>
+
+    <!-- Phase 3 Body Text (Exact Word by Word) -->
+    <g transform="translate(38, 76)">
+      <!-- Element Line -->
+      <text x="0" y="0" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="0" fill="#fda4af" class="body-text" font-weight="700">Element: </text>
+      <text x="96" y="0" fill="#e2e8f0" class="body-text">Glowing Cyber Shield &amp; Brick Barrier</text>
+
+      <!-- Step 9 -->
+      <text x="0" y="32" fill="#94a3b8" class="body-text">└─ </text>
+      <text x="24" y="32" fill="#fda4af" class="body-text" font-weight="700">Step 9: </text>
+      <text x="96" y="32" fill="#ffffff" class="body-text">Block direct outbound ports 80 &amp; 443 for all LAN clients</text>
+
+      <!-- Sub-description -->
+      <text x="96" y="62" fill="#fca5a5" class="body-text">(Only the Nest.js proxy server is permitted direct web egress)</text>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- CONNECTOR 3: GLOWING CYAN CONDUIT                                      -->
+  <!-- ====================================================================== -->
+  <g transform="translate(600, 885)">
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#0284c7" stroke-width="3"/>
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#38bdf8" stroke-width="3" class="conduit-flow" filter="url(#glowCyan)"/>
+    <polygon points="-6,48 6,48 0,58" fill="#38bdf8"/>
+    <rect x="25" y="14" width="200" height="26" rx="6" fill="#08233b" stroke="#0284c7" stroke-width="1"/>
+    <text x="125" y="32" fill="#38bdf8" class="body-text" font-size="12" font-weight="600" text-anchor="middle">▼ (Glowing Cyan Conduit)</text>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 5. PHASE 4: CLIENT VERIFICATION & ENFORCEMENT                          -->
+  <!-- ====================================================================== -->
+  <g transform="translate(60, 950)">
+    <!-- Container Card -->
+    <rect width="1080" height="255" rx="16" fill="url(#cardP4)" stroke="#10b981" stroke-width="2" filter="url(#glowGreen)"/>
+    
+    <!-- Title Bar -->
+    <rect width="1080" height="46" rx="16" fill="#047857" fill-opacity="0.3"/>
+    <rect x="20" y="10" width="8" height="26" rx="4" fill="#6ee7b7"/>
+    <text x="38" y="29" fill="#ffffff" class="heading-text">[ Phase 4: Client Verification &amp; Enforcement ]</text>
+    
+    <!-- Elements Tag Badge -->
+    <g transform="translate(860, 10)">
+      <rect width="195" height="26" rx="6" fill="#062319" stroke="#10b981" stroke-width="0.8"/>
+      <circle cx="16" cy="13" r="5" fill="#10b981"/>
+      <text x="26" y="17" fill="#a7f3d0" font-size="10" font-weight="700">Enforced Verification</text>
+    </g>
+
+    <!-- Phase 4 Body Text (Exact Word by Word) -->
+    <g transform="translate(38, 76)">
+      <!-- Elements Line -->
+      <text x="0" y="0" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="0" fill="#6ee7b7" class="body-text" font-weight="700">Elements: </text>
+      <text x="104" y="0" fill="#e2e8f0" class="body-text">Smartphones, Laptops, Wi-Fi Clients</text>
+
+      <!-- Step 10 -->
+      <text x="0" y="32" fill="#94a3b8" class="body-text">├─ </text>
+      <text x="24" y="32" fill="#6ee7b7" class="body-text" font-weight="700">Step 10: </text>
+      <text x="104" y="32" fill="#ffffff" class="body-text">Reconnect devices to Wi-Fi to pull proxy/DHCP parameters</text>
+
+      <!-- Step 11 -->
+      <text x="0" y="64" fill="#94a3b8" class="body-text">└─ </text>
+      <text x="24" y="64" fill="#6ee7b7" class="body-text" font-weight="700">Step 11: </text>
+      <text x="104" y="64" fill="#ffffff" class="body-text">Test web filtering:</text>
+
+      <!-- Sub-bullet 1: Allowed web traffic -->
+      <g transform="translate(104, 96)">
+        <text x="0" y="0" fill="#6ee7b7" class="body-text">• </text>
+        <text x="16" y="0" fill="#e2e8f0" class="body-text">Allowed web traffic ──> </text>
+        <text x="200" y="0" fill="#4ade80" class="body-text" font-weight="700">✅ Green check </text>
+        <text x="320" y="0" fill="#a7f3d0" class="body-text">(passed through proxy)</text>
+      </g>
+
+      <!-- Sub-bullet 2: Blocked social media -->
+      <g transform="translate(104, 126)">
+        <text x="0" y="0" fill="#f87171" class="body-text">• </text>
+        <text x="16" y="0" fill="#e2e8f0" class="body-text">Blocked social media ──> </text>
+        <text x="210" y="0" fill="#f87171" class="body-text" font-weight="700">🛡️ 403 Forbidden Red Shield </text>
+        <text x="440" y="0" fill="#fca5a5" class="body-text">(dropped)</text>
+      </g>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 6. FOOTER BAR                                                          -->
+  <!-- ====================================================================== -->
+  <g transform="translate(60, 1260)">
+    <line x1="0" y1="0" x2="1080" y2="0" stroke="#1e293b" stroke-width="1"/>
+    <text x="0" y="24" fill="#64748b" class="body-text" font-size="12">ShieldFlow Proxy • Final Architecture Flow • Verified Word-by-Word Specification</text>
+    <text x="1080" y="24" fill="#38bdf8" class="body-text" font-size="12" font-weight="700" text-anchor="end">FINAL ARCHITECTURE FLOW v2.0</text>
+  </g>
+
+</svg>

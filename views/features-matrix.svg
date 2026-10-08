@@ -1,0 +1,314 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#090d16; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgCanvas" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#070a13"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <!-- Card 1: Cyan (Security) -->
+    <linearGradient id="cardCyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0e2338" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#081422" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Card 2: Amber (Traffic Control) -->
+    <linearGradient id="cardAmber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a1e0d" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#181105" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Card 3: Emerald (Enterprise Protocols) -->
+    <linearGradient id="cardEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c2720" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#051612" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowAmber" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowEmerald" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes subtlePulse {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+    @keyframes flowLine {
+      0% { stroke-dashoffset: 120; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .badge {
+      transition: all 0.3s ease;
+    }
+    .badge:hover {
+      filter: brightness(1.25);
+      cursor: pointer;
+    }
+    .flow-bus {
+      stroke-dasharray: 6 10;
+      animation: flowLine 2s linear infinite;
+    }
+  </style>
+
+  <!-- Background Base -->
+  <rect width="100%" height="100%" fill="url(#bgCanvas)"/>
+
+  <!-- Matrix Blueprint Grid -->
+  <g opacity="0.06" stroke="#38bdf8" stroke-width="1">
+    <pattern id="gridPattern" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48"/>
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#gridPattern)"/>
+  </g>
+
+  <!-- TOP HEADER CONTAINER -->
+  <g transform="translate(60, 45)">
+    <!-- Header Border Frame -->
+    <rect width="1080" height="74" rx="14" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b" stroke-width="1.5"/>
+    
+    <!-- Title and Subtitle -->
+    <text x="540" y="36" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="1.5">
+      SHIELDFLOW GLOBAL TRAFFIC CONTROLLER
+    </text>
+    <text x="540" y="58" fill="#94a3b8" font-size="12" font-weight="500" text-anchor="middle" letter-spacing="0.5">
+      Core Enterprise Capabilities Matrix • Layer 7 Policy Enforcement • Quality of Service • Global Edge Mesh
+    </text>
+
+    <!-- Top Status Indicator -->
+    <circle cx="36" cy="37" r="6" fill="#10b981" filter="url(#glowEmerald)"/>
+    <text x="50" y="41" fill="#10b981" font-size="11" font-weight="600">ONLINE</text>
+    <text x="1044" y="41" fill="#64748b" font-size="11" font-weight="600" text-anchor="end">v2.0 ENTERPRISE SPEC</text>
+  </g>
+
+
+  <!-- ================================================================ -->
+  <!-- COLUMN 1: SECURITY & L7 FIREWALL -->
+  <!-- ================================================================ -->
+  <g transform="translate(60, 145)">
+    <!-- Card Frame -->
+    <rect width="340" height="460" rx="18" fill="url(#cardCyan)" stroke="#0284c7" stroke-width="2" filter="url(#glowCyan)"/>
+    
+    <!-- Header Banner -->
+    <rect width="340" height="76" rx="18" fill="#0369a1" fill-opacity="0.25"/>
+    
+    <!-- Shield Icon Graphic -->
+    <g transform="translate(24, 20)">
+      <path d="M 18 4 L 4 10 L 4 22 C 4 31 10 39 18 42 C 26 39 32 31 32 22 L 32 10 Z" 
+            fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="2.2"/>
+      <path d="M 12 21 L 16 25 L 24 17" fill="none" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <text x="74" y="38" fill="#ffffff" font-size="16" font-weight="700">Security &amp; Firewall</text>
+    <text x="74" y="56" fill="#7dd3fc" font-size="11" font-weight="500">Layer 7 Deep Inspection</text>
+
+    <!-- Pillar Feature List -->
+    <!-- Feature 1 -->
+    <g transform="translate(24, 96)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#082f49" fill-opacity="0.85" stroke="#0284c7" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="36" y="25" fill="#f0f9ff" font-size="13" font-weight="600">Dynamic Rules &amp; Policies</text>
+      <text x="36" y="42" fill="#7dd3fc" font-size="10.5">PostgreSQL/Redis backed regex &amp; wildcard rules</text>
+    </g>
+
+    <!-- Feature 2 -->
+    <g transform="translate(24, 162)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#082f49" fill-opacity="0.85" stroke="#0284c7" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="36" y="25" fill="#f0f9ff" font-size="13" font-weight="600">Automated Threat Feeds</text>
+      <text x="36" y="42" fill="#7dd3fc" font-size="10.5">Auto-pull Spamhaus, PhishTank, malware lists</text>
+    </g>
+
+    <!-- Feature 3 -->
+    <g transform="translate(24, 228)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#082f49" fill-opacity="0.85" stroke="#0284c7" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="36" y="25" fill="#f0f9ff" font-size="13" font-weight="600">Client Authentication</text>
+      <text x="36" y="42" fill="#7dd3fc" font-size="10.5">Proxy-Auth (Basic, JWT, LDAP &amp; Active Directory)</text>
+    </g>
+
+    <!-- Feature 4 -->
+    <g transform="translate(24, 294)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#082f49" fill-opacity="0.85" stroke="#0284c7" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="36" y="25" fill="#f0f9ff" font-size="13" font-weight="600">Schedule &amp; Time Rules</text>
+      <text x="36" y="42" fill="#7dd3fc" font-size="10.5">Time-based access (e.g. block video during work)</text>
+    </g>
+
+    <!-- Feature 5 -->
+    <g transform="translate(24, 360)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#082f49" fill-opacity="0.85" stroke="#0284c7" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="36" y="25" fill="#f0f9ff" font-size="13" font-weight="600">Subnet CIDR Whitelisting</text>
+      <text x="36" y="42" fill="#7dd3fc" font-size="10.5">Enforce strict LAN subnet boundaries</text>
+    </g>
+
+    <!-- Bottom Accent Pill -->
+    <rect x="24" y="426" width="292" height="6" rx="3" fill="#0284c7"/>
+  </g>
+
+
+  <!-- ================================================================ -->
+  <!-- COLUMN 2: TRAFFIC CONTROL & QOS -->
+  <!-- ================================================================ -->
+  <g transform="translate(430, 145)">
+    <!-- Card Frame -->
+    <rect width="340" height="460" rx="18" fill="url(#cardAmber)" stroke="#d97706" stroke-width="2" filter="url(#glowAmber)"/>
+    
+    <!-- Header Banner -->
+    <rect width="340" height="76" rx="18" fill="#b45309" fill-opacity="0.25"/>
+    
+    <!-- Lightning Bolt Icon Graphic -->
+    <g transform="translate(26, 18)">
+      <path d="M 22 4 L 8 22 L 18 22 L 14 42 L 30 20 L 19 20 Z" 
+            fill="#d97706" fill-opacity="0.4" stroke="#fbbf24" stroke-width="2.2" stroke-linejoin="round"/>
+    </g>
+
+    <text x="74" y="38" fill="#ffffff" font-size="16" font-weight="700">Traffic Control &amp; QoS</text>
+    <text x="74" y="56" fill="#fde68a" font-size="11" font-weight="500">Bandwidth &amp; Rate Shaping</text>
+
+    <!-- Pillar Feature List -->
+    <!-- Feature 1 -->
+    <g transform="translate(24, 96)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#451a03" fill-opacity="0.85" stroke="#d97706" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#fbbf24"/>
+      <text x="36" y="25" fill="#fffbeb" font-size="13" font-weight="600">Token-Bucket Rate Limiting</text>
+      <text x="36" y="42" fill="#fde68a" font-size="10.5">Prevent request flooding &amp; DoS attacks</text>
+    </g>
+
+    <!-- Feature 2 -->
+    <g transform="translate(24, 162)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#451a03" fill-opacity="0.85" stroke="#d97706" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#fbbf24"/>
+      <text x="36" y="25" fill="#fffbeb" font-size="13" font-weight="600">Bandwidth Caps &amp; Shaping</text>
+      <text x="36" y="42" fill="#fde68a" font-size="10.5">Throttle streaming/gaming to reserve work lines</text>
+    </g>
+
+    <!-- Feature 3 -->
+    <g transform="translate(24, 228)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#451a03" fill-opacity="0.85" stroke="#d97706" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#fbbf24"/>
+      <text x="36" y="25" fill="#fffbeb" font-size="13" font-weight="600">User Data Quota</text>
+      <text x="36" y="42" fill="#fde68a" font-size="10.5">Daily/monthly data limits per client MAC/user</text>
+    </g>
+
+    <!-- Feature 4 -->
+    <g transform="translate(24, 294)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#451a03" fill-opacity="0.85" stroke="#d97706" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#fbbf24"/>
+      <text x="36" y="25" fill="#fffbeb" font-size="13" font-weight="600">Smart Cache Acceleration</text>
+      <text x="36" y="42" fill="#fde68a" font-size="10.5">Redis/disk caching for repeat static downloads</text>
+    </g>
+
+    <!-- Feature 5 -->
+    <g transform="translate(24, 360)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#451a03" fill-opacity="0.85" stroke="#d97706" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#fbbf24"/>
+      <text x="36" y="25" fill="#fffbeb" font-size="13" font-weight="600">Connection Pool Optimizer</text>
+      <text x="36" y="42" fill="#fde68a" font-size="10.5">TCP keep-alive pooling &amp; socket reuse</text>
+    </g>
+
+    <!-- Bottom Accent Pill -->
+    <rect x="24" y="426" width="292" height="6" rx="3" fill="#d97706"/>
+  </g>
+
+
+  <!-- ================================================================ -->
+  <!-- COLUMN 3: ENTERPRISE PROTOCOLS & EDGE ARCHITECTURE -->
+  <!-- ================================================================ -->
+  <g transform="translate(800, 145)">
+    <!-- Card Frame -->
+    <rect width="340" height="460" rx="18" fill="url(#cardEmerald)" stroke="#059669" stroke-width="2" filter="url(#glowEmerald)"/>
+    
+    <!-- Header Banner -->
+    <rect width="340" height="76" rx="18" fill="#047857" fill-opacity="0.25"/>
+    
+    <!-- Globe Icon Graphic -->
+    <g transform="translate(24, 20)">
+      <circle cx="18" cy="20" r="16" fill="#059669" fill-opacity="0.3" stroke="#34d399" stroke-width="2"/>
+      <ellipse cx="18" cy="20" rx="7" ry="16" fill="none" stroke="#34d399" stroke-width="1.5"/>
+      <line x1="2" y1="20" x2="34" y2="20" stroke="#34d399" stroke-width="1.5"/>
+    </g>
+
+    <text x="74" y="38" fill="#ffffff" font-size="16" font-weight="700">Enterprise Protocols</text>
+    <text x="74" y="56" fill="#a7f3d0" font-size="11" font-weight="500">Global Mesh &amp; DNS Sinkhole</text>
+
+    <!-- Pillar Feature List -->
+    <!-- Feature 1 -->
+    <g transform="translate(24, 96)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#064e3b" fill-opacity="0.85" stroke="#059669" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#34d399"/>
+      <text x="36" y="25" fill="#ecfdf5" font-size="13" font-weight="600">Integrated DNS Sinkhole</text>
+      <text x="36" y="42" fill="#a7f3d0" font-size="10.5">Embedded UDP 53 resolver to block at DNS stage</text>
+    </g>
+
+    <!-- Feature 2 -->
+    <g transform="translate(24, 162)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#064e3b" fill-opacity="0.85" stroke="#059669" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#34d399"/>
+      <text x="36" y="25" fill="#ecfdf5" font-size="13" font-weight="600">TLS SNI Sniffer</text>
+      <text x="36" y="42" fill="#a7f3d0" font-size="10.5">Inspect TLS ClientHello domain without decryption</text>
+    </g>
+
+    <!-- Feature 3 -->
+    <g transform="translate(24, 228)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#064e3b" fill-opacity="0.85" stroke="#059669" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#34d399"/>
+      <text x="36" y="25" fill="#ecfdf5" font-size="13" font-weight="600">Transparent Interception</text>
+      <text x="36" y="42" fill="#a7f3d0" font-size="10.5">iptables REDIRECT / TPROXY with zero client setup</text>
+    </g>
+
+    <!-- Feature 4 -->
+    <g transform="translate(24, 294)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#064e3b" fill-opacity="0.85" stroke="#059669" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#34d399"/>
+      <text x="36" y="25" fill="#ecfdf5" font-size="13" font-weight="600">Control vs Data Plane Split</text>
+      <text x="36" y="42" fill="#a7f3d0" font-size="10.5">NestJS Management + High-speed Edge Proxying</text>
+    </g>
+
+    <!-- Feature 5 -->
+    <g transform="translate(24, 360)" class="badge">
+      <rect width="292" height="54" rx="10" fill="#064e3b" fill-opacity="0.85" stroke="#059669" stroke-width="1"/>
+      <circle cx="20" cy="27" r="4.5" fill="#34d399"/>
+      <text x="36" y="25" fill="#ecfdf5" font-size="13" font-weight="600">Global Edge Clustering</text>
+      <text x="36" y="42" fill="#a7f3d0" font-size="10.5">Multi-core Node.js cluster &amp; Redis synchronization</text>
+    </g>
+
+    <!-- Bottom Accent Pill -->
+    <rect x="24" y="426" width="292" height="6" rx="3" fill="#059669"/>
+  </g>
+
+
+  <!-- FOOTER CONNECTING BUS -->
+  <g transform="translate(60, 622)">
+    <line x1="170" y1="0" x2="1010" y2="0" stroke="#334155" stroke-width="2"/>
+    <line x1="170" y1="0" x2="1010" y2="0" stroke="#38bdf8" stroke-width="2" class="flow-bus"/>
+    <circle cx="170" cy="0" r="5" fill="#38bdf8"/>
+    <circle cx="600" cy="0" r="5" fill="#fbbf24"/>
+    <circle cx="1010" cy="0" r="5" fill="#34d399"/>
+    <text x="590" y="22" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">UNIFIED DISTRIBUTED CONTROL BUS</text>
+  </g>
+
+</svg>

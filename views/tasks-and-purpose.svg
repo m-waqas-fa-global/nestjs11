@@ -1,0 +1,350 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 940" width="100%" height="100%" style="background:#070a12; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a101f"/>
+      <stop offset="45%" stop-color="#060913"/>
+      <stop offset="100%" stop-color="#020408"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="cardPurpose" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0e2439" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#081421" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="cardTasks" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c2921" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#051712" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="cardPipeline" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f1a3a" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0e0c1f" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="cardRoadmap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a1e0c" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#160f04" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowAmber" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes pulseLine {
+      0% { stroke-dashoffset: 120; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .flow-dash {
+      stroke-dasharray: 6 10;
+      animation: pulseLine 2s linear infinite;
+    }
+    .badge-item {
+      transition: all 0.25s ease;
+    }
+    .badge-item:hover {
+      filter: brightness(1.25);
+    }
+  </style>
+
+  <!-- Base Grid Background -->
+  <rect width="100%" height="100%" fill="url(#bgDeep)"/>
+
+  <g opacity="0.05" stroke="#38bdf8" stroke-width="1">
+    <pattern id="matrixGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40"/>
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#matrixGrid)"/>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- 1. TOP HEADER                                                          -->
+  <!-- ====================================================================== -->
+  <g transform="translate(50, 40)">
+    <rect width="1200" height="80" rx="16" fill="#0f172a" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.5"/>
+    
+    <!-- Status Icon -->
+    <circle cx="36" cy="40" r="7" fill="#10b981" filter="url(#glowGreen)"/>
+    <circle cx="36" cy="40" r="14" fill="none" stroke="#10b981" stroke-width="1.2" opacity="0.5"/>
+
+    <!-- Main Title -->
+    <text x="64" y="36" fill="#ffffff" font-size="21" font-weight="800" letter-spacing="1">
+      SHIELDFLOW GATEWAY &amp; FIREWALL — PURPOSE, TASKS &amp; ARCHITECTURE
+    </text>
+    <text x="64" y="58" fill="#94a3b8" font-size="12" font-weight="500">
+      Enterprise Forward Proxy • Layer 7 Domain Firewall • L3/L4 Network Gateway • Complete Implementation Record
+    </text>
+
+    <!-- Meta Tags -->
+    <rect x="990" y="24" width="180" height="32" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="1080" y="44" fill="#38bdf8" font-size="11.5" font-weight="700" text-anchor="middle">
+      GATEWAY SUITE v2.0
+    </text>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 2. SECTION A (TOP-LEFT): CORE PURPOSE & NETWORK ROLE                   -->
+  <!-- ====================================================================== -->
+  <g transform="translate(50, 140)">
+    <rect width="585" height="340" rx="16" fill="url(#cardPurpose)" stroke="#0284c7" stroke-width="2" filter="url(#glowCyan)"/>
+    
+    <!-- Header Bar -->
+    <rect width="585" height="60" rx="16" fill="#0369a1" fill-opacity="0.25"/>
+    <text x="28" y="38" fill="#38bdf8" font-size="16" font-weight="800" letter-spacing="0.5">
+      🎯 CORE PURPOSE OF SHIELDFLOW PROXY
+    </text>
+    <text x="555" y="38" fill="#7dd3fc" font-size="11" font-weight="600" text-anchor="end">PRIMARY ROLES</text>
+
+    <!-- Purpose 1: Gateway Security -->
+    <g transform="translate(24, 76)" class="badge-item">
+      <rect width="537" height="54" rx="10" fill="#0b2238" stroke="#0369a1" stroke-width="1"/>
+      <circle cx="22" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="38" y="24" fill="#ffffff" font-size="13" font-weight="700">Perimeter Gateway &amp; Single Egress Anchor</text>
+      <text x="38" y="42" fill="#93c5fd" font-size="11">Funnel all LAN outbound traffic through a single controlled gateway (Dual-NIC NAT setup).</text>
+    </g>
+
+    <!-- Purpose 2: Zero-Trust Domain Firewall -->
+    <g transform="translate(24, 138)" class="badge-item">
+      <rect width="537" height="54" rx="10" fill="#0b2238" stroke="#0369a1" stroke-width="1"/>
+      <circle cx="22" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="38" y="24" fill="#ffffff" font-size="13" font-weight="700">Zero-Trust Layer 7 Domain &amp; Content Firewall</text>
+      <text x="38" y="42" fill="#93c5fd" font-size="11">Inspect requested domains in HTTP and HTTPS CONNECT tunnels; terminate blocked requests instantly.</text>
+    </g>
+
+    <!-- Purpose 3: Centralized Traffic Governance -->
+    <g transform="translate(24, 200)" class="badge-item">
+      <rect width="537" height="54" rx="10" fill="#0b2238" stroke="#0369a1" stroke-width="1"/>
+      <circle cx="22" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="38" y="24" fill="#ffffff" font-size="13" font-weight="700">Traffic Governance &amp; Productivity Protection</text>
+      <text x="38" y="42" fill="#93c5fd" font-size="11">Eliminate bandwidth waste on unauthorized social media, streaming, gaming, and malicious domains.</text>
+    </g>
+
+    <!-- Purpose 4: Transparent / Auto-Discovery Access -->
+    <g transform="translate(24, 262)" class="badge-item">
+      <rect width="537" height="54" rx="10" fill="#0b2238" stroke="#0369a1" stroke-width="1"/>
+      <circle cx="22" cy="27" r="4.5" fill="#38bdf8"/>
+      <text x="38" y="24" fill="#ffffff" font-size="13" font-weight="700">Network Auto-Discovery (Zero Client Config)</text>
+      <text x="38" y="42" fill="#93c5fd" font-size="11">Distribute proxy rules to LAN clients seamlessly via DHCP Option 252 (WPAD / PAC autoconfig).</text>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 3. SECTION B (TOP-RIGHT): OPERATIONAL LIFECYCLE (HOW PACKETS FLOW)     -->
+  <!-- ====================================================================== -->
+  <g transform="translate(665, 140)">
+    <rect width="585" height="340" rx="16" fill="url(#cardPipeline)" stroke="#8b5cf6" stroke-width="2" filter="url(#glowPurple)"/>
+    
+    <!-- Header Bar -->
+    <rect width="585" height="60" rx="16" fill="#6d28d9" fill-opacity="0.25"/>
+    <text x="28" y="38" fill="#c4b5fd" font-size="16" font-weight="800" letter-spacing="0.5">
+      🔄 GATEWAY OPERATIONAL PIPELINE
+    </text>
+    <text x="555" y="38" fill="#ddd6fe" font-size="11" font-weight="600" text-anchor="end">PACKET LIFECYCLE</text>
+
+    <!-- Step 1 -->
+    <g transform="translate(24, 76)">
+      <rect width="537" height="48" rx="8" fill="#140f2b" stroke="#7c3aed" stroke-width="1"/>
+      <rect x="12" y="10" width="28" height="28" rx="6" fill="#6d28d9"/>
+      <text x="26" y="28" fill="#ffffff" font-size="12" font-weight="800" text-anchor="middle">1</text>
+      <text x="52" y="23" fill="#ffffff" font-size="12" font-weight="700">Client Egress Generation</text>
+      <text x="52" y="38" fill="#c4b5fd" font-size="10.5">Device sends request to Default Gateway IP 192.168.1.1 (or proxy :3128)</text>
+    </g>
+
+    <!-- Step 2 -->
+    <g transform="translate(24, 132)">
+      <rect width="537" height="48" rx="8" fill="#140f2b" stroke="#7c3aed" stroke-width="1"/>
+      <rect x="12" y="10" width="28" height="28" rx="6" fill="#6d28d9"/>
+      <text x="26" y="28" fill="#ffffff" font-size="12" font-weight="800" text-anchor="middle">2</text>
+      <text x="52" y="23" fill="#ffffff" font-size="12" font-weight="700">iptables / NAT Boundary Filtering</text>
+      <text x="52" y="38" fill="#c4b5fd" font-size="10.5">Kernel blocks direct outbound 80/443; forces packets to ShieldFlow Proxy (:3128)</text>
+    </g>
+
+    <!-- Step 3 -->
+    <g transform="translate(24, 188)">
+      <rect width="537" height="48" rx="8" fill="#140f2b" stroke="#7c3aed" stroke-width="1"/>
+      <rect x="12" y="10" width="28" height="28" rx="6" fill="#6d28d9"/>
+      <text x="26" y="28" fill="#ffffff" font-size="12" font-weight="800" text-anchor="middle">3</text>
+      <text x="52" y="23" fill="#ffffff" font-size="12" font-weight="700">ShieldFlow L7 Rule Evaluation</text>
+      <text x="52" y="38" fill="#c4b5fd" font-size="10.5">DomainBlockService inspects target host (Exact &amp; Subdomain match: *.facebook.com)</text>
+    </g>
+
+    <!-- Step 4: Branch -->
+    <g transform="translate(24, 244)">
+      <!-- Left: Blocked Drop -->
+      <rect width="260" height="74" rx="8" fill="#250e14" stroke="#ef4444" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#ef4444" font-size="11.5" font-weight="800">🛑 IF MATCHED BLOCKLIST:</text>
+      <text x="14" y="42" fill="#fca5a5" font-size="10.5">• Return 403 Forbidden</text>
+      <text x="14" y="58" fill="#fca5a5" font-size="10.5">• Destroy client TCP socket immediately</text>
+
+      <!-- Right: Allowed Egress -->
+      <rect x="275" width="262" height="74" rx="8" fill="#09271d" stroke="#10b981" stroke-width="1.2"/>
+      <text x="289" y="24" fill="#10b981" font-size="11.5" font-weight="800">✅ IF AUTHORIZED DOMAIN:</text>
+      <text x="289" y="42" fill="#a7f3d0" font-size="10.5">• HTTP 200 Tunnel Established</text>
+      <text x="289" y="58" fill="#a7f3d0" font-size="10.5">• Stream piped through NIC 2 (WAN / Internet)</text>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 4. SECTION C (BOTTOM-LEFT): TASKS PERFORMED IN THIS PROJECT            -->
+  <!-- ====================================================================== -->
+  <g transform="translate(50, 500)">
+    <rect width="585" height="385" rx="16" fill="url(#cardTasks)" stroke="#059669" stroke-width="2" filter="url(#glowGreen)"/>
+    
+    <!-- Header Bar -->
+    <rect width="585" height="60" rx="16" fill="#047857" fill-opacity="0.25"/>
+    <text x="28" y="38" fill="#34d399" font-size="16" font-weight="800" letter-spacing="0.5">
+      ✅ TASKS &amp; FEATURES IMPLEMENTED
+    </text>
+    <text x="555" y="38" fill="#a7f3d0" font-size="11" font-weight="600" text-anchor="end">COMPLETED WORK</text>
+
+    <!-- Task 1 -->
+    <g transform="translate(24, 74)">
+      <circle cx="10" cy="14" r="5" fill="#10b981"/>
+      <text x="24" y="16" fill="#ecfdf5" font-size="12" font-weight="700">HTTP &amp; HTTPS Tunneling Core (ProxyService)</text>
+      <text x="24" y="31" fill="#6ee7b7" font-size="10.5">Built http.createServer + CONNECT socket piping on TCP port 3128.</text>
+    </g>
+
+    <!-- Task 2 -->
+    <g transform="translate(24, 122)">
+      <circle cx="10" cy="14" r="5" fill="#10b981"/>
+      <text x="24" y="16" fill="#ecfdf5" font-size="12" font-weight="700">Domain Blocking Engine (DomainBlockService)</text>
+      <text x="24" y="31" fill="#6ee7b7" font-size="10.5">Implemented sub-domain wildcard &amp; exact hostname filter against blacklist.</text>
+    </g>
+
+    <!-- Task 3 -->
+    <g transform="translate(24, 170)">
+      <circle cx="10" cy="14" r="5" fill="#10b981"/>
+      <text x="24" y="16" fill="#ecfdf5" font-size="12" font-weight="700">Gateway, NAT &amp; iptables Specification</text>
+      <text x="24" y="31" fill="#6ee7b7" font-size="10.5">Designed Dual-NIC router setup, IP forwarding, NAT masquerade &amp; port 80/443 blocks.</text>
+    </g>
+
+    <!-- Task 4 -->
+    <g transform="translate(24, 218)">
+      <circle cx="10" cy="14" r="5" fill="#10b981"/>
+      <text x="24" y="16" fill="#ecfdf5" font-size="12" font-weight="700">WPAD / PAC Auto-Discovery Architecture</text>
+      <text x="24" y="31" fill="#6ee7b7" font-size="10.5">Specified DHCP Option 252 and /wpad.dat script for zero-touch client proxy onboarding.</text>
+    </g>
+
+    <!-- Task 5 -->
+    <g transform="translate(24, 266)">
+      <circle cx="10" cy="14" r="5" fill="#10b981"/>
+      <text x="24" y="16" fill="#ecfdf5" font-size="12" font-weight="700">Interactive Architecture &amp; Matrix Views</text>
+      <text x="24" y="31" fill="#6ee7b7" font-size="10.5">Created features-matrix.svg, network-diagram.svg, features-matrix.ejs &amp; /matrix route.</text>
+    </g>
+
+    <!-- Task 6 -->
+    <g transform="translate(24, 314)">
+      <circle cx="10" cy="14" r="5" fill="#10b981"/>
+      <text x="24" y="16" fill="#ecfdf5" font-size="12" font-weight="700">Web Dashboard &amp; REST Control Surface</text>
+      <text x="24" y="31" fill="#6ee7b7" font-size="10.5">EJS control dashboard on :3000, blocked domains table, live health APIs &amp; modal.</text>
+    </g>
+  </g>
+
+
+  <!-- ====================================================================== -->
+  <!-- 5. SECTION D (BOTTOM-RIGHT): PROPOSED ENTERPRISE ROADMAP               -->
+  <!-- ====================================================================== -->
+  <g transform="translate(665, 500)">
+    <rect width="585" height="385" rx="16" fill="url(#cardRoadmap)" stroke="#d97706" stroke-width="2" filter="url(#glowAmber)"/>
+    
+    <!-- Header Bar -->
+    <rect width="585" height="60" rx="16" fill="#b45309" fill-opacity="0.25"/>
+    <text x="28" y="38" fill="#fbbf24" font-size="16" font-weight="800" letter-spacing="0.5">
+      🚀 PROPOSED ROADMAP &amp; TARGET FEATURES
+    </text>
+    <text x="555" y="38" fill="#fde68a" font-size="11" font-weight="600" text-anchor="end">NEXT MILESTONES</text>
+
+    <!-- Proposal 1 -->
+    <g transform="translate(24, 74)">
+      <rect x="0" y="2" width="22" height="22" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+      <text x="11" y="17" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">P1</text>
+      <text x="32" y="16" fill="#fffbeb" font-size="12" font-weight="700">Database Persistence (PostgreSQL &amp; Redis)</text>
+      <text x="32" y="31" fill="#fde68a" font-size="10.5">Replace hardcoded arrays with dynamic CRUD APIs, regex patterns &amp; category tags.</text>
+    </g>
+
+    <!-- Proposal 2 -->
+    <g transform="translate(24, 122)">
+      <rect x="0" y="2" width="22" height="22" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+      <text x="11" y="17" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">P2</text>
+      <text x="32" y="16" fill="#fffbeb" font-size="12" font-weight="700">Embedded DNS Sinkhole (UDP Port 53)</text>
+      <text x="32" y="31" fill="#fde68a" font-size="10.5">Intercept DNS lookups directly to drop threats before TCP connections are even opened.</text>
+    </g>
+
+    <!-- Proposal 3 -->
+    <g transform="translate(24, 170)">
+      <rect x="0" y="2" width="22" height="22" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+      <text x="11" y="17" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">P3</text>
+      <text x="32" y="16" fill="#fffbeb" font-size="12" font-weight="700">Token-Bucket Rate Limiting &amp; QoS Bandwidth Caps</text>
+      <text x="32" y="31" fill="#fde68a" font-size="10.5">Protect against DDoS, throttle video streaming &amp; enforce daily per-client quotas.</text>
+    </g>
+
+    <!-- Proposal 4 -->
+    <g transform="translate(24, 218)">
+      <rect x="0" y="2" width="22" height="22" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+      <text x="11" y="17" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">P4</text>
+      <text x="32" y="16" fill="#fffbeb" font-size="12" font-weight="700">TLS SNI Packet Sniffing (Transparent Proxying)</text>
+      <text x="32" y="31" fill="#fde68a" font-size="10.5">Parse TLS ClientHello domains from raw intercepted sockets without client setup.</text>
+    </g>
+
+    <!-- Proposal 5 -->
+    <g transform="translate(24, 266)">
+      <rect x="0" y="2" width="22" height="22" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+      <text x="11" y="17" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">P5</text>
+      <text x="32" y="16" fill="#fffbeb" font-size="12" font-weight="700">Proxy Authentication &amp; CIDR Subnet Control</text>
+      <text x="32" y="31" fill="#fde68a" font-size="10.5">Integrate JWT/LDAP user identity and block non-corporate IP ranges.</text>
+    </g>
+
+    <!-- Proposal 6 -->
+    <g transform="translate(24, 314)">
+      <rect x="0" y="2" width="22" height="22" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+      <text x="11" y="17" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">P6</text>
+      <text x="32" y="16" fill="#fffbeb" font-size="12" font-weight="700">Multi-Core Edge Cluster &amp; Control/Data Plane Split</text>
+      <text x="32" y="31" fill="#fde68a" font-size="10.5">Node.js cluster workers + Redis pub/sub sync for high-throughput global scale.</text>
+    </g>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- 6. FOOTER BAR                                                          -->
+  <!-- ====================================================================== -->
+  <g transform="translate(50, 900)">
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="#1e293b" stroke-width="1"/>
+    <text x="0" y="20" fill="#64748b" font-size="11">ShieldFlow Proxy Project • Comprehensive Gateway &amp; Firewall Architecture Blueprint</text>
+    <text x="1200" y="20" fill="#38bdf8" font-size="11" font-weight="600" text-anchor="end">CONFIDENTIAL &amp; ARCHITECTURAL SPECIFICATION</text>
+  </g>
+
+</svg>
