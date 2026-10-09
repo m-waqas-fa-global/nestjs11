@@ -1,0 +1,158 @@
+================================================================================
+          SHIELDFLOW PROXY — PUBLISHING & ROUTER SETUP GUIDE
+================================================================================
+
+This guide provides the complete, step-by-step setup to publish the ShieldFlow 
+Proxy on your local home network (LAN) and connect it with your router/devices 
+for domain blocklisting.
+
+--------------------------------------------------------------------------------
+PART 1: SHORTEST WAY TO PUBLISH THE PROXY (LAN / LOCAL SERVER)
+--------------------------------------------------------------------------------
+
+Publishing the proxy makes it reachable by other devices on your home network.
+
+Step 1: Build & Launch Proxy Server
+-----------------------------------
+Open PowerShell in the project directory and run:
+
+  npm run build
+  npx pm2 start dist/main.js --name "shield-proxy"
+
+  # (Alternative without PM2):
+  # npm run start:prod
+
+When started, ShieldFlow runs two services simultaneously:
+  - Port 3000 : Web Management Dashboard & PAC service (/proxy.pac)
+  - Port 3128 : HTTP & HTTPS CONNECT Proxy Server
+
+
+Step 2: Find Your Computer's LAN IP Address
+-------------------------------------------
+Run in PowerShell:
+
+  ipconfig
+
+Look for your active Wi-Fi or Ethernet adapter and copy the IPv4 Address:
+  Example: 192.168.1.50
+
+
+Step 3: Allow Inbound Traffic in Windows Firewall
+-------------------------------------------------
+Allow incoming connections on proxy port 3128 through Windows Firewall:
+
+  netsh advfirewall firewall add rule name="ShieldFlow Proxy" dir=in action=allow protocol=TCP localport=3128
+
+Your proxy is now published and active on your home network:
+  - Proxy IP   : 192.168.1.50   (Replace with your PC's IP)
+  - Proxy Port : 3128
+
+
+--------------------------------------------------------------------------------
+PART 2: HOW TO ADD THIS PROXY TO YOUR HOME ROUTER
+--------------------------------------------------------------------------------
+
+IMPORTANT NOTE ON CONSUMER ROUTERS:
+Standard home routers (TP-Link, D-Link, Huawei, Netgear, ZTE) route Layer 3/4 
+IP packets and do NOT provide a single "WAN HTTP Proxy" setting. 
+Choose the method below that matches your network:
+
+================================================================================
+METHOD A: Router DHCP Option 252 (WPAD Auto-Discovery)
+================================================================================
+Recommended for routers supporting custom DHCP options. Automatically configures 
+all connected phones and PCs without manual device setup.
+
+1. Open your browser and go to your router gateway:
+   http://192.168.1.1 (or http://192.168.0.1)
+
+2. Log in and navigate to:
+   DHCP Server Settings -> Advanced / DHCP Options
+
+3. Add Option 252:
+   - Option Code : 252
+   - Value / URL : http://192.168.1.50:3000/proxy.pac
+
+4. Save and reboot your router. Any client connecting to Wi-Fi will automatically 
+   route matching traffic through the proxy.
+
+
+================================================================================
+METHOD B: Advanced Routers (OpenWrt / DD-WRT / MikroTik / AsusWRT)
+================================================================================
+If your router runs custom Linux firmware, redirect outbound HTTP/HTTPS traffic 
+directly to your proxy IP and port using iptables firewall rules:
+
+  # Redirect HTTP (Port 80)
+  iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 80 -j DNAT --to-destination 192.168.1.50:3128
+
+  # Redirect HTTPS (Port 443)
+  iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 443 -j DNAT --to-destination 192.168.1.50:3128
+
+
+================================================================================
+METHOD C: Direct Device Wi-Fi Proxy Setup (Simplest & Universal)
+================================================================================
+Works on ANY standard home router without modifying router settings:
+
+1. Connect your device (Phone, Tablet, Laptop, or PC) to home Wi-Fi.
+2. Open Wi-Fi Network Settings -> Details / Modify Network -> Proxy Settings.
+3. Switch Proxy from "None" to "Manual":
+   - Proxy Hostname / IP : 192.168.1.50 (Your server IP)
+   - Proxy Port          : 3128
+4. Save settings.
+
+
+--------------------------------------------------------------------------------
+PART 3: HOW TO STOP / DEACTIVATE THE PROXY
+--------------------------------------------------------------------------------
+
+1. Stopping the Server Shuts Down Both Ports:
+   In this project, ProxyService runs directly inside the NestJS app.
+   Stopping NestJS (Ctrl + C in terminal or 'pm2 stop shield-proxy') 
+   automatically terminates both Port 3000 and Port 3128.
+
+2. Remember to Turn Off Proxy in Wi-Fi Settings:
+   If the server is shut down while client devices still have the proxy enabled, 
+   their internet will fail with ERR_PROXY_CONNECTION_FAILED.
+   Switching Proxy back to "None" on the device immediately restores normal internet.
+
+3. Remove Windows Firewall Rule (Optional Cleanup):
+   If you no longer need port 3128 open:
+   netsh advfirewall firewall delete rule name="ShieldFlow Proxy"
+
+
+--------------------------------------------------------------------------------
+PART 4: DOMAIN BLOCKLIST CONFIGURATION GUIDE
+--------------------------------------------------------------------------------
+
+File location: src/common/config/proxy.config.ts
+
+Configure root domains without 'www.' prefix:
+
+  const SOCIALMEDIA = [
+      'instagram.com',
+      'tiktok.com',
+      'facebook.com',
+  ];
+
+  const SOCIALSITES = [
+      'wisden.com',
+      'arena.ai',
+      'angularspace.com',
+  ];
+
+  export const BLOCKED_DOMAINS = [
+      ...SOCIALMEDIA,
+      ...SOCIALSITES
+  ];
+
+WHY USE ROOT DOMAINS:
+DomainBlockService checks exact matches and subdomains ending with '.domain'.
+Using 'instagram.com' automatically blocks:
+  - instagram.com
+  - www.instagram.com
+  - api.instagram.com
+  - l.instagram.com
+Blocked requests immediately receive an HTTP 403 Forbidden and the connection drops.
+================================================================================

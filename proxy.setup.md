@@ -68,3 +68,11 @@ Manual proxy setup:
 Visual architecture diagrams are available at:
 * **Final Architecture Flow (Word-for-Word)**: `views/finalarchitectureflow.svg`
 * **4-Phase Integration Detail**: `views/router-integration-phases.svg`
+
+**Reference Links**:
+**MicroService Architecture Blog Url**: 
+ - https://buymeacoffee.com/m.waqas/building-future-erp-one-microservice-time
+
+
+Proxy Server Port: [3128]
+Port(TCP):[443] HTTP Secure (HTTPS / encrypted web traffic)

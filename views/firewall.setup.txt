@@ -1,0 +1,33 @@
+Step 3: Allow Firewall Port
+
+Allow inbound traffic on proxy port PROXY_PORT (3128):
+
+powershellnetsh advfirewall firewall add rule name="ShieldFlow Proxy" dir=in action=allow protocol=TCP localport=3128
+
+Your proxy is now published and active at:
+
+Proxy IP: 192.168.1.50 (your PC IP)
+Proxy Port: 3128
+
+
+Steps to Stop Proxy Server 300, and 3128
+
+1. Stopping the NestJS App Shuts Down Everything
+In this project, ProxyService runs directly inside NestJS.
+When you stop the NestJS process (Ctrl + C or pm2 stop shield-proxy), both port 3000 and proxy port 3128 close immediately.
+
+
+
+2. Must Turn Off Proxy in Wi-Fi Settings
+
+If the server is stopped but devices still have the proxy IP/Port in their Wi-Fi settings, their internet will stop working (ERR_PROXY_CONNECTION_FAILED).
+Turning proxy to Off on the device restores normal, direct internet immediately.
+
+
+
+3. Firewall Rule Cleanup (Optional)
+
+The netsh firewall rule only opens the port. When the server is stopped, the port is inactive. If you want to remove the firewall rule completely:
+
+powershellnetsh advfirewall firewall delete rule name="ShieldFlow Proxy"
+ 
