@@ -1,0 +1,50 @@
+config:
+  target: "http://localhost:3000"
+  plugins:
+    metrics-by-endpoint: {}  # <-- THIS ENABLES PER-ENDPOINT BREAKDOWN
+  ensure:
+    thresholds:
+      - http.response_time.p95: 300 # p95 latency must stay below 300ms
+      - http.response_time.p99: 500 # p99 latency must stay below 500ms
+    conditions:
+      - expression: "http.codes.200 / http.requests >= 0.99" # 99% success rate required
+
+  phases:
+    # Phase 1: Warm-up phase
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm-up"
+
+    # Phase 2: Ramp-up to peak expected load
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 6
+      name: "Ramp-up Load"
+
+    # Phase 3: Sustained load (Simulates constant user traffic)
+    - duration: 120
+      arrivalRate: 8
+      name: "Sustained Peak Load"
+
+scenarios:
+  - name: "Books Browsing Flow"
+    flow:
+      # Request 1: Get All Books
+      - get:
+          url: "/api/books/get_all"
+          capture:
+            - json: "$"
+              as: "booksList"
+          expect:
+            - statusCode: 200
+            - contentType: json
+
+      # Simulate realistic user think time (1 to 2 seconds)
+      - think: 1.5
+
+      # Request 2: Get Authors & Publishers
+      - get:
+          url: "/api/books/get_auther_publishers"
+          expect:
+            - statusCode: 200
+            - contentType: json
