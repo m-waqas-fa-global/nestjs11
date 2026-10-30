@@ -1,1 +1,1 @@
-This project is designed as a learning and reference repository for building **scalable, maintainable, and production-grade NestJS backend applications** using modern development practices and architectural patterns.
+This project is designed as a learning and reference repository for building **scalable, maintainable, and production-grade applications** using modern development practices and architectural patterns.
